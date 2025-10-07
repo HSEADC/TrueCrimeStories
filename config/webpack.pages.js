@@ -7,10 +7,10 @@ function createPages(template, filename){
 }
 const htmlPages=[
     createPages('./src/index.html', './index.html'),
-    createPages('./src/pages/articles.html', './pages/articles.html'),
-    createPages('./src/pages/tests.html', './pages/tests.html'),
-    createPages('./src/pages/dictionary.html','./pages/dictionary.html'),
-    createPages('./src/pages/articles/plants.html','./pages/articles/plants.html'),
+    createPages('./src/pages/mainpage/mainpage.html', './pages/mainpage/mainpage.html'),
+    createPages('./src/pages/magazine/magazine.html', './pages/magazine/magazine.html'),
+    createPages('./src/pages/podcasts/podcasts.html','./pages/podcasts/podcasts.html'),
+    createPages('./src/pages/folders/folders.html','./pages/folders/folders.html'),
     createPages('./src/pages/tests/test1.html','./pages/tests/test1.html')
 ]
 module.exports=htmlPages
