@@ -9,10 +9,13 @@ function createPages(template, filename) {
 
 const htmlPages = [
   createPages("./src/index.html", "./index.html"),
-  createPages("./src/pages/magazine/magazine.html", "./pages/magazine/magazine.html"),
-  createPages("./src/pages/podcasts/podcasts.html", "./pages/podcasts/podcasts.html"),
-  createPages("./src/pages/folders/folders.html", "./pages/folders/folders.html"),
-  createPages("./src/pages/tests/test1.html", "./pages/tests/test1.html"),
+  createPages("./src/promo.html", "./promo.html"),
+  createPages("./src/about.html", "./about.html"),
+  createPages("./src/newspaper.html", "./newspaper.html"),
+  createPages("./src/tests.html", "./tests.html"),
+  createPages("./src/files.html", "./files.html"),
+  createPages("./src/podcasts.html", "./podcasts.html"),
+
 ];
 
 module.exports = htmlPages;

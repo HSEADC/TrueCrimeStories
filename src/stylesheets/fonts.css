@@ -1,26 +1,17 @@
 @font-face {
-    font-family: 'PT Root UI';
-    src: url('../fonts/pt-root-ui_bold.woff'),
-    url('../fonts/pt-root-ui_bold.woff2');
-    font-weight: 700;
+    font-family: 'Kiwi Maru';
+    src: url('../fonts/Kiwi_Maru/KiwiMaru-Light.ttf');
+    font-weight: 300;
 }
 
 @font-face {
-    font-family: 'PT Root UI';
-    src: url('../fonts/pt-root-ui_medium.woff'),
-    url('../fonts/pt-root-ui_medium.woff2');
-    font-weight: 500;
-}
-
-@font-face {
-    font-family: 'PT Root UI';
-    src: url('../fonts/pt-root-ui_regular.woff'),
-    url('../fonts/pt-root-ui_regular.woff2');
+    font-family: 'Kiwi Maru';
+    src: url('../fonts/Kiwi_Maru/KiwiMaru-Regular.ttf');
     font-weight: 400;
 }
+
 @font-face {
-    font-family: 'PT Root UI';
-    src: url('../fonts/pt-root-ui_light.woff'),
-    url('../fonts/pt-root-ui_light.woff2');
-    font-weight: 300;
+    font-family: 'Kiwi Maru';
+    src: url('../fonts/Kiwi_Maru/KiwiMaru-Medium.ttf');
+    font-weight: 500;
 }
