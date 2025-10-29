@@ -1,0 +1,120 @@
+.promo {
+    background-color: black;
+    color: black;
+
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+.promo h2 {
+    margin-bottom: 10px;
+}
+.promo-wrapper {
+    border: 5px solid white;
+
+    margin: var(--promo-margin);
+    width: calc(100vw - var(--promo-margin)*2 - 5px*2);
+    height: calc(100vh - var(--promo-margin)*2 - 5px*2);
+    
+    box-sizing: border-box;
+    padding: 10px;
+}
+.promo__items{
+    width: inherit;
+    height: inherit;
+    position: relative;
+    box-sizing: border-box;
+}
+.promo-item {
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.sticker {
+    background-image: url(../imgs/sticker-img.svg);
+    background-size: cover;
+    /* background-size: contain; */
+    background-repeat: no-repeat;
+    width: 8vw;
+    height: 8vw;
+    box-sizing: border-box;
+    /* padding: 3%; */
+    text-wrap: nowrap;
+}
+
+.sticker-sylegaid {
+    top: 5%;
+    left: 27%;
+    rotate: 6deg;
+    scale: 1.5;
+    font-size: 70%;
+}
+.sticker-about {
+    top: 30%;
+    right: 20%;
+    rotate: -3deg;
+    scale: 1.4;
+    font-size: 90%;
+}
+.sticker-project {
+    top: 7%;
+    right:  5%;
+    rotate: -8deg;
+    scale: 1.2;
+    font-size: 70%;
+}
+.sticker-project h2 {
+    font-size: 110%;
+}
+.sticker-project p {
+    font-size: 50%;
+}
+.sticker-autors {
+    width: 13vw;
+    height: 8vw;
+    bottom: 10%;
+    left: 10%;
+    rotate: -4deg;
+    font-size: 15%;
+    padding: 5%;
+}
+
+.sticker-logo {
+    bottom: 25%;
+    left: 33%;
+    rotate: 5deg;
+
+    padding: 5px;
+}
+.sticker-logo img {
+    width: 100%;
+}
+.sticker-media {
+    bottom: 30%;
+    right: 10%;
+    rotate: 10deg;
+    scale: 1.1;
+    font-size: 10%;
+}
+
+.diary-link {
+    left: 5%;
+    top: 20%;
+    rotate: 20deg;
+    width: 18vw;
+}
+.newspaper-link {
+    left: 54%;
+    bottom: 15%;
+    rotate: -7deg;
+    width: 13vw;
+}
+.tape-link {
+    left: 50%;
+    top: 10%;
+    rotate: 50deg;
+    width: 12vw;
+}
