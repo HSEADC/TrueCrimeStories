@@ -1,79 +1,366 @@
-body{
-    font-family: 'Kiwi Maru', Arial, Helvetica, sans-serif;
-    
-    min-width: 100vw;
-    min-height: 100vh;
+body {
+  font-family: "Kiwi Maru", Arial, Helvetica, sans-serif;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+html,
+body {
+  height: 100%;
 }
 img {
-    width: 100%;
-    /* height: auto; */
+  width: 100%;
+  /* height: auto; */
 }
 
-
 .about {
-    background-color: black;
-    color: white;
+  background-color: black;
+  color: white;
 }
 
 .newspaper {
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
 }
 
 .files {
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
 }
 
 .podcasts {
-    background-color: black;
-    color: white;
+  background-color: black;
+  color: white;
 }
 .tests {
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
 }
-
-
 
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 
+  height: 97px;
+  text-wrap: nowrap;
+  text-transform: uppercase;
 
-    height: 97px;
-    text-wrap: nowrap;
-    text-transform: uppercase;
-
-    background-color: inherit;
-    border-bottom: 7px solid white;
+  background-color: inherit;
+  border-bottom: 7px solid white;
 }
 .h__nav {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-
-
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
 }
 .logo__img {
-    width: 58px;
-    height: 58px;
+  width: 58px;
+  height: 58px;
 }
 .h__nav-list {
-    display: flex;
-    flex-direction: row;
-    gap: 75px;
+  display: flex;
+  flex-direction: row;
+  gap: 75px;
 }
 
-
-
-
 .footer {
-    height: 182px;
-    background-color: white;
-    color: black;
-    border-top: 7px solid black;
+  height: 182px;
+  background-color: white;
+  color: black;
+  border-top: 7px solid black;
+}
+
+/* PROMO PAGE */
+.promo {
+  margin: 0;
+  background-color: #000;
+  color: #fff;
+  overflow: hidden; /* prevent scrolling only on promo page */
+}
+.promo-wrapper {
+  padding: 24px;
+  position: relative;
+  min-height: 100vh;
+}
+.promo__items {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 60px;
+  gap: 16px;
+}
+.promo-lines {
+  position: fixed;
+  inset: 10px; /* align with frame */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 7; /* overlay priority as requested */
+}
+.promo-lines img {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+  opacity: 0.8;
+  transform-origin: center;
+}
+.promo-frame {
+  position: fixed;
+  inset: 10px; /* 10px padding from edges */
+  border: 5px solid #ffffff;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 0;
+}
+.promo__items {
+  position: relative;
+  z-index: 1;
+}
+.promo-item {
+  background: transparent;
+}
+.promo-image {
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.promo-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Hover zoom animation for promo images and stickers */
+.promo__items img {
+  transition: transform 180ms ease, filter 180ms ease;
+  transform-origin: center;
+  will-change: transform;
+}
+.promo__items a:hover img,
+.promo__items .sticker:hover img {
+  transform: scale(1.06);
+  cursor: pointer;
+}
+
+/* Stickers */
+.sticker {
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-transform: none;
+}
+.sticker h2 {
+  margin: 0;
+  line-height: 1.05;
+}
+.sticker p {
+  margin: 8px 0 0 0;
+}
+
+/* Approximate layout similar to промо.svg collage */
+.diary-link {
+  grid-column: 2 / span 3;
+  grid-row: 2 / span 3;
+  transform: translate(44px, 110px); /* slight nudge right and up */
+}
+.diary-link img {
+  width: 80%;
+  height: auto;
+  transform-origin: center;
+}
+.newspaper-link {
+  grid-column: 6 / span 3;
+  grid-row: 3 / span 3;
+  transform: translate(99px, 280px); /* slight nudge right and up */
+}
+.newspaper-link img {
+  transform: translateY(12px) rotate(-5deg);
+  transform-origin: center;
+}
+.tape-link {
+  grid-column: 9 / span 3;
+  grid-row: 1 / span 3;
+  transform: translate(-280px, 110px); /* move left and a bit down */
+  overflow: visible; /* prevent rotated image from being clipped */
+  aspect-ratio: auto; /* allow natural height while rotated */
+}
+.tape-link img {
+  width: 50%;
+  height: auto;
+  transform: rotate(32deg);
+  transform-origin: center;
+}
+
+.sticker-sylegaid {
+  grid-column: 2 / span 3;
+  grid-row: 2 / span 2;
+  justify-self: end; /* push to the right within its grid cell */
+  align-self: start; /* anchor towards the top */
+  transform: translate(99px, -15px); /* slight nudge right and up */
+}
+.sticker-sylegaid img {
+  width: 65%;
+  height: auto;
+  display: block;
+  margin-left: auto; /* push image to the right inside its cell */
+}
+.sticker-about {
+  grid-column: 5 / span 2;
+  grid-row: 1 / span 1;
+  transform: translate(399px, 210px); /* revert position */
+}
+.sticker-about img {
+  width: 70%;
+  height: auto;
+  display: block;
+}
+.sticker-project {
+  grid-column: 4 / span 3;
+  grid-row: 6 / span 3;
+  transform: translate(699px, -320px); /* revert position */
+}
+.sticker-project img {
+  width: 50%;
+  height: auto;
+  display: block;
+}
+.sticker-autors {
+  grid-column: 9 / span 3;
+  grid-row: 6 / span 2;
+  transform: translate(-690px, 280px); /* revert position */
+}
+.sticker-autors img {
+  width: 40%;
+  height: auto;
+  display: block;
+}
+.sticker-logo {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+  transform: translate(443px, 510px); /* revert position */
+}
+.sticker-logo img {
+  width: 70%;
+  height: auto;
+  display: block;
+}
+.sticker-media {
+  grid-column: 12 / span 1;
+  grid-row: 4 / span 2;
+  transform: translate(-200px, 260px); /* position only; no rotation on paper */
+  position: relative; /* allow overlaying text on the paper */
+  font-family: "Kiwi Maru", Arial, Helvetica, sans-serif; /* ensure font */
+}
+.sticker-media img {
+  width: 171%;
+  height: auto;
+  display: block;
+}
+/* Place text directly on top of the paper image */
+.sticker-media h2,
+.sticker-media p {
+  position: absolute;
+  left: 30%;
+  color: #000; /* text on paper */
+  margin: 0;
+  z-index: 1;
+  transform: rotate(9deg); /* rotate only the text */
+  transform-origin: center;
+}
+.sticker-media h2 {
+  top: 30%;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+.sticker-media p {
+  top: 50%;
+  font-size: 14px;
+}
+.sticker-media a {
+  color: #000;
+  text-decoration: none;
+  border-bottom: 1px solid #000;
+}
+.sticker-media a:hover {
+  opacity: 0.8;
+}
+/* Placeholders for future images */
+.placeholder-1 {
+  grid-column: 7 / span 2;
+  grid-row: 8 / span 2;
+}
+.placeholder-2 {
+  grid-column: 10 / span 2;
+  grid-row: 9 / span 2;
+}
+.placeholder-3 {
+  grid-column: 3 / span 2;
+  grid-row: 9 / span 2;
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .promo__items {
+    grid-auto-rows: 48px;
+  }
+}
+@media (max-width: 720px) {
+  .promo-wrapper {
+    padding: 16px;
+  }
+  .promo__items {
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 44px;
+  }
+  .diary-link {
+    grid-column: 1 / span 3;
+    grid-row: 2 / span 3;
+  }
+  .newspaper-link {
+    grid-column: 4 / span 3;
+    grid-row: 3 / span 3;
+  }
+  .tape-link {
+    grid-column: 1 / span 3;
+    grid-row: 6 / span 3;
+  }
+  .sticker-sylegaid {
+    grid-column: 4 / span 3;
+    grid-row: 6 / span 2;
+  }
+  .sticker-about {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 1;
+  }
+  .sticker-project {
+    grid-column: 1 / span 3;
+    grid-row: 9 / span 3;
+  }
+  .sticker-autors {
+    grid-column: 4 / span 3;
+    grid-row: 9 / span 2;
+  }
+  .sticker-logo {
+    grid-column: 5 / span 2;
+    grid-row: 1 / span 2;
+  }
+  .sticker-media {
+    grid-column: 6 / span 1;
+    grid-row: 4 / span 2;
+  }
+  .placeholder-1 {
+    grid-column: 1 / span 2;
+    grid-row: 12 / span 2;
+  }
+  .placeholder-2 {
+    grid-column: 3 / span 2;
+    grid-row: 12 / span 2;
+  }
+  .placeholder-3 {
+    grid-column: 5 / span 2;
+    grid-row: 12 / span 2;
+  }
 }
