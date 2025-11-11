@@ -1,6 +1,6 @@
 {
   "name": "HseGit",
-  "version": "",
+  "version": "1.0.0",
   "author": "",
   "license": "MIT",
   "scripts": {
@@ -15,7 +15,6 @@
     "autoprefixer": "^10.4.21",
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
-    "css-minimizer-webpack-plugin": "^7.0.2",
     "file-loader": "^6.2.0",
     "html-loader": "^5.1.0",
     "html-webpack-partials-plugin": "^0.8.0",

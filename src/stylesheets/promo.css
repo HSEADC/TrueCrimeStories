@@ -35,12 +35,12 @@
 .sticker {
     background-image: url(../imgs/sticker-img.svg);
     background-size: cover;
-    /* background-size: contain; */
+    
     background-repeat: no-repeat;
     width: 8vw;
     height: 8vw;
     box-sizing: border-box;
-    /* padding: 3%; */
+    
     text-wrap: nowrap;
 }
 
