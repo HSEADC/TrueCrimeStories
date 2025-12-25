@@ -1,0 +1,278 @@
+.header {
+  height: 56px;
+  border-bottom-width: 4px;
+}
+.header .h__nav {
+  align-items: center;
+  padding: 6px 12px;
+  gap: 14px;
+}
+.h__nav-list {
+  gap: 28px;
+}
+.about .logo__img {
+  width: 36px;
+  height: 36px;
+}
+.about .h__nav-link {
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+.logo__img {
+  display: block;
+}
+
+/* Eyes hero */
+.sg-hero {
+  position: relative;
+  min-height: calc(90vh - 16px);
+  background: #000 url("../imgs/eyes.svg") center / cover no-repeat;
+}
+.screen-bottom-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -98px;
+  height: 5px;
+  background-color: white;
+  z-index: 4;
+}
+.sg-hero__overlay {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: -100px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.sg-hero__lead {
+  margin: 0;
+  color: white;
+  font-family: "Mulish", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: clamp(14px, 2vw, 20px);
+  line-height: 1.45;
+  flex: 1;
+}
+.sg-hero__cta {
+  display: inline-block;
+  color: black;
+  background: white;
+  padding: 10px 22px;
+  text-decoration: none;
+  font-family: "Mulish", Arial, Helvetica, sans-serif;
+  font-weight: 800;
+  letter-spacing: 2px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-left: 12px;
+}
+
+@media (max-width: 700px) {
+  .sg-hero__overlay {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 14px 16px;
+  }
+}
+
+/* Second screen */
+.sg-section {
+  background: black;
+  color: white;
+  padding: 160px 24px 80px 10px;
+}
+.sg-section__inner {
+  max-width: none;
+  margin: 0;
+  position: relative;
+}
+.about-info__title {
+  font-family: "Kiwi Maru", Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: clamp(20px, 4vw, 40px);
+  margin: 0 12px 70px 16px;
+}
+.about-info__lead {
+  border: 0;
+  padding: 20px 0 20px 18px;
+  font-size: clamp(16px, 2.2vw, 24px);
+  line-height: 1.5;
+  max-width: 880px;
+  margin-bottom: 40px;
+  font-family: "Mulish", Arial, Helvetica, sans-serif;
+  font-weight: 500;
+}
+.about-info__lead p {
+  margin: 0 0 16px 0;
+  font-family: "Mulish", Arial, Helvetica, sans-serif;
+}
+
+/* Right-side logo image */
+.sg-logo-img {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  width: min(50vw, 560px);
+  height: auto;
+  display: block;
+  filter: grayscale(1) contrast(1.1) brightness(1.05);
+}
+
+@media (max-width: 900px) {
+  .sg-logo-img {
+    position: static;
+    width: 60%;
+    margin: 24px 0 0 auto;
+    display: block;
+  }
+}
+
+/* Paper image section */
+.sg-paper {
+  background: black;
+  color: white;
+  padding: 60px 18px 60px 22px;
+}
+.sg-paper__inner {
+  max-width: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.sg-paper__img {
+  width: min(70vw, 820px);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: grayscale(1) contrast(1.1) brightness(1.05);
+}
+
+/* Match About page lead block for paper section */
+.about-info__lead {
+  border: 0;
+  padding: 20px 22px;
+  font-size: clamp(16px, 2.2vw, 24px);
+  line-height: 1.5;
+  max-width: 880px;
+  margin: 30px 0 40px 0;
+  font-family: "Mulish", Arial, Helvetica, sans-serif;
+  font-weight: 500;
+}
+.about-info__title {
+  margin-left: 10px;
+  margin-top: 80px;
+}
+.about-info__lead p {
+  margin: 0 0 16px 0;
+}
+
+/* Typography block layout */
+.sg-typography {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: start;
+}
+.sg-typography__img {
+  width: min(34vw, 420px);
+  height: auto;
+  display: block;
+  filter: grayscale(1) contrast(1.1) brightness(1.05);
+  margin-top: -10px;
+}
+
+@media (max-width: 900px) {
+  .sg-typography {
+    grid-template-columns: 1fr;
+  }
+  .sg-typography__img {
+    width: 60%;
+    margin: 8px 0 0 auto;
+  }
+}
+
+/* Tweak spacing for the 'Носители' title under paper section */
+.sg-paper .about-info__title {
+  margin-top: 100px;
+}
+
+/* Footer styles (copied from about.css for consistency) */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  white-space: nowrap;
+  height: 120px;
+}
+.f__nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.f__nav-list {
+  display: flex;
+  gap: 24px;
+}
+.f__info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+.f__autors {
+  display: flex;
+  gap: 8px;
+}
+.f__project {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.f__project p {
+  margin: 0;
+}
+.footer__logo {
+  width: 58px;
+  height: 58px;
+  display: block;
+}
+.footer .f__nav-link,
+.footer .f__autors-link,
+.footer .f__project a,
+.footer .f__project p {
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 500;
+}
+
+/* Carriers grid under "Носители" */
+.carriers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 16px 0 60px 0;
+}
+.carrier-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: grayscale(1) contrast(1.05) brightness(1.02);
+}
+
+@media (max-width: 1000px) {
+  .carriers-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .carriers-grid {
+    grid-template-columns: 1fr;
+  }
+}
