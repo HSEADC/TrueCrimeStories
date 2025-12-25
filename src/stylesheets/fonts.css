@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'Kiwi Maru';
+    src: url('../fonts/Kiwi_Maru/KiwiMaru-Light.ttf');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Kiwi Maru';
+    src: url('../fonts/Kiwi_Maru/KiwiMaru-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Kiwi Maru';
+    src: url('../fonts/Kiwi_Maru/KiwiMaru-Medium.ttf');
+    font-weight: 500;
+}

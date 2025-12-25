@@ -1,0 +1,81 @@
+body{
+    font-family: 'Kiwi Maru', Arial, Helvetica, sans-serif;
+    
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+
+
+.promo {
+    background-color: black;
+    color: white;
+}
+
+.about {
+    background-color: black;
+    color: white;
+}
+
+.newspaper {
+    background-color: white;
+    color: black;
+}
+
+.files {
+    background-color: white;
+    color: black;
+}
+
+.podcasts {
+    background-color: black;
+    color: white;
+}
+.tests {
+    background-color: white;
+    color: black;
+}
+
+
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+
+    height: 97px;
+    text-wrap: nowrap;
+    text-transform: uppercase;
+
+    background-color: inherit;
+    border-bottom: 7px solid white;
+}
+.h__nav {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+
+
+}
+.logo__img {
+    width: 58px;
+    height: 58px;
+}
+.h__nav-list {
+    display: flex;
+    flex-direction: row;
+    gap: 75px;
+}
+
+
+
+
+.footer {
+    height: 182px;
+    background-color: white;
+    color: black;
+    border-top: 7px solid black;
+}
