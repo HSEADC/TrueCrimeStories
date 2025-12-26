@@ -1,8 +1,9 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 function createPages(template, filename) {
   return new HtmlWebpackPlugin({
-    template: template,
+    template: path.resolve(__dirname, "..", template),
     filename: filename,
   });
 }

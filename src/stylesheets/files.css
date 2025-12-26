@@ -1,0 +1,444 @@
+/* Files page */
+body.files {
+  background-color: white !important;
+  color: black;
+  overflow-y: auto;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 172px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-color: black white;
+  scrollbar-width: thin;
+  z-index: 1001;
+  box-sizing: border-box;
+}
+
+/* Webkit scrollbar styling (Chrome, Safari, Edge) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 28px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: white;
+  border: 1.5px solid black;
+  border-radius: 13.5px;
+  width: 27px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 10px;
+  border: none;
+  width: 20px;
+  margin-left: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Menu button */
+.menu-button {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000;
+  transition: opacity 0.2s ease;
+  width: 44px;
+  height: auto;
+  display: block;
+}
+
+.menu-button:hover {
+  opacity: 0.7;
+}
+
+.menu-button svg,
+.menu-button .menu-icon {
+  display: block;
+  width: 44px;
+  height: auto;
+}
+
+/* Menu backdrop */
+.menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 998;
+}
+
+.menu-backdrop--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+/* Menu panel */
+.menu-panel {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-left: 100px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 999;
+}
+
+.menu-panel--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.menu-panel__button {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-panel__button:hover {
+  transform: scale(1.05);
+  opacity: 0.8;
+}
+
+.menu-panel__button img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: none;
+  transform: scale(1.5);
+}
+
+/* Hide default browser scrollbar */
+body.files::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+body.files {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Files page header */
+.files-header {
+  padding: 24px;
+  margin-bottom: 40px;
+}
+
+.files-header__container {
+  background: white;
+  border: 1.5px solid black;
+  border-radius: 40px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 95%;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.files-header__search-section {
+  display: flex;
+  align-items: center;
+  gap: 132px;
+  flex: 1;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  border: 1.5px solid black;
+  border-radius: 20px;
+  background: white;
+  font-family: "Kiwi Maru", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: black;
+}
+
+.filter-tags {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-tag {
+  padding: 8px 16px;
+  border: 1.5px solid black;
+  border-radius: 20px;
+  background: white;
+  color: black;
+  font-family: "Kiwi Maru", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-tag--clear {
+  padding: 8px;
+  min-width: 32px;
+  cursor: pointer;
+  background: white;
+  border: 1.5px solid black;
+}
+
+.filter-tag--clear:hover {
+  background: #f5f5f5;
+}
+
+.filter-tag--clear svg {
+  display: block;
+}
+
+.files-header__logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: "Red Molot", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 44px;
+  line-height: 1.2;
+  color: black;
+  white-space: nowrap;
+}
+
+.logo-text {
+  display: inline;
+}
+
+/* Files main content */
+.files-main {
+  padding: 0 24px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* File card */
+.file-card {
+  position: relative;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-card__bg {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 1200px;
+}
+
+.file-card__content {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: start;
+}
+
+.file-card__photo {
+  width: 300px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.photo-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.file-card__info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.file-card__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.file-card__name-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.file-card__name {
+  margin: 0 0 16px 0;
+  font-family: "Red Molot", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 80px;
+  line-height: 1.1;
+  color: black;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.name-line {
+  display: block;
+}
+
+.file-card__tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.file-tag {
+  padding: 8px 16px;
+  border: 1.5px solid black;
+  border-radius: 20px;
+  background: white;
+  color: black;
+  font-family: "Kiwi Maru", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.file-card__birth-date {
+  font-family: "Kiwi Maru", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  color: black;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.file-card__text {
+  font-family: "Kiwi Maru", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: black;
+  text-align: left;
+  max-width: 700px;
+  margin-top: 0;
+}
+
+.file-card__text p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .files-header__container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .files-header__search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input-wrapper {
+    max-width: 100%;
+  }
+
+  .filter-tags {
+    justify-content: flex-start;
+  }
+
+  .files-header__logo {
+    align-items: center;
+    margin-top: 16px;
+  }
+
+  .file-card__content {
+    width: 90%;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .file-card__photo {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .file-card__header {
+    align-items: center;
+  }
+
+  .file-card__name-section {
+    align-items: center;
+  }
+
+  .file-card__name {
+    font-size: 36px;
+    text-align: center;
+  }
+
+  .file-card__tags {
+    justify-content: center;
+  }
+
+  .file-card__text {
+    text-align: center;
+  }
+}

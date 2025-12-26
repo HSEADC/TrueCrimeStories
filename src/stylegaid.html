@@ -4,31 +4,161 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>True Crime Stories</title>
-    <link rel="icon" type="image/png" href="./imgs/logo-black.png" />
+    <link rel="icon" type="image/png" href="./imgs/logoatlas.png" />
+    <script src="https://unpkg.com/media-shader@latest/media-shader.js"></script>
   </head>
   <body class="about">
-    <header class="header">
-      <div class="h__nav">
-        <div class="logo">
-          <a class="logo__link" href="./index.html" aria-label="Логотип">
-            <img class="logo__img" src="./imgs/logo-white.png" alt="logo" />
-          </a>
-        </div>
-        <div class="h__nav-list">
-          <a class="h__nav-link" href="./about.html">О нас</a>
-          <a class="h__nav-link" href="./newspaper.html">Газета</a>
-          <a class="h__nav-link" href="./tests.html">Тесты</a>
-          <a class="h__nav-link" href="./podcasts.html">Подкасты</a>
-          <a class="h__nav-link" href="./files.html">Досье</a>
-        </div>
-      </div>
-    </header>
+    <button class="menu-button" aria-label="Menu">
+      <svg
+        class="menu-icon"
+        width="44"
+        height="172"
+        viewBox="0 0 44 172"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="0.5"
+          y="36.5"
+          width="43"
+          height="99"
+          rx="21.5"
+          stroke="black"
+        />
+        <rect x="10" y="70" width="24" height="4" rx="2" fill="black" />
+        <rect x="10" y="84" width="24" height="4" rx="2" fill="black" />
+        <rect x="10" y="98" width="24" height="4" rx="2" fill="black" />
+      </svg>
+    </button>
+    <div class="menu-backdrop"></div>
+    <nav class="menu-panel" aria-label="Navigation menu">
+      <a href="./index.html" class="menu-panel__button">
+        <img src="./imgs/buttonmain.svg" alt="Главная" />
+      </a>
+      <a href="./about.html" class="menu-panel__button">
+        <img src="./imgs/buttonaboutus.svg" alt="О нас" />
+      </a>
+      <a href="./files.html" class="menu-panel__button">
+        <img src="./imgs/buttonfiles.svg" alt="Файлы" />
+      </a>
+      <a href="./newspaper.html" class="menu-panel__button">
+        <img src="./imgs/buttonmagazine.svg" alt="Журнал" />
+      </a>
+      <a href="./podcasts.html" class="menu-panel__button">
+        <img src="./imgs/buttonpodcast.svg" alt="Подкасты" />
+      </a>
+    </nav>
     <main class="sg-hero" role="main">
+      <media-shader
+        width="190%" 
+        height="77vh"
+        fragment-shader='#version 300 es
+    precision highp float;
+    out vec4 glFragColor;
+    #ifdef GL_ES
+  precision mediump float;
+#endif
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform vec4 u_colors[2];
+uniform float u_speed;
+uniform float u_time;
+uniform float u_scale; 
+uniform float light;
+uniform float shadow;
+uniform float tint;
+uniform float coverage;
+uniform float alpha;
+const float cloudalpha = 20.;
+const mat2 m = mat2( 1.6,  1.2, -1.2,  1.6 );
+vec2 hash( vec2 p ) {
+	p = vec2(dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)));
+	return -1.0 + 2.0*fract(sin(p)*43758.5453123);
+}
+float noise( in vec2 p ) {
+    const float K1 = 0.366025404; 
+    const float K2 = 0.211324865; 
+	vec2 i = floor(p + (p.x+p.y)*K1);	
+    vec2 a = p - i + (i.x+i.y)*K2;
+    vec2 o = (a.x>a.y) ? vec2(1.0,0.0) : vec2(0.0,1.0); 
+    vec2 b = a - o + K2;
+	vec2 c = a - 1.0 + 2.0*K2;
+    vec3 h = max(0.5-vec3(dot(a,a), dot(b,b), dot(c,c) ), 0.0 );
+	vec3 n = h*h*h*h*vec3( dot(a,hash(i+0.0)), dot(b,hash(i+o)), dot(c,hash(i+1.0)));
+    return dot(n, vec3(70.0));	
+}
+float fbm(vec2 n) {
+	float total = 0.0, amplitude = 0.1;
+	for (int i = 0; i < 7; i++) {
+		total += noise(n) * amplitude;
+		n = m * n;
+		amplitude *= 0.4;
+	}
+	return total;
+}
+void main( ) {
+    vec2 p = gl_FragCoord.xy / u_resolution.xy;
+	vec2 uv = p*vec2(u_resolution.x/u_resolution.y,1.0);    
+	  float speed = u_speed * 0.1;
+    float time = u_time * speed;
+    float scale = (1. - u_scale);
+    float q = fbm(uv * scale * 0.5);
+	float r = 0.0;
+	uv *= scale;
+    uv -= q - time;
+    float weight = 0.8;
+    for (int i=0; i<8; i++){
+		r += abs(weight*noise( uv ));
+        uv = m*uv + time;
+		weight *= 0.7;
+    }
+	float f = 0.0;
+    uv = p*vec2(u_resolution.x/u_resolution.y,1.0);
+	uv *= scale;
+    uv -= q - time;
+    weight = 0.7;
+    for (int i=0; i<8; i++){
+		f += weight*noise( uv );
+        uv = m*uv + time;
+		weight *= 0.6;
+    }
+    f *= r + f;
+    float c = 0.0;
+    time = u_time * speed * 2.0;
+    uv = p*vec2(u_resolution.x/u_resolution.y,1.0);
+	uv *= scale*2.0;
+    uv -= q - time;
+    weight = 0.4;
+    for (int i=0; i<7; i++){
+		c += weight*noise( uv );
+        uv = m*uv + time;
+		weight *= 0.6;
+    }
+    float c1 = 0.0;
+    time = u_time * speed * 3.0;
+    uv = p*vec2(u_resolution.x/u_resolution.y,1.0);
+	uv *= scale*3.0;
+    uv -= q - time;
+    weight = 0.4;
+    for (int i=0; i<7; i++){
+		c1 += abs(weight*noise( uv ));
+        uv = m*uv + time;
+		weight *= 0.6;
+    }
+    c += c1;
+    vec4 skycolour = mix(u_colors[1], u_colors[0], p.y);
+    vec4 cloudcolour = vec4(1.0, 1.0, 1.0,1.0) * clamp(((1.0-shadow) + light*c), 0.0, 1.0);
+    f = coverage + cloudalpha*alpha*f*r;
+    vec4 result = mix(skycolour, clamp(tint * skycolour + cloudcolour, 0.0, 1.0), clamp(f + c, 0.0, 1.0));
+	  glFragColor = result;
+}'
+        uniforms='{"u_colors":[[1,1,1,0],[0,0,0,0]],"u_speed":0.571,"u_scale":0,"light":0.5,"shadow":0.5,"tint":0.596,"coverage":0.276,"alpha":1}'>
+      </media-shader>
       <div class="sg-hero__overlay">
         <p class="sg-hero__lead">
           Интересуешься заброшенные объекты, забытые дела, исчезнувшие имена,
-          странные истории, о которых предпочитают не говорить вслух? Тогда
-          смотри страницу “о нас”.
+          странные истории,<br /> о которых предпочитают не говорить вслух? Тогда
+          смотри страницу "о нас".
         </p>
         <a class="sg-hero__cta" href="./about.html">О НАС</a>
       </div>
@@ -39,77 +169,106 @@
         <h2 id="about-info-title" class="about-info__title">Логотип</h2>
         <div class="about-info__lead">
           <p>
-            Наш логотип — это связь голоса и доказательства, рассказа и факта,
-            памяти и следа. То, что было сказано, и то, что было совершено,
-            соединяется в единую историю.
-          </p>
-          <p>
-            Микрофон — это голос. Он символизирует наши подкасты, диалоги,
-            расследовательские истории.
-          </p>
-          <p>
-            Отпечаток пальца — это след. Он символизирует криминалистику,
-            доказательства, статьи, которые нельзя стереть.
+            Название Case Atlas объединяет идею уголовного дела (case) и
+            систематизированного исследования (atlas), подчёркивая аналитический
+            и исследовательский подход проекта через карту расследований.
+            Акцентный чёрный шрифт Red Molot выбран из-за его жёсткого и
+            массивного характера: чёрный цвет ассоциируется с мрачной
+            реальностью преступлений, а сам шрифт напоминает криминальные
+            хроники и судебные документы, усиливая ощущение серьёзности и
+            документальности.
           </p>
         </div>
-        <img
-          class="sg-logo-img"
-          src="./imgs/logo-whitestyle.svg"
-          alt="Логотип"
-        />
+        <img class="sg-logo-img" src="./imgs/logostyle.png" alt="Логотип" />
       </div>
     </section>
-    <section class="sg-paper" aria-label="Бумага">
-      <div class="sg-paper__inner">
-        <img class="sg-paper__img" src="./imgs/paper.svg" alt="Бумага" />
+
         <h2 class="about-info__title">Типографика</h2>
         <div class="sg-typography">
           <div class="about-info__lead">
             <p>
-              Kiwi Maru напоминает письменные документы, архивные папки<br />
-              и материалы расследований, которые создавались вручную и
-              печатались <br />
-              на старых машинках. У него есть небольшая «человечность» в
-              очертаниях букв — они слегка округлённые и «ручные».<br />
-              Mulish — это контрастный, строгий и структурный шрифт. Он
-              создаёт ясность, визуальную дисциплину и ощущение порядка в
-              информации.
+              В типографике мы используем только два шрифта, чтобы сохранить
+              визуальную чистоту и строгую структуру проекта. Red Molot выбран
+              как акцентный шрифт для заголовков и ключевых элементов — он
+              жёсткий, массивный и передаёт напряжённую, мрачную атмосферу
+              тру-крайма. Khula используется для всего остального текста, потому
+              что это нейтральный, легко читаемый шрифт, который не отвлекает от
+              содержания и поддерживает документальный, аналитический характер
+              проекта.
             </p>
           </div>
-          <img
-            class="sg-typography__img"
-            src="./imgs/stikeer.svg"
-            alt="Стикер"
-          />
+         
         </div>
         <h2 class="about-info__title">Носители</h2>
         <div class="carriers-grid" aria-label="Макеты носителей">
-          <img class="carrier-img" src="./imgs/mockup.png" alt="Mockup 1" />
-          <img class="carrier-img" src="./imgs/mockup2.png" alt="Mockup 2" />
-          <img class="carrier-img" src="./imgs/mockup3.jpg" alt="Mockup 3" />
+          <img class="carrier-img" src="./imgs/mockup1.svg" alt="Mockup 1" />
+          <img class="carrier-img" src="./imgs/mockup2.svg" alt="Mockup 2" />
+          <img class="carrier-img" src="./imgs/mockup3.svg" alt="Mockup 3" />
         </div>
       </div>
     </section>
-    <footer class="footer">
-      <div class="f__nav">
-        <img class="footer__logo" src="./imgs/logo-black.png" alt="logo" />
-        <div class="f__nav-list">
-          <a class="f__nav-link" href="./stylegaid.html">Стайлгайд</a>
-          <a class="f__nav-link" href="#">Telegram</a>
-          <a class="f__nav-link" href="#">VK</a>
-        </div>
-      </div>
-      <div class="f__info">
-        <div class="f__autors">
-          <a class="f__autors-link" href="#">Пелин,</a>
-          <a class="f__autors-link" href="#">Соня,</a>
-          <a class="f__autors-link" href="#">Даша</a>
-        </div>
-        <div class="f__project">
-          <a href="#">HSE DESIGN</a>
-          <p>2025</p>
-        </div>
-      </div>
-    </footer>
+
+    <img class="footer-svg" src="./imgs/footer.svg" alt="Footer decoration" />
+    <button
+      class="scroll-to-top2"
+      id="scrollToTop2"
+      aria-label="Прокрутить наверх"
+    >
+      <img src="./imgs/upbutton2.svg" alt="Наверх" />
+    </button>
+    <script>
+      const menuButton = document.querySelector(".menu-button");
+      let isOpen = true;
+
+      const menuOpenSVG = `<svg class="menu-icon" width="44" height="172" viewBox="0 0 44 172" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="36.5" width="43" height="99" rx="21.5" stroke="black"/>
+        <rect x="10" y="70" width="24" height="4" rx="2" fill="black"/>
+        <rect x="10" y="84" width="24" height="4" rx="2" fill="black"/>
+        <rect x="10" y="98" width="24" height="4" rx="2" fill="black"/>
+      </svg>`;
+
+      const menuClosedSVG = `<svg class="menu-icon" width="44" height="100" viewBox="0 0 44 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="0.5" width="43" height="99" rx="21.5" stroke="black"/>
+        <rect width="29.5117" height="4.07058" rx="2.03529" transform="matrix(0.709577 0.704628 -0.709577 0.704628 12.8887 38.3369)" fill="black"/>
+        <rect width="29.5117" height="4.07058" rx="2.03529" transform="matrix(-0.709577 0.704628 -0.709577 -0.704628 34 40.8682)" fill="black"/>
+      </svg>`;
+
+      const menuPanel = document.querySelector(".menu-panel");
+      const menuBackdrop = document.querySelector(".menu-backdrop");
+
+      menuButton.addEventListener("click", function () {
+        const menuIcon = menuButton.querySelector(".menu-icon");
+        if (isOpen) {
+          menuIcon.outerHTML = menuClosedSVG;
+          menuPanel.classList.add("menu-panel--open");
+          menuBackdrop.classList.add("menu-backdrop--open");
+          isOpen = false;
+        } else {
+          menuIcon.outerHTML = menuOpenSVG;
+          menuPanel.classList.remove("menu-panel--open");
+          menuBackdrop.classList.remove("menu-backdrop--open");
+          isOpen = true;
+        }
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const scrollToTopBtn = document.getElementById("scrollToTop");
+
+        if (scrollToTopBtn) {
+          // Scroll to top when clicked
+          scrollToTopBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+            // Alternative method for better browser support
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+          });
+        }
+      });
+    </script>
   </body>
 </html>

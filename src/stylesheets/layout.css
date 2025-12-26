@@ -2,10 +2,14 @@ body {
   font-family: "Kiwi Maru", Arial, Helvetica, sans-serif;
   min-width: 100vw;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 html,
 body {
   height: 100%;
+}
+html {
+  overflow-x: hidden;
 }
 img {
   width: 100%;
@@ -13,8 +17,8 @@ img {
 }
 
 .about {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 .newspaper {
@@ -50,6 +54,10 @@ img {
   background-color: inherit;
   border-bottom: 7px solid white;
 }
+
+.about .header {
+  border-bottom: 7px solid black;
+}
 .h__nav {
   display: flex;
   flex-direction: row;
@@ -72,23 +80,32 @@ img {
   border-top: 7px solid black;
 }
 
+.footer-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 0;
+}
+
 /* PROMO PAGE */
 .promo {
   margin: 0;
   background-color: #000;
   color: #fff;
-  overflow: hidden; /* prevent scrolling only on promo page */
+  overflow: visible; /* allow transformed elements to be visible */
 }
 .promo-wrapper {
   padding: 24px;
   position: relative;
   min-height: 100vh;
+  overflow: visible;
 }
 .promo__items {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-auto-rows: 60px;
   gap: 16px;
+  overflow: visible;
 }
 .promo-lines {
   position: fixed;
@@ -117,6 +134,7 @@ img {
 .promo__items {
   position: relative;
   z-index: 1;
+  overflow: visible;
 }
 .promo-item {
   background: transparent;
@@ -174,6 +192,7 @@ img {
   grid-column: 6 / span 3;
   grid-row: 3 / span 3;
   transform: translate(99px, 280px); /* slight nudge right and up */
+  overflow: visible; /* prevent rotated image from being clipped */
 }
 .newspaper-link img {
   transform: translateY(12px) rotate(-5deg);
@@ -198,13 +217,12 @@ img {
   grid-row: 2 / span 2;
   justify-self: end; /* push to the right within its grid cell */
   align-self: start; /* anchor towards the top */
-  transform: translate(99px, -15px); /* slight nudge right and up */
+  transform: translate(99px, 70px); /* slight nudge right and down */
 }
 .sticker-sylegaid img {
   width: 65%;
   height: auto;
   display: block;
-  margin-left: auto; /* push image to the right inside its cell */
 }
 .sticker-about {
   grid-column: 5 / span 2;
@@ -262,7 +280,7 @@ img {
 .sticker-media h2,
 .sticker-media p {
   position: absolute;
-  left: 30%;
+  left: 12%;
   color: #000; /* text on paper */
   margin: 0;
   z-index: 1;

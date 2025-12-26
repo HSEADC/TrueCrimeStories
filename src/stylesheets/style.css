@@ -1,7 +1,9 @@
-@import 'reset.css';
-@import 'fonts.css';
-@import 'custom-properties.css';
-@import 'layout.css';
-@import 'promo.css';
-@import 'stylegaid.css';
-@import 'about.css';
+@import "reset.css";
+@import "fonts.css";
+@import "custom-properties.css";
+@import "layout.css";
+@import "promo.css";
+@import "stylegaid.css";
+@import "about.css";
+@import "files.css";
+@import "newspaper.css";

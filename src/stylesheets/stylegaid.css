@@ -1,3 +1,15 @@
+/* Media shader in hero section */
+.sg-hero media-shader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 20vh;
+  z-index: 0;
+  pointer-events: none;
+  object-fit: cover;
+}
+
 .header {
   height: 56px;
   border-bottom-width: 4px;
@@ -22,53 +34,62 @@
   display: block;
 }
 
-/* Eyes hero */
+/* Hero with media shader */
 .sg-hero {
   position: relative;
-  min-height: calc(90vh - 16px);
-  background: #000 url("../imgs/eyes.svg") center / cover no-repeat;
+  min-height: 86vh;
+  background: #fff;
+  overflow: visible;
 }
-.screen-bottom-line {
+
+.sg-hero__shader {
   position: absolute;
+  top: 0;
   left: 0;
-  right: 0;
-  bottom: -98px;
-  height: 5px;
-  background-color: white;
-  z-index: 4;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
+
 .sg-hero__overlay {
   position: absolute;
-  left: 24px;
+  left: 0;
   right: 24px;
-  bottom: -100px;
-  padding: 18px 20px;
+  bottom: -130px;
+  padding: 18px 0 18px 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: flex-start;
+  gap: 24px;
+  overflow: visible;
+  padding-left: 0;
+  z-index: 1;
 }
+
 .sg-hero__lead {
   margin: 0;
-  color: white;
-  font-family: "Mulish", Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  font-size: clamp(14px, 2vw, 20px);
-  line-height: 1.45;
+  margin-left: 24px;
+  color: black;
+  font-family: "Khula", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.5;
   flex: 1;
 }
+
 .sg-hero__cta {
+  position: absolute;
+  right: 120px;
   display: inline-block;
   color: black;
   background: white;
-  padding: 10px 22px;
+  border: 1.5px solid black;
+  padding: 14px 28px;
   text-decoration: none;
-  font-family: "Mulish", Arial, Helvetica, sans-serif;
-  font-weight: 800;
+  font-family: "Khula", Arial, Helvetica, sans-serif;
+  font-weight: 700;
   letter-spacing: 2px;
-  border-radius: 4px;
   white-space: nowrap;
-  margin-left: 12px;
 }
 
 @media (max-width: 700px) {
@@ -80,10 +101,115 @@
   }
 }
 
+/* Menu button */
+.menu-button {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000;
+  transition: opacity 0.2s ease;
+  width: 44px;
+  height: auto;
+  display: block;
+}
+
+.menu-button:hover {
+  opacity: 0.7;
+}
+
+.menu-button svg,
+.menu-button .menu-icon {
+  display: block;
+  width: 44px;
+  height: auto;
+}
+
+.menu-button--white svg,
+.menu-button--white .menu-icon {
+  stroke: white;
+  fill: white;
+}
+
+.menu-button--white svg rect,
+.menu-button--white .menu-icon rect {
+  stroke: white;
+  fill: white;
+}
+
+/* Menu backdrop */
+.menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 998;
+}
+
+.menu-backdrop--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+/* Menu panel */
+.menu-panel {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-left: 100px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 999;
+}
+
+.menu-panel--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.menu-panel__button {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-panel__button:hover {
+  transform: scale(1.05);
+  opacity: 0.8;
+}
+
+.menu-panel__button img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: none;
+  transform: scale(1.5);
+}
+
 /* Second screen */
 .sg-section {
-  background: black;
-  color: white;
+  background: white;
+  color: black;
   padding: 160px 24px 80px 10px;
 }
 .sg-section__inner {
@@ -92,8 +218,8 @@
   position: relative;
 }
 .about-info__title {
-  font-family: "Kiwi Maru", Arial, Helvetica, sans-serif;
-  font-weight: 500;
+  font-family: "Red Molot", Arial, Helvetica, sans-serif !important;
+  font-weight: normal !important;
   font-size: clamp(20px, 4vw, 40px);
   margin: 0 12px 70px 16px;
 }
@@ -134,8 +260,8 @@
 
 /* Paper image section */
 .sg-paper {
-  background: black;
-  color: white;
+  background: white;
+  color: black;
   padding: 60px 18px 60px 22px;
 }
 .sg-paper__inner {
@@ -165,6 +291,8 @@
   font-weight: 500;
 }
 .about-info__title {
+  font-family: "Red Molot", Arial, Helvetica, sans-serif !important;
+  font-weight: normal !important;
   margin-left: 10px;
   margin-top: 80px;
 }
@@ -199,6 +327,8 @@
 
 /* Tweak spacing for the 'Носители' title under paper section */
 .sg-paper .about-info__title {
+  font-family: "Red Molot", Arial, Helvetica, sans-serif !important;
+  font-weight: normal !important;
   margin-top: 100px;
 }
 
@@ -210,6 +340,7 @@
   padding: 0 12px;
   white-space: nowrap;
   height: 120px;
+  margin-top: 100px;
 }
 .f__nav {
   display: flex;
@@ -251,6 +382,10 @@
   font-weight: 500;
 }
 
+.footer-svg {
+  margin-top: 100px !important;
+}
+
 /* Carriers grid under "Носители" */
 .carriers-grid {
   display: grid;
@@ -274,5 +409,77 @@
 @media (max-width: 640px) {
   .carriers-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Scroll to top button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000;
+  opacity: 1;
+  visibility: visible;
+  transition: transform 0.3s ease;
+  transform: none;
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-5px);
+}
+
+.scroll-to-top img {
+  width: 80px;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .scroll-to-top2 {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .scroll-to-top2 img {
+    width: 60px;
+  }
+}
+
+.scroll-to-top2 {
+  position: absolute;
+  bottom: -230px;
+  right: 900px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000;
+  opacity: 1;
+  visibility: visible;
+  transition: transform 0.3s ease;
+  transform: none;
+}
+
+.scroll-to-top2:hover {
+  transform: translateY(-5px);
+}
+
+.scroll-to-top2 img {
+  width: 120px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .scroll-to-top2 {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .scroll-to-top2 img {
+    width: 60px;
   }
 }

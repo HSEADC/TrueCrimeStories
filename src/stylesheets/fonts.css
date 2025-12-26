@@ -1,17 +1,32 @@
 @font-face {
-    font-family: 'Kiwi Maru';
-    src: url('../fonts/Kiwi_Maru/KiwiMaru-Light.ttf');
-    font-weight: 300;
+  font-family: "Kiwi Maru";
+  src: url("../fonts/Kiwi_Maru/KiwiMaru-Light.ttf");
+  font-weight: 300;
 }
 
 @font-face {
-    font-family: 'Kiwi Maru';
-    src: url('../fonts/Kiwi_Maru/KiwiMaru-Regular.ttf');
-    font-weight: 400;
+  font-family: "Kiwi Maru";
+  src: url("../fonts/Kiwi_Maru/KiwiMaru-Regular.ttf");
+  font-weight: 400;
 }
 
 @font-face {
-    font-family: 'Kiwi Maru';
-    src: url('../fonts/Kiwi_Maru/KiwiMaru-Medium.ttf');
-    font-weight: 500;
+  font-family: "Kiwi Maru";
+  src: url("../fonts/Kiwi_Maru/KiwiMaru-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Khula";
+  src: url("../fonts/Kiwi_Maru/Khula-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Red Molot";
+  src: url("../fonts/Kiwi_Maru/Red-Molot.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
