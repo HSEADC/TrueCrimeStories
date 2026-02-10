@@ -10,12 +10,12 @@ function createPages(template, filename) {
 
 const htmlPages = [
   createPages("./src/index.html", "./index.html"),
-  createPages("./src/about.html", "./about.html"),
-  createPages("./src/newspaper.html", "./newspaper.html"),
-  createPages("./src/tests.html", "./tests.html"),
-  createPages("./src/files.html", "./files.html"),
-  createPages("./src/podcasts.html", "./podcasts.html"),
-  createPages("./src/stylegaid.html", "./stylegaid.html"),
+  createPages("./src/pages/about.html", "./pages/about.html"),
+  createPages("./src/pages/newspaper.html", "./pages/newspaper.html"),
+  createPages("./src/pages/tests.html", "./pages/tests.html"),
+  createPages("./src/pages/files.html", "./pages/files.html"),
+  createPages("./src/pages/podcasts.html", "./pages/podcasts.html"),
+  createPages("./src/pages/stylegaid.html", "./pages/stylegaid.html"),
 ];
 
 module.exports = htmlPages;
