@@ -15,46 +15,51 @@
   </head>
   <body class="files">
     <div class="custom-scrollbar"></div>
-    <button class="menu-button" aria-label="Menu">
-      <svg
-        class="menu-icon"
-        width="44"
-        height="172"
-        viewBox="0 0 44 172"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect
-          x="0.5"
-          y="36.5"
-          width="43"
-          height="99"
-          rx="21.5"
-          stroke="black"
-        />
-        <rect x="10" y="70" width="24" height="4" rx="2" fill="black" />
-        <rect x="10" y="84" width="24" height="4" rx="2" fill="black" />
-        <rect x="10" y="98" width="24" height="4" rx="2" fill="black" />
-      </svg>
-    </button>
-    <div class="menu-backdrop"></div>
-    <nav class="menu-panel" aria-label="Navigation menu">
-      <a href="../index.html" class="menu-panel__button">
-        <img src="../imgs/buttonmain.svg" alt="Главная" />
-      </a>
-      <a href="./about.html" class="menu-panel__button">
-        <img src="../imgs/buttonaboutus.svg" alt="О нас" />
-      </a>
-      <a href="./files.html" class="menu-panel__button">
-        <img src="../imgs/buttonfiles.svg" alt="Файлы" />
-      </a>
-      <a href="./newspaper.html" class="menu-panel__button">
-        <img src="../imgs/buttonmagazine.svg" alt="Журнал" />
-      </a>
-      <a href="./podcasts.html" class="menu-panel__button">
-        <img src="../imgs/buttonpodcast.svg" alt="Подкасты" />
-      </a>
-    </nav>
+    <sidebar class="menu">
+      <button class="menu-button" aria-label="Menu">
+        <svg
+          class="menu-icon"
+          width="44"
+          height="172"
+          viewBox="0 0 44 172"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="0.5"
+            y="36.5"
+            width="43"
+            height="99"
+            rx="21.5"
+            stroke="black"
+          />
+          <rect x="10" y="70" width="24" height="4" rx="2" fill="black" />
+          <rect x="10" y="84" width="24" height="4" rx="2" fill="black" />
+          <rect x="10" y="98" width="24" height="4" rx="2" fill="black" />
+        </svg>
+      </button>
+      <div class="menu-backdrop"></div>
+      <nav class="menu-panel" aria-label="Navigation menu">
+        <a href="../index.html" class="menu-panel__button">
+          <img src="../imgs/buttonmain.svg" alt="Главная" />
+        </a>
+        <a href="./about.html" class="menu-panel__button">
+          <img src="../imgs/buttonaboutus.svg" alt="О нас" />
+        </a>
+        <a href="./files.html" class="menu-panel__button">
+          <img src="../imgs/buttonfiles.svg" alt="Файлы" />
+        </a>
+        <a href="./articles.html" class="menu-panel__button">
+          <img src="../imgs/buttonmagazine.svg" alt="Журнал" />
+        </a>
+        <a href="./podcasts.html" class="menu-panel__button">
+          <img src="../imgs/buttonpodcast.svg" alt="Подкасты" />
+        </a>
+        <a href="./tests.html" class="menu-panel__button">
+          <img src="../imgs/Group 402.svg" alt="Тесты" />
+        </a>
+      </nav>
+    </sidebar>
     <header class="files-header">
       <div class="files-header__container">
         <div class="files-header__search-section">
@@ -151,7 +156,7 @@
         </div>
       </div>
     </main>
-    <script>
+    <!-- <script>
       const menuButton = document.querySelector(".menu-button");
       let isOpen = true;
 
@@ -229,6 +234,6 @@
         setTimeout(syncScrollbar, 100);
         setTimeout(syncScrollbar, 500);
       }
-    </script>
+    </script> -->
   </body>
 </html>
