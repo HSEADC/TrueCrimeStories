@@ -13,6 +13,10 @@ module.exports = {
     articles: './src/javascripts/articles.js',
     test1: './src/javascripts/test1.js',
     allStyles: './src/javascripts/allStyles.js',
+    header: './src/javascripts/elements/header.js',
+    footer: './src/javascripts/elements/footer.js',
+    menu: './src/javascripts/elements/menu.js',
+    filterTags: './src/javascripts/filterTags.js'
   },
   output: {
     filename: "[name].js",

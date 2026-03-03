@@ -1,0 +1,26 @@
+h1, .title {
+    font-family: 'Red Molot';
+    font-size: 10vw;
+    white-space: nowrap;
+}
+img {
+    display: block;
+}
+.logo-link {
+    transition: 0.3s ease;
+}
+.logo-link:hover {
+    scale: 1.1;
+}
+
+
+.menu-icon {
+    width: 100%;
+    height: auto;
+}
+.card__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}

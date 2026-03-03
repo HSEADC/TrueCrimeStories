@@ -1,3 +1,5 @@
+console.clear()
+
 // настройки подключения свайпера (галереи)
 const swiper = new Swiper('.swiper', {
     // Optional parameters

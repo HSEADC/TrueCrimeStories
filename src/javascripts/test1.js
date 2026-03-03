@@ -1,4 +1,5 @@
 console.clear()
+
 import { initTest, chooseAnswer } from './tests.js'
 
 import imgGood from '../imgs/results/result_good.svg'

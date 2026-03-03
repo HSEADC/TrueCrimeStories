@@ -1,3 +1,5 @@
+console.clear()
+
 let currentStage = 0
 let resultCount = 0
 const checkboxes = document.querySelectorAll('input[type=checkbox]')
