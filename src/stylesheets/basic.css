@@ -1,0 +1,26 @@
+html {
+  overflow-x: hidden;
+  height: 100%;
+}
+body {
+  font-family: Arial;
+  font-size: 14px;
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  height: 100%;
+
+  padding: var(--ver-margin) var(--hor-margin);
+  box-sizing: border-box;
+}
+
+
+.about, .styleguide, .files, .podcasts, .test-types {
+  background-color: white;
+  color: black;
+}
+
+.promo, .articles {
+  background-color: black;
+  color: white;
+}

@@ -2,6 +2,7 @@
 @import "fonts.css";
 @import "custom-properties.css";
 
+@import 'basic.css';
 
 @import 'components/01_quarks.css';
 @import 'components/02_atoms.css';

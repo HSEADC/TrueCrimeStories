@@ -37,14 +37,6 @@
   padding: 0 10px;
 }
 
-
-/* .menu-button svg,
-.menu-button .menu-icon {
-  display: block;
-  width: 44px;
-  height: auto;
-} */
-
 .menu-backdrop {
   position: fixed;
   top: 0;
@@ -83,17 +75,13 @@
   z-index: 999;
 }
 
-
 .menu-panel--open {
   opacity: 1;
   visibility: visible;
   pointer-events: all;
 }
 
-
-
 .menu-panel__button:hover {
   transform: scale(1.05);
-  /* opacity: 0.8; */
 }
 

@@ -101,6 +101,32 @@ button:focus, button:active {
     --ver-margin: 20px;
     --hor-margin: 40px;
 }
+html {
+  overflow-x: hidden;
+  height: 100%;
+}
+body {
+  font-family: Arial;
+  font-size: 14px;
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  height: 100%;
+
+  padding: var(--ver-margin) var(--hor-margin);
+  box-sizing: border-box;
+}
+
+
+.about, .styleguide, .files, .podcasts, .test-types {
+  background-color: white;
+  color: black;
+}
+
+.promo, .articles {
+  background-color: black;
+  color: white;
+}
 h1, .title {
     font-family: 'Red Molot';
     font-size: 10vw;
@@ -166,14 +192,6 @@ img {
   padding: 0 10px;
 }
 
-
-/* .menu-button svg,
-.menu-button .menu-icon {
-  display: block;
-  width: 44px;
-  height: auto;
-} */
-
 .menu-backdrop {
   position: fixed;
   top: 0;
@@ -212,18 +230,14 @@ img {
   z-index: 999;
 }
 
-
 .menu-panel--open {
   opacity: 1;
   visibility: visible;
   pointer-events: all;
 }
 
-
-
 .menu-panel__button:hover {
   transform: scale(1.05);
-  /* opacity: 0.8; */
 }
 
 
@@ -244,11 +258,7 @@ img {
 }
 
 .input {
-  /* position: relative;
-  max-width: 500px; */
   display: flex;
-  /* align-items: center; */
-  /* justify-content: center; */
 }
 
 
@@ -331,7 +341,6 @@ img {
   top: 0;
   width: 100%;
   background-color: black;
-  /* border: 1px solid white; */
   color: white;
   transform: rotateY(-180deg);
 }
@@ -341,7 +350,6 @@ img {
   height: 100%;
   backface-visibility: hidden;
   transition: transform 0.6s ease;
-  /* transition: transform 0.3s cubic-bezier(.2,.85,.4,1.275); */
 }
 
 .card:hover .card__back {
@@ -352,21 +360,6 @@ img {
   transform: rotateY(180deg);
   z-index: -1;
 }
-
-/* .card {
-  background: white;
-  color: black;
-  height: 100px;
-  transition: transform0.6s ease;
-}
-.card-inner {
-
-}
-.card:hover {
-  transform: rotateY(180deg);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-} */
 
 /* ТЕСТЫ */
 .test-types-nav {
@@ -384,40 +377,6 @@ img {
   /* background-color: black;
   color: white; */
   filter: invert();
-}
-
-html {
-  overflow-x: hidden;
-  height: 100%;
-}
-body {
-  font-family: Arial;
-  font-size: 14px;
-  min-width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
-  height: 100%;
-
-  padding: var(--ver-margin) var(--hor-margin);
-  box-sizing: border-box;
-}
-
-
-.about, .styleguide, .files, .podcasts, .test-types {
-  background-color: white;
-  color: black;
-}
-
-.promo, .articles {
-  background-color: black;
-  color: white;
-}
-
-
-
-.main {
-  /* margin: var(--ver-margin) var(--hor-margin); */
-  /* box-sizing: border-box; */
 }
 
 .main-articles {
