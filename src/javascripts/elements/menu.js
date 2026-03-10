@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <img src="${menuIconClosed}" alt="Menu icon" class="menu-icon" />
         </button>
         <nav class="menu-panel" aria-label="Navigation menu">
-            <a href="index.html" class="btn menu-panel__button">ГЛАВНАЯ</a>
-            <a href="pages/about.html" class="btn menu-panel__button">О НАС</a>
-            <a href="pages/files.html" class="btn menu-panel__button">ДОСЬЕ</a>
-            <a href="pages/articles.html" class="btn menu-panel__button">СТАТЬИ</a>
-            <a href="pages/podcasts.html" class="btn menu-panel__button">ПОДКАСТЫ</a>
-            <a href="pages/test-types.html" class="btn menu-panel__button">ТЕСТЫ</a>
+            <a href="/index.html" class="btn menu-panel__button">ГЛАВНАЯ</a>
+            <a href="/pages/about.html" class="btn menu-panel__button">О НАС</a>
+            <a href="/pages/files.html" class="btn menu-panel__button">ДОСЬЕ</a>
+            <a href="/pages/articles.html" class="btn menu-panel__button">СТАТЬИ</a>
+            <a href="/pages/podcasts.html" class="btn menu-panel__button">ПОДКАСТЫ</a>
+            <a href="/pages/test-types.html" class="btn menu-panel__button">ТЕСТЫ</a>
         </nav>
         <div class="menu-backdrop"></div>
         `;
