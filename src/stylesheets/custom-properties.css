@@ -1,6 +1,15 @@
 :root {
-    --ver-margin: 20px;
-    --hor-margin: 40px;
-    --main-color: white;
-    --secondary-color: black;
+    /* --ver-margin: 20px;
+    --hor-margin: 40px; */
+    --ver-margin: 5vw;
+    --hor-margin: 10vw;
+}
+.podcast-types, .test-types, .podcasts, .article, .test {
+  --main-color: white;
+  --secondary-color: black;
+}
+
+.promo, .articles, .about, .styleguide, .tests {
+  --main-color: black;
+  --secondary-color: white;
 }

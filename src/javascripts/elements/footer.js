@@ -18,13 +18,13 @@ function createFooter() {
         <a class="btn" href="#">вконтакте</a>
         <a class="btn" href="#">телеграмм</a>
     </div>
-
-    <a class="logo-link" href="/index.html">
-        <img src="${logo}" alt="logo" />
-    </a>
     `;
+    // <a class="logo-link" href="/index.html">
+    //     <img src="${logo}" alt="logo" />
+    // </a>
 
-    document.body.append(footer);
+    document.getElementsByClassName('main')[0].append(footer);
+    // document.body.append(footer);
     console.log('created footer');
 }
 
