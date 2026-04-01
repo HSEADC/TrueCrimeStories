@@ -1,3 +1,10 @@
+.test-types {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+    
+}
 .content {
     padding: 20vw 3vw;
     box-sizing: border-box;
@@ -17,7 +24,12 @@
     border: 1px solid var(--secondary-color);
     border-width: 0 1px;
 }
-
+.main-test-types {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* transform: translate(-50%, -50%); */
+}
 
 
 .cards-wrapper {
