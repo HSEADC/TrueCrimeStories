@@ -1,0 +1,99 @@
+h1, .h1 {
+    font-family: 'Red Molot';
+    font-size: min(10vw, 200px);
+    /* font-size: min(20vw,100px); */
+    /* font-size: 200px; */
+    /* white-space: nowrap; */
+}
+h2, .h2 {
+    font-family: 'Red Molot';
+    font-size: min(8vw, 150px);
+    /* font-size: 12vw; */
+    /* font-size: min(15vw, 150px); */
+    /* font-size: 150px; */
+    /* white-space: nowrap; */
+}
+h3 {
+    font-family: 'Red Molot';
+    font-size: min(6vw, 100px);
+    /* font-size: 100px; */
+    /* white-space: nowrap; */
+}
+h4 {
+    font-family: 'Red Molot';
+    font-size: min(4vw, 50px);
+    /* font-size: 50px; */
+}
+.p1 {
+    font-family: 'Hauora';
+    font-size: min(3.6vw, 36px);
+    /* font-size: 36px; */
+}
+.p2 {
+    font-family: 'Hauora';
+    font-size: min(2.4vw, 24px);
+    /* font-size: 24px; */
+}
+.p3, .tag, .btn {
+    font-family: 'Hauora';
+    font-size: min(1.8vw, 18px);
+    /* font-size: 18px; */
+}
+.p4 {
+    font-family: 'Hauora';
+    font-size: min(1vw, 10px);
+    /* font-size: 10px; */
+}
+
+
+
+img {
+    display: block;
+}
+.logo-link {
+    transition: 0.3s ease;
+}
+.logo-link:hover {
+    scale: 1.1;
+}
+
+
+.menu-icon {
+    width: 100%;
+    height: auto;
+}
+.card__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+
+
+.podcasts-sec>img {
+    width: 100%;
+    height: auto;
+}
+.statement>h2 {
+    text-decoration: 1px underline;
+}
+.about p {
+    color: #a5a5a5;
+}
+.media a {
+  width: 40%;
+}
+.media img {
+  width: 100%;
+}
+.start-screen p {
+    text-decoration: 1px underline;
+    display: inline-block;
+}
+.start-screen>p>img {
+    display: inline;
+    margin: 0 15px;
+    height: 7vw;
+    background-color: black;
+}
