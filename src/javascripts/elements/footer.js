@@ -23,9 +23,11 @@ function createFooter() {
     //     <img src="${logo}" alt="logo" />
     // </a>
 
-    document.getElementsByClassName('main')[0].append(footer);
-    // document.body.append(footer);
+    const mainEl = document.getElementsByClassName('main')[0];
+    if (mainEl) {
+        mainEl.append(footer);
+    }
     console.log('created footer');
 }
 
-document.addEventListener('DOMContentLoaded', createFooter());
+document.addEventListener('DOMContentLoaded', createFooter);

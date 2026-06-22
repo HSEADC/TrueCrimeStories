@@ -1,18 +1,699 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/src/imgs/icons/logo.svg" />
-    <title>Case Atlas</title>
-  </head>
-  <body class="podcast-types">
-    <main class="main main-podcast-types">
-      <h1>СЛУШАЙ ПОДКАСТЫ</h1>
-      <a href="/pages/podcast-types/podcast1.html">Подкаст №1</a>
-      <a href="/pages/podcast-types/podcast2.html">Подкаст №2</a>
-      <a href="/pages/podcast-types/podcast3.html">Подкаст №3</a>
-    </main>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Atlas — Подкасты</title>
+  <style>
+    .menu { display: none !important; }
 
-  </body>
+    /* Override global Red Molot heading rule from quarks.css */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Hauora", -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-size: unset;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: #fff;
+      color: #000;
+      font-family: "Hauora", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { background: none; border: none; cursor: pointer; color: inherit; font-family: inherit; }
+
+    /* ════════════════════════════════════
+       FIXED FRAME
+    ════════════════════════════════════ */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; height: 30px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: #000; border-bottom: 1px solid #fff;
+      padding: 0 40px; z-index: 100;
+    }
+    .nav-logo { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #fff; }
+    .nav-links { display: flex; align-items: center; gap: 15px; }
+    .nav-link { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; transition: color 0.2s; }
+    .nav-link:hover { color: #fff; }
+    .nav-link.active { color: #fff; }
+    .nav-copy { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; }
+    .nav-copy:hover { color: #fff; }
+
+    .left-sidebar {
+      position: fixed; top: 30px; left: 0; bottom: 0;
+      width: 20px; background: #000; border-right: 1px solid #fff; z-index: 80;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .hamburger-btn {
+      width: 20px; height: 122px;
+      display: flex; align-items: center; justify-content: center;
+      border-bottom: 1px solid #fff; cursor: pointer; flex-shrink: 0;
+    }
+    .hamburger-lines { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+    .hamburger-lines span { display: block; width: 8px; height: 1px; background: #fff; border-radius: 2px; }
+
+    .right-sidebar {
+      position: fixed; top: 30px; right: 0; bottom: 0;
+      width: 20px; background: #000; border-left: 1px solid #fff; z-index: 80;
+    }
+
+    /* Search bar — fixed */
+    .search-bar {
+      position: fixed; top: 30px; left: 20px; right: 20px;
+      height: 40px; display: flex; background: #fff;
+      border-bottom: 1px solid #000; z-index: 90;
+    }
+    .search-input-wrap {
+      flex: 1; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px; border-right: 1px solid #000; gap: 10px;
+    }
+    .search-left { display: flex; align-items: center; gap: 10px; }
+    .search-icon { width: 12px; height: 12px; flex-shrink: 0; stroke: #d1d1d1; fill: none; }
+    .search-placeholder { font-size: 18px; font-weight: 400; color: #d1d1d1; }
+    .search-count { font-size: 18px; font-weight: 400; color: #000; }
+    .sort-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 0 20px; height: 100%; border-right: 1px solid #000;
+      background: #fff; cursor: pointer; flex-shrink: 0;
+    }
+    .sort-label { font-size: 14px; font-weight: 400; text-transform: uppercase; color: #000; }
+    .sort-arrows { display: flex; flex-direction: column; gap: 2px; align-items: center; }
+    .sort-arrows svg { width: 10px; height: 7px; stroke: #000; fill: none; }
+    .filter-btn {
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 20px; height: 100%; border-right: 1px solid #000;
+      background: #fff; cursor: pointer;
+      font-size: 14px; font-weight: 400; text-transform: uppercase; color: #000;
+      flex-shrink: 0; transition: background 0.15s;
+    }
+    .filter-btn.active, .filter-btn:hover { background: #f0f0f0; }
+    .clear-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 100%; background: #fff; cursor: pointer; flex-shrink: 0;
+    }
+    .clear-btn svg { width: 12px; height: 12px; stroke: #000; fill: none; }
+
+    /* Filter panel */
+    .filter-panel {
+      position: fixed; top: 70px; left: 20px; right: 20px;
+      background: #fff; border: 1px solid #000; border-top: none;
+      padding: 16px 20px; display: none; flex-wrap: wrap; gap: 8px; z-index: 95;
+    }
+    .filter-panel.open { display: flex; }
+    .filter-option {
+      border: 1px solid #000; border-radius: 100px; padding: 7px 14px;
+      font-size: 14px; font-weight: 400; text-transform: uppercase; color: #000;
+      background: #fff; cursor: pointer; transition: background 0.15s; line-height: 1;
+    }
+    .filter-option:hover { background: #f0f0f0; }
+    .filter-option.selected { background: #000; color: #fff; }
+
+    /* Active tags bar */
+    .active-tags-bar {
+      position: fixed; bottom: 53px; left: 50%; transform: translateX(-50%);
+      display: none; align-items: center; gap: 10px; z-index: 95; pointer-events: none;
+    }
+    .active-tags-bar.visible { display: flex; }
+    .active-tag {
+      backdrop-filter: blur(2px); background: rgba(0,0,0,0.5);
+      border: 1px solid #fff; border-radius: 100px; padding: 7px 12px;
+      font-size: 14px; text-transform: uppercase; color: #fff;
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer; pointer-events: auto; white-space: nowrap; line-height: 1;
+    }
+    .active-tag svg { width: 12px; height: 12px; stroke: #fff; fill: none; flex-shrink: 0; }
+
+    /* ════════════════════════════════════
+       SCROLLABLE CONTENT
+    ════════════════════════════════════ */
+    .page-content {
+      margin-top: 70px;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    /* ── Podcast grid — 2 columns ── */
+    .podcast-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* ── Podcast card ── */
+    .podcast-card {
+      border: 1px solid #000;
+      margin: -1px 0 0 -1px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      text-decoration: none;
+      color: #000;
+      cursor: pointer;
+      transition: background 0.2s;
+      overflow: hidden;
+    }
+    .podcast-card:hover { background: #f8f8f8; }
+
+    /* Cassette area — top portion of card */
+    .cassette-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 60px;
+      border-bottom: 1px solid #000;
+      background: #fff;
+      aspect-ratio: 4 / 3;
+      position: relative;
+    }
+
+    .cassette-area img {
+      width: 100%;
+      max-width: 340px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Episode number badge */
+    .episode-badge {
+      position: absolute;
+      top: 20px; left: 20px;
+      font-size: 12px; font-weight: 800; text-transform: uppercase;
+      color: #686868;
+    }
+
+    /* Card info area — bottom portion */
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .card-top { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+
+    .card-title {
+      font-size: 24px; font-weight: 800; text-transform: uppercase;
+      line-height: 1.15; color: #000;
+    }
+
+    .card-subtitle {
+      font-size: 16px; font-weight: 400; line-height: 1.4; color: #000;
+    }
+
+    .card-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .card-meta-col { display: flex; flex-direction: column; gap: 8px; }
+
+    .card-date-row {
+      display: flex; align-items: center; gap: 20px;
+      font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868;
+    }
+
+    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      border: 1px solid #000; border-radius: 100px; padding: 6px 12px;
+      font-size: 12px; font-weight: 400; text-transform: uppercase;
+      color: #000; background: #fff; line-height: 1;
+    }
+
+    /* Listen button */
+    .listen-btn {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 800; text-transform: uppercase; color: #000;
+      border: 1px solid #000; padding: 8px 16px;
+      transition: background 0.15s; flex-shrink: 0; white-space: nowrap;
+    }
+    .listen-btn svg { width: 13px; height: 9px; stroke: currentColor; fill: none; }
+    .podcast-card:hover .listen-btn { background: #000; color: #fff; }
+
+    /* ── Episode list card ── */
+    .episodes-card {
+      border: 1px solid #000;
+      margin: -1px 0 0 -1px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: #fff;
+    }
+
+    .episodes-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 16px; border-bottom: 1px solid #000; margin-bottom: 0;
+    }
+
+    .episodes-title {
+      font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868;
+    }
+
+    .episodes-count {
+      font-size: 12px; font-weight: 400; color: #686868;
+    }
+
+    .episode-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 16px 0; border-bottom: 1px solid #e0e0e0;
+      gap: 16px;
+      text-decoration: none; color: #000;
+      transition: background 0.15s;
+    }
+    .episode-row:last-child { border-bottom: none; }
+    .episode-row:hover { opacity: 0.7; }
+
+    .ep-num {
+      font-size: 12px; font-weight: 400; color: #686868;
+      text-transform: uppercase; flex-shrink: 0; width: 24px;
+    }
+
+    .ep-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+
+    .ep-title {
+      font-size: 16px; font-weight: 700; text-transform: uppercase;
+      line-height: 1.2; color: #000;
+    }
+
+    .ep-desc {
+      font-size: 13px; font-weight: 400; color: #686868; line-height: 1.4;
+    }
+
+    .ep-meta {
+      display: flex; flex-direction: column; align-items: flex-end;
+      gap: 4px; flex-shrink: 0;
+      font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868;
+    }
+
+    /* ── Footer ── */
+    .footer-media { background: #fff; display: flex; height: 202px; flex-shrink: 0; }
+    .footer-media-link { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; border: 1px solid #000; padding: 20px; cursor: pointer; transition: background-color 0.2s; }
+    .footer-media-link:hover { background: #f0f0f0; }
+    .footer-media-title { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .footer-media-title span { font-size: 32px; font-weight: 700; text-transform: uppercase; color: #000; line-height: 1; }
+    .footer-media-title svg { width: 13px; height: 9px; stroke: #000; fill: none; flex-shrink: 0; }
+    .footer-subscribe { flex: 1; display: flex; flex-direction: column; }
+    .footer-subscribe-top { flex: 1; border: 1px solid #000; padding: 20px; display: flex; flex-direction: column; }
+    .footer-subscribe-top span { font-size: 32px; font-weight: 700; text-transform: uppercase; color: #000; line-height: 1.25; max-width: 274px; }
+    .footer-email-row { height: 35px; border: 1px solid #000; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .footer-email-row span { font-size: 14px; text-transform: uppercase; font-weight: 300; color: #d1d1d1; }
+    .footer-email-row svg { width: 13px; height: 9px; stroke: #000; fill: none; }
+    .footer-info { background: #000; display: flex; align-items: flex-start; justify-content: space-between; padding: 20px; height: 285px; flex-shrink: 0; }
+    .footer-hse-logo { height: calc(285px - 40px); aspect-ratio: 164 / 65.74; flex-shrink: 0; }
+    .footer-hse-logo img { height: 100%; width: 100%; object-fit: contain; object-position: left; }
+    .footer-right { display: flex; align-items: flex-start; gap: 48px; }
+    .footer-links-col { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links-col-title { font-size: 18px; font-weight: 700; text-transform: uppercase; color: #fff; line-height: 1; }
+    .footer-link-item { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; transition: color 0.2s; }
+    .footer-link-item:hover { color: #fff; }
+    .footer-link-item svg { width: 10px; height: 10px; stroke: currentColor; fill: none; }
+    .footer-caseatlas-logo { width: 65px; height: 59px; flex-shrink: 0; }
+    .footer-caseatlas-logo img { width: 100%; height: 100%; object-fit: contain; }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed frame -->
+  <nav class="top-nav">
+    <a href="/index.html" class="nav-logo">CASE ATLAS</a>
+    <div class="nav-links">
+      <a href="/index.html" class="nav-link">[ГЛАВНАЯ]</a>
+      <a href="/pages/articles.html" class="nav-link">[СТАТЬИ]</a>
+      <span class="nav-link active">[ПОДКАСТЫ]</span>
+      <a href="/pages/test-types.html" class="nav-link">[ТЕСТЫ]</a>
+      <a href="#" class="nav-link">[О НАС]</a>
+    </div>
+    <a href="#" class="nav-copy">
+      © 2026 HSE STUDY PROJECT
+      <svg style="width:10px;height:10px;stroke:currentColor;fill:none" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
+    </a>
+  </nav>
+
+  <aside class="left-sidebar">
+    <button class="hamburger-btn" aria-label="Меню">
+      <div class="hamburger-lines"><span></span><span></span><span></span></div>
+    </button>
+  </aside>
+
+  <aside class="right-sidebar"></aside>
+
+  <!-- Search / filter bar -->
+  <div class="search-bar">
+    <div class="search-input-wrap">
+      <div class="search-left">
+        <svg class="search-icon" viewBox="0 0 12 12" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="4.5" cy="4.5" r="3.5"/><line x1="7.5" y1="7.5" x2="11" y2="11"/>
+        </svg>
+        <span class="search-placeholder">Поиск</span>
+      </div>
+      <span class="search-count">[6/6]</span>
+    </div>
+    <button class="sort-btn">
+      <span class="sort-label">ДАТА</span>
+      <div class="sort-arrows">
+        <svg viewBox="0 0 10 7" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6L5 1L9 6"/></svg>
+        <svg viewBox="0 0 10 7" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L5 6L9 1"/></svg>
+      </div>
+    </button>
+    <button class="filter-btn" id="filterBtn">ФИЛЬТР</button>
+    <button class="clear-btn" id="clearBtn">
+      <svg viewBox="0 0 12 12" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L11 11M11 1L1 11"/></svg>
+    </button>
+  </div>
+
+  <div class="filter-panel" id="filterPanel">
+    <span class="filter-option" data-tag="расследование">РАССЛЕДОВАНИЕ</span>
+    <span class="filter-option" data-tag="криминалистика">КРИМИНАЛИСТИКА</span>
+    <span class="filter-option" data-tag="интервью">ИНТЕРВЬЮ</span>
+    <span class="filter-option" data-tag="история">ИСТОРИЯ</span>
+    <span class="filter-option" data-tag="психология">ПСИХОЛОГИЯ</span>
+    <span class="filter-option" data-tag="новости">НОВОСТИ</span>
+  </div>
+
+  <div class="active-tags-bar" id="activeTagsBar"></div>
+
+  <!-- Scrollable content -->
+  <div class="page-content">
+
+    <div class="podcast-grid">
+
+      <!-- ── PODCAST 1 ── -->
+      <a href="/pages/podcast-types/podcast1.html" class="podcast-card">
+        <div class="cassette-area">
+          <span class="episode-badge">01</span>
+          <img src="../imgs/cassette-1.png" alt="Криминальная хроника" />
+        </div>
+        <div class="card-info">
+          <div class="card-top">
+            <h2 class="card-title">Криминальная хроника</h2>
+            <p class="card-subtitle">Громкие дела прошлого и настоящего — разбираем улики, мотивы и приговоры</p>
+          </div>
+          <div class="card-bottom">
+            <div class="card-meta-col">
+              <div class="card-date-row">
+                <span>22/06/2025</span>
+                <span>12 эпизодов</span>
+              </div>
+              <div class="card-tags">
+                <span class="tag">расследование</span>
+                <span class="tag">криминалистика</span>
+              </div>
+            </div>
+            <span class="listen-btn">
+              СЛУШАТЬ
+              <svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Episodes list for podcast 1 -->
+      <div class="episodes-card">
+        <div class="episodes-header">
+          <span class="episodes-title">Эпизоды</span>
+          <span class="episodes-count">12 выпуска</span>
+        </div>
+        <a href="/pages/podcast-types/podcast1.html" class="episode-row">
+          <span class="ep-num">01</span>
+          <div class="ep-info">
+            <p class="ep-title">Дело Чикатило: последние часы</p>
+            <p class="ep-desc">Как следователи вышли на след серийного преступника</p>
+          </div>
+          <div class="ep-meta"><span>45 МИН</span><span>22/06/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast1.html" class="episode-row">
+          <span class="ep-num">02</span>
+          <div class="ep-info">
+            <p class="ep-title">Перевал Дятлова: что скрывают архивы</p>
+            <p class="ep-desc">Новые факты из рассекреченных документов КГБ</p>
+          </div>
+          <div class="ep-meta"><span>52 МИН</span><span>15/06/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast1.html" class="episode-row">
+          <span class="ep-num">03</span>
+          <div class="ep-info">
+            <p class="ep-title">Маньяк из Ростова: психология убийцы</p>
+            <p class="ep-desc">Интервью с судебным психиатром о мотивах преступника</p>
+          </div>
+          <div class="ep-meta"><span>38 МИН</span><span>08/06/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast1.html" class="episode-row">
+          <span class="ep-num">04</span>
+          <div class="ep-info">
+            <p class="ep-title">Дело об ограблении века</p>
+            <p class="ep-desc">Банк России, 1994 год: крупнейшее нераскрытое ограбление</p>
+          </div>
+          <div class="ep-meta"><span>41 МИН</span><span>01/06/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast1.html" class="episode-row">
+          <span class="ep-num">05</span>
+          <div class="ep-info">
+            <p class="ep-title">Анонимный свидетель</p>
+            <p class="ep-desc">История человека, который видел всё, но не мог говорить</p>
+          </div>
+          <div class="ep-meta"><span>47 МИН</span><span>25/05/2025</span></div>
+        </a>
+      </div>
+
+      <!-- ── PODCAST 2 ── -->
+      <a href="/pages/podcast-types/podcast2.html" class="podcast-card">
+        <div class="cassette-area">
+          <span class="episode-badge">02</span>
+          <img src="../imgs/cassette-2.png" alt="Следователь онлайн" />
+        </div>
+        <div class="card-info">
+          <div class="card-top">
+            <h2 class="card-title">Следователь онлайн</h2>
+            <p class="card-subtitle">Разбираем методы криминалистики — от отпечатков пальцев до цифровых улик</p>
+          </div>
+          <div class="card-bottom">
+            <div class="card-meta-col">
+              <div class="card-date-row">
+                <span>10/06/2025</span>
+                <span>8 эпизодов</span>
+              </div>
+              <div class="card-tags">
+                <span class="tag">криминалистика</span>
+                <span class="tag">наука</span>
+              </div>
+            </div>
+            <span class="listen-btn">
+              СЛУШАТЬ
+              <svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Episodes list for podcast 2 -->
+      <div class="episodes-card">
+        <div class="episodes-header">
+          <span class="episodes-title">Эпизоды</span>
+          <span class="episodes-count">8 выпусков</span>
+        </div>
+        <a href="/pages/podcast-types/podcast2.html" class="episode-row">
+          <span class="ep-num">01</span>
+          <div class="ep-info">
+            <p class="ep-title">Дактилоскопия: история отпечатков</p>
+            <p class="ep-desc">Как идентификация по пальцам изменила криминалистику</p>
+          </div>
+          <div class="ep-meta"><span>35 МИН</span><span>10/06/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast2.html" class="episode-row">
+          <span class="ep-num">02</span>
+          <div class="ep-info">
+            <p class="ep-title">Цифровые следы: интернет всё помнит</p>
+            <p class="ep-desc">Как сыщики раскрывают преступления через соцсети</p>
+          </div>
+          <div class="ep-meta"><span>42 МИН</span><span>03/06/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast2.html" class="episode-row">
+          <span class="ep-num">03</span>
+          <div class="ep-info">
+            <p class="ep-title">ДНК-экспертиза в суде</p>
+            <p class="ep-desc">Разбираем реальные дела, где геном стал главным доказательством</p>
+          </div>
+          <div class="ep-meta"><span>39 МИН</span><span>27/05/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast2.html" class="episode-row">
+          <span class="ep-num">04</span>
+          <div class="ep-info">
+            <p class="ep-title">Профайлинг преступников</p>
+            <p class="ep-desc">Как психологический портрет помогает ловить преступников</p>
+          </div>
+          <div class="ep-meta"><span>44 МИН</span><span>20/05/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast2.html" class="episode-row">
+          <span class="ep-num">05</span>
+          <div class="ep-info">
+            <p class="ep-title">Судебная экспертиза: от слов к фактам</p>
+            <p class="ep-desc">Что эксперты видят там, где другие видят пустоту</p>
+          </div>
+          <div class="ep-meta"><span>36 МИН</span><span>13/05/2025</span></div>
+        </a>
+      </div>
+
+      <!-- ── PODCAST 3 ── -->
+      <a href="/pages/podcast-types/podcast3.html" class="podcast-card">
+        <div class="cassette-area">
+          <span class="episode-badge">03</span>
+          <img src="../imgs/cassette-1.png" alt="Дело живёт" />
+        </div>
+        <div class="card-info">
+          <div class="card-top">
+            <h2 class="card-title">Дело живёт</h2>
+            <p class="card-subtitle">Возобновлённые дела и новые повороты в расследованиях, которые считались закрытыми</p>
+          </div>
+          <div class="card-bottom">
+            <div class="card-meta-col">
+              <div class="card-date-row">
+                <span>01/06/2025</span>
+                <span>6 эпизодов</span>
+              </div>
+              <div class="card-tags">
+                <span class="tag">история</span>
+                <span class="tag">расследование</span>
+              </div>
+            </div>
+            <span class="listen-btn">
+              СЛУШАТЬ
+              <svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Episodes list for podcast 3 -->
+      <div class="episodes-card">
+        <div class="episodes-header">
+          <span class="episodes-title">Эпизоды</span>
+          <span class="episodes-count">6 выпусков</span>
+        </div>
+        <a href="/pages/podcast-types/podcast3.html" class="episode-row">
+          <span class="ep-num">01</span>
+          <div class="ep-info">
+            <p class="ep-title">Убийство Кеннеди: новые свидетели</p>
+            <p class="ep-desc">Что рассказали рассекреченные документы ЦРУ в 2023 году</p>
+          </div>
+          <div class="ep-meta"><span>55 МИН</span><span>01/06/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast3.html" class="episode-row">
+          <span class="ep-num">02</span>
+          <div class="ep-info">
+            <p class="ep-title">Нераскрытое убийство: дело 1987 года</p>
+            <p class="ep-desc">Спустя 35 лет следователи получили новую улику</p>
+          </div>
+          <div class="ep-meta"><span>48 МИН</span><span>25/05/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast3.html" class="episode-row">
+          <span class="ep-num">03</span>
+          <div class="ep-info">
+            <p class="ep-title">Исчезновение Бориса Немцова</p>
+            <p class="ep-desc">Что стоит за официальной версией следствия</p>
+          </div>
+          <div class="ep-meta"><span>50 МИН</span><span>18/05/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast3.html" class="episode-row">
+          <span class="ep-num">04</span>
+          <div class="ep-info">
+            <p class="ep-title">Холодное дело становится горячим</p>
+            <p class="ep-desc">Как ДНК-база помогла раскрыть дело 1996 года</p>
+          </div>
+          <div class="ep-meta"><span>43 МИН</span><span>11/05/2025</span></div>
+        </a>
+        <a href="/pages/podcast-types/podcast3.html" class="episode-row">
+          <span class="ep-num">05</span>
+          <div class="ep-info">
+            <p class="ep-title">Ошибка прокурора</p>
+            <p class="ep-desc">История человека, осуждённого за чужое преступление</p>
+          </div>
+          <div class="ep-meta"><span>46 МИН</span><span>04/05/2025</span></div>
+        </a>
+      </div>
+
+    </div>
+    <!-- end podcast grid -->
+
+    <!-- Footer -->
+    <div class="footer-media">
+      <a href="#" class="footer-media-link">
+        <div class="footer-media-title"><span>ТЕЛЕГРАММ</span><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></div>
+      </a>
+      <a href="#" class="footer-media-link">
+        <div class="footer-media-title"><span>ВКОНТАКТЕ</span><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></div>
+      </a>
+      <a href="#" class="footer-media-link">
+        <div class="footer-media-title"><span>ЯНДЕКС_МУЗЫКА</span><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></div>
+      </a>
+      <div class="footer-subscribe">
+        <div class="footer-subscribe-top"><span>Подпишись на рассылку</span></div>
+        <div class="footer-email-row"><span>your-mail.ru</span><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></div>
+      </div>
+    </div>
+
+    <div class="footer-info">
+      <div class="footer-hse-logo"><img src="../imgs/logo-hse.png" alt="HSE" /></div>
+      <div class="footer-right">
+        <div class="footer-links-col">
+          <span class="footer-links-col-title">МЕДИА</span>
+          <a href="#" class="footer-link-item">ВКОНТАКТЕ <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+          <a href="#" class="footer-link-item">ТЕЛЕГРАММ <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+          <a href="#" class="footer-link-item">ЯНДЕКС_МУЗЫКА <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+        </div>
+        <div class="footer-links-col">
+          <span class="footer-links-col-title">АВТОРЫ</span>
+          <a href="#" class="footer-link-item">МАЩЕНКО <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+          <a href="#" class="footer-link-item">АКДУЛУН <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+          <a href="#" class="footer-link-item">НЕСТЕРКИНА <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+        </div>
+        <div class="footer-caseatlas-logo"><img src="../imgs/logo-caseatlas.png" alt="Case Atlas" /></div>
+      </div>
+    </div>
+
+  </div><!-- end page-content -->
+
+  <script>
+    const filterBtn     = document.getElementById('filterBtn');
+    const filterPanel   = document.getElementById('filterPanel');
+    const clearBtn      = document.getElementById('clearBtn');
+    const activeTagsBar = document.getElementById('activeTagsBar');
+    const selectedTags  = new Set();
+
+    filterBtn.addEventListener('click', () => { filterPanel.classList.toggle('open'); filterBtn.classList.toggle('active'); });
+    document.addEventListener('click', (e) => {
+      if (!filterBtn.contains(e.target) && !filterPanel.contains(e.target)) { filterPanel.classList.remove('open'); filterBtn.classList.remove('active'); }
+    });
+    filterPanel.querySelectorAll('.filter-option').forEach(option => {
+      option.addEventListener('click', () => {
+        const tag = option.dataset.tag;
+        if (selectedTags.has(tag)) { selectedTags.delete(tag); option.classList.remove('selected'); }
+        else { selectedTags.add(tag); option.classList.add('selected'); }
+        renderActiveTags();
+      });
+    });
+    clearBtn.addEventListener('click', () => {
+      selectedTags.clear();
+      filterPanel.querySelectorAll('.filter-option').forEach(o => o.classList.remove('selected'));
+      filterPanel.classList.remove('open'); filterBtn.classList.remove('active');
+      renderActiveTags();
+    });
+    function renderActiveTags() {
+      activeTagsBar.innerHTML = '';
+      if (selectedTags.size === 0) { activeTagsBar.classList.remove('visible'); return; }
+      activeTagsBar.classList.add('visible');
+      selectedTags.forEach(tag => {
+        const el = document.createElement('div'); el.className = 'active-tag';
+        el.innerHTML = `${tag} <svg viewBox="0 0 12 12" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L11 11M11 1L1 11"/></svg>`;
+        el.addEventListener('click', () => { selectedTags.delete(tag); filterPanel.querySelector(`.filter-option[data-tag="${tag}"]`)?.classList.remove('selected'); renderActiveTags(); });
+        activeTagsBar.appendChild(el);
+      });
+    }
+  </script>
+
+</body>
 </html>

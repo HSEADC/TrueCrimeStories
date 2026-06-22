@@ -7,6 +7,12 @@
   <style>
     .menu { display: none !important; }
 
+    /* Override global Red Molot heading rule from quarks.css */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Hauora", -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-size: unset;
+    }
+
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -231,6 +237,7 @@
       position: relative;
     }
 
+    .podcast-row { text-decoration: none; color: #fff; }
     .podcast-avatar img {
       width: 100%;
       height: 100%;
@@ -508,7 +515,7 @@
       <div class="nav-links">
         <span class="nav-link active">[ГЛАВНАЯ]</span>
         <a href="/pages/articles.html" class="nav-link">[СТАТЬИ]</a>
-        <a href="#" class="nav-link">[ПОДКАСТЫ]</a>
+        <a href="/pages/podcast-types.html" class="nav-link">[ПОДКАСТЫ]</a>
         <a href="/pages/test-types.html" class="nav-link">[ТЕСТЫ]</a>
         <a href="#" class="nav-link">[О НАС]</a>
       </div>
@@ -546,7 +553,7 @@
         </a>
 
         <!-- ПОДКАСТЫ header: col 3-4, row 1 -->
-        <a href="#" class="bento-cell cell-podcasts-header">
+        <a href="/pages/podcast-types.html" class="bento-cell cell-podcasts-header">
           <div class="cell-title">
             <h2>ПОДКАСТЫ</h2>
             <svg class="icon-arrow-right" viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
@@ -557,93 +564,81 @@
         <!-- Podcast list: col 3-4, row 2 -->
         <div class="podcast-list-cell">
 
-          <div class="podcast-row">
+          <a href="/pages/podcast-types/podcast1.html" class="podcast-row">
             <div class="podcast-left">
               <div class="podcast-avatar">
-                <img src="imgs/podcast-avatar.png" alt="Дело перевала Дятлова" />
+                <img src="imgs/cassette-1.png" alt="Криминальная хроника" />
               </div>
               <div class="podcast-meta">
-                <span class="podcast-title">Дело перевала Дятлова</span>
+                <span class="podcast-title">Дело Чикатило: последние часы</span>
                 <span class="podcast-date">22/06/2025</span>
               </div>
             </div>
             <div class="podcast-right">
-              <span class="podcast-action">СЛУШАТЬ НА ЯНДЕКС МУЗЫКА
+              <span class="podcast-action">КРИМИНАЛЬНАЯ ХРОНИКА
                 <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
               </span>
-              <span class="podcast-action">ЧИТАТЬ СТАТЬЮ
-                <svg class="icon-arrow-down" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1V9M5 9L2 6M5 9L8 6"/></svg>
-              </span>
-              <span class="podcast-duration">03:47</span>
+              <span class="podcast-duration">45 МИН</span>
               <div class="podcast-dots"><span></span><span></span><span></span></div>
             </div>
-          </div>
+          </a>
 
-          <div class="podcast-row">
+          <a href="/pages/podcast-types/podcast1.html" class="podcast-row">
             <div class="podcast-left">
               <div class="podcast-avatar">
-                <img src="imgs/podcast-avatar.png" alt="Дело перевала Дятлова" />
+                <img src="imgs/cassette-1.png" alt="Криминальная хроника" />
               </div>
               <div class="podcast-meta">
-                <span class="podcast-title">Дело перевала Дятлова</span>
-                <span class="podcast-date">22/06/2025</span>
+                <span class="podcast-title">Перевал Дятлова: что скрывают архивы</span>
+                <span class="podcast-date">15/06/2025</span>
               </div>
             </div>
             <div class="podcast-right">
-              <span class="podcast-action">СЛУШАТЬ НА ЯНДЕКС МУЗЫКА
+              <span class="podcast-action">КРИМИНАЛЬНАЯ ХРОНИКА
                 <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
               </span>
-              <span class="podcast-action">ЧИТАТЬ СТАТЬЮ
-                <svg class="icon-arrow-down" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1V9M5 9L2 6M5 9L8 6"/></svg>
-              </span>
-              <span class="podcast-duration">03:47</span>
+              <span class="podcast-duration">52 МИН</span>
               <div class="podcast-dots"><span></span><span></span><span></span></div>
             </div>
-          </div>
+          </a>
 
-          <div class="podcast-row">
+          <a href="/pages/podcast-types/podcast2.html" class="podcast-row">
             <div class="podcast-left">
               <div class="podcast-avatar">
-                <img src="imgs/podcast-avatar.png" alt="Дело перевала Дятлова" />
+                <img src="imgs/cassette-2.png" alt="Следователь онлайн" />
               </div>
               <div class="podcast-meta">
-                <span class="podcast-title">Дело перевала Дятлова</span>
-                <span class="podcast-date">22/06/2025</span>
+                <span class="podcast-title">Дактилоскопия: история отпечатков</span>
+                <span class="podcast-date">10/06/2025</span>
               </div>
             </div>
             <div class="podcast-right">
-              <span class="podcast-action">СЛУШАТЬ НА ЯНДЕКС МУЗЫКА
+              <span class="podcast-action">СЛЕДОВАТЕЛЬ ОНЛАЙН
                 <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
               </span>
-              <span class="podcast-action">ЧИТАТЬ СТАТЬЮ
-                <svg class="icon-arrow-down" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1V9M5 9L2 6M5 9L8 6"/></svg>
-              </span>
-              <span class="podcast-duration">03:47</span>
+              <span class="podcast-duration">35 МИН</span>
               <div class="podcast-dots"><span></span><span></span><span></span></div>
             </div>
-          </div>
+          </a>
 
-          <div class="podcast-row">
+          <a href="/pages/podcast-types/podcast3.html" class="podcast-row">
             <div class="podcast-left">
               <div class="podcast-avatar">
-                <img src="imgs/podcast-avatar.png" alt="Дело перевала Дятлова" />
+                <img src="imgs/cassette-1.png" alt="Дело живёт" />
               </div>
               <div class="podcast-meta">
-                <span class="podcast-title">Дело перевала Дятлова</span>
-                <span class="podcast-date">22/06/2025</span>
+                <span class="podcast-title">Убийство Кеннеди: новые свидетели</span>
+                <span class="podcast-date">01/06/2025</span>
               </div>
             </div>
             <div class="podcast-right">
-              <span class="podcast-action">СЛУШАТЬ НА ЯНДЕКС МУЗЫКА
+              <span class="podcast-action">ДЕЛО ЖИВЁТ
                 <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
               </span>
-              <span class="podcast-action">ЧИТАТЬ СТАТЬЮ
-                <svg class="icon-arrow-down" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1V9M5 9L2 6M5 9L8 6"/></svg>
-              </span>
-              <span class="podcast-duration">03:47</span>
+              <span class="podcast-duration">55 МИН</span>
               <div class="podcast-dots"><span></span><span></span><span></span></div>
             </div>
-          </div>
+          </a>
 
         </div>
 

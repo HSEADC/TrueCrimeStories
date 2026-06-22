@@ -1,14 +1,192 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/src/imgs/icons/logo.svg" />
-    <title>Case Atlas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Atlas — Следователь онлайн</title>
+  <style>
+    .menu { display: none !important; }
+
+    /* Override global Red Molot heading rule from quarks.css */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Hauora", -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-size: unset;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #fff; color: #000; font-family: "Hauora", -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { background: none; border: none; cursor: pointer; color: inherit; font-family: inherit; }
+    .top-nav { position: fixed; top: 0; left: 0; right: 0; height: 30px; display: flex; align-items: center; justify-content: space-between; background: #000; border-bottom: 1px solid #fff; padding: 0 40px; z-index: 100; }
+    .nav-logo { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #fff; }
+    .nav-links { display: flex; align-items: center; gap: 15px; }
+    .nav-link { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; transition: color 0.2s; }
+    .nav-link:hover { color: #fff; }
+    .nav-link.active { color: #fff; }
+    .nav-copy { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; display: flex; align-items: center; gap: 4px; }
+    .nav-copy:hover { color: #fff; }
+    .left-sidebar { position: fixed; top: 30px; left: 0; bottom: 0; width: 20px; background: #000; border-right: 1px solid #fff; z-index: 80; display: flex; flex-direction: column; align-items: center; }
+    .hamburger-btn { width: 20px; height: 122px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #fff; cursor: pointer; flex-shrink: 0; }
+    .hamburger-lines { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+    .hamburger-lines span { display: block; width: 8px; height: 1px; background: #fff; border-radius: 2px; }
+    .right-sidebar { position: fixed; top: 30px; right: 0; bottom: 0; width: 20px; background: #000; border-left: 1px solid #fff; z-index: 80; }
+    .split-layout { position: fixed; top: 30px; left: 20px; right: 20px; bottom: 0; display: flex; }
+    .left-panel { width: 30%; flex-shrink: 0; display: flex; flex-direction: column; border-right: 1px solid #000; overflow: hidden; }
+    .cassette-display { display: flex; align-items: center; justify-content: center; padding: 40px 40px 32px; border-bottom: 1px solid #000; background: #fff; flex-shrink: 0; }
+    .cassette-display img { width: 100%; max-width: 260px; height: auto; object-fit: contain; display: block; transition: transform 0.3s; }
+    .cassette-display img.spinning { animation: cassetteWobble 3s ease-in-out infinite; }
+    @keyframes cassetteWobble { 0%, 100% { transform: rotate(-1deg) scale(1); } 50% { transform: rotate(1deg) scale(1.01); } }
+    .player-controls { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #000; flex-shrink: 0; gap: 12px; }
+    .ctrl-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; cursor: pointer; border: 1px solid #000; transition: background 0.15s; flex-shrink: 0; }
+    .ctrl-btn:hover { background: #000; }
+    .ctrl-btn:hover svg { stroke: #fff; }
+    .ctrl-btn svg { width: 14px; height: 14px; stroke: #000; fill: none; }
+    .ctrl-btn.play-pause { width: 40px; height: 40px; background: #000; }
+    .ctrl-btn.play-pause svg { stroke: #fff; width: 16px; height: 16px; }
+    .ctrl-btn.play-pause:hover { background: #333; }
+    .progress-wrap { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .progress-bar-outer { width: 100%; height: 2px; background: #e0e0e0; cursor: pointer; }
+    .progress-bar-inner { height: 100%; background: #000; width: 0%; transition: width 0.1s linear; }
+    .progress-times { display: flex; justify-content: space-between; font-size: 10px; font-weight: 400; text-transform: uppercase; color: #686868; }
+    .episode-info { padding: 20px; border-bottom: 1px solid #000; flex-shrink: 0; }
+    .episode-number { font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868; margin-bottom: 8px; }
+    .episode-title { font-size: 20px; font-weight: 800; text-transform: uppercase; line-height: 1.2; color: #000; margin-bottom: 10px; }
+    .episode-desc { font-size: 14px; font-weight: 400; line-height: 1.5; color: #000; margin-bottom: 16px; }
+    .episode-meta { display: flex; align-items: center; gap: 16px; font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868; }
+    .episode-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+    .tag { border: 1px solid #000; border-radius: 100px; padding: 5px 12px; font-size: 12px; font-weight: 400; text-transform: uppercase; color: #000; background: #fff; line-height: 1; }
+    .panel-nav { display: flex; margin-top: auto; border-top: 1px solid #000; flex-shrink: 0; }
+    .btn-back, .btn-next { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; text-transform: uppercase; text-align: center; line-height: 1; cursor: pointer; transition: background 0.15s; }
+    .btn-back { border-right: 1px solid #000; background: #fff; color: #000; }
+    .btn-back:hover { background: #f0f0f0; }
+    .btn-next { background: #000; color: #fff; }
+    .btn-next:hover { background: #333; }
+    .right-panel { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+    .episodes-section { flex: 1; }
+    .episodes-list-header { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 50px; border-bottom: 1px solid #000; position: sticky; top: 0; background: #fff; z-index: 10; }
+    .episodes-list-header h2 { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #000; }
+    .episodes-list-header span { font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868; }
+    .episode-item { display: flex; align-items: flex-start; gap: 16px; padding: 20px 24px; border-bottom: 1px solid #e0e0e0; cursor: pointer; transition: background 0.15s; text-decoration: none; color: #000; }
+    .episode-item:hover { background: #f8f8f8; }
+    .episode-item.active { background: #f0f0f0; }
+    .ep-item-num { font-size: 13px; font-weight: 400; color: #686868; text-transform: uppercase; flex-shrink: 0; width: 28px; padding-top: 2px; }
+    .ep-item-content { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+    .ep-item-title { font-size: 16px; font-weight: 700; text-transform: uppercase; line-height: 1.2; color: #000; }
+    .ep-item-desc { font-size: 13px; font-weight: 400; color: #686868; line-height: 1.4; }
+    .ep-item-meta { display: flex; gap: 12px; align-items: center; font-size: 11px; font-weight: 400; text-transform: uppercase; color: #686868; margin-top: 4px; }
+    .ep-item-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    .ep-duration { font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868; }
+    .ep-play-icon { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid #000; background: #fff; transition: background 0.15s; }
+    .ep-play-icon svg { width: 10px; height: 10px; fill: #000; stroke: none; }
+    .episode-item:hover .ep-play-icon, .episode-item.active .ep-play-icon { background: #000; }
+    .episode-item:hover .ep-play-icon svg, .episode-item.active .ep-play-icon svg { fill: #fff; }
+    .other-section { border-top: 1px solid #000; }
+    .other-header { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 50px; border-bottom: 1px solid #000; position: sticky; top: 0; background: #fff; z-index: 10; }
+    .other-header h2 { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #000; }
+    .other-podcasts-grid { display: grid; grid-template-columns: repeat(2, 1fr); }
+    .other-pod-card { border: 1px solid #000; margin: -1px 0 0 -1px; display: flex; flex-direction: column; text-decoration: none; color: #000; transition: background 0.15s; overflow: hidden; }
+    .other-pod-card:hover { background: #f8f8f8; }
+    .other-cassette { display: flex; align-items: center; justify-content: center; padding: 24px 32px; border-bottom: 1px solid #000; }
+    .other-cassette img { width: 100%; max-width: 180px; height: auto; object-fit: contain; }
+    .other-pod-info { padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+    .other-pod-title { font-size: 14px; font-weight: 800; text-transform: uppercase; line-height: 1.2; }
+    .other-pod-eps { font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868; }
+  </style>
 </head>
-<body class="podcasts">
-    <main class="main main-podcasts">
-        <h1>ПЛЕЕР №2</h1>
-    </main>
+<body>
+  <nav class="top-nav">
+    <a href="/index.html" class="nav-logo">CASE ATLAS</a>
+    <div class="nav-links">
+      <a href="/index.html" class="nav-link">[ГЛАВНАЯ]</a>
+      <a href="/pages/articles.html" class="nav-link">[СТАТЬИ]</a>
+      <a href="/pages/podcast-types.html" class="nav-link active">[ПОДКАСТЫ]</a>
+      <a href="/pages/test-types.html" class="nav-link">[ТЕСТЫ]</a>
+      <a href="#" class="nav-link">[О НАС]</a>
+    </div>
+    <a href="#" class="nav-copy">© 2026 HSE STUDY PROJECT <svg style="width:10px;height:10px;stroke:currentColor;fill:none" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+  </nav>
+  <aside class="left-sidebar"><button class="hamburger-btn" aria-label="Меню"><div class="hamburger-lines"><span></span><span></span><span></span></div></button></aside>
+  <aside class="right-sidebar"></aside>
+
+  <div class="split-layout">
+    <div class="left-panel">
+      <div class="cassette-display">
+        <img id="cassetteImg" src="../../imgs/cassette-2.png" alt="Следователь онлайн" />
+      </div>
+      <div class="player-controls">
+        <button class="ctrl-btn" id="prevBtn"><svg viewBox="0 0 14 14" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2V12M12 2L6 7L12 12V2Z"/></svg></button>
+        <button class="ctrl-btn" id="rewindBtn"><svg viewBox="0 0 14 14" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a4 4 0 1 1 4 4"/><path d="M5 5L3 7L1 5"/></svg></button>
+        <button class="ctrl-btn play-pause" id="playPauseBtn"><svg id="playIcon" viewBox="0 0 16 16" fill="none"><path d="M5 3L13 8L5 13V3Z" fill="#fff"/></svg></button>
+        <button class="ctrl-btn" id="forwardBtn"><svg viewBox="0 0 14 14" stroke-linecap="round" stroke-linejoin="round"><path d="M11 7a4 4 0 1 0-4 4"/><path d="M9 5L11 7L13 5"/></svg></button>
+        <button class="ctrl-btn" id="nextBtn"><svg viewBox="0 0 14 14" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2V12M2 2L8 7L2 12V2Z"/></svg></button>
+      </div>
+      <div style="padding: 10px 20px; border-bottom: 1px solid #000; flex-shrink: 0;">
+        <div class="progress-wrap">
+          <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressFill"></div></div>
+          <div class="progress-times"><span id="currentTime">0:00</span><span id="totalTime">35:00</span></div>
+        </div>
+      </div>
+      <div class="episode-info">
+        <p class="episode-number" id="epNumber">ВЫПУСК 01 · 35 МИН</p>
+        <h2 class="episode-title" id="epTitle">Дактилоскопия: история отпечатков</h2>
+        <p class="episode-desc" id="epDesc">Как идентификация по пальцам изменила криминалистику</p>
+        <div class="episode-meta"><span id="epDate">10/06/2025</span></div>
+        <div class="episode-tags"><span class="tag">криминалистика</span><span class="tag">наука</span></div>
+      </div>
+      <div class="panel-nav">
+        <a href="/pages/podcast-types.html" class="btn-back">ВЕРНУТЬСЯ К ПОДКАСТАМ</a>
+        <button class="btn-next">СЛУШАТЬ ПОЛНОСТЬЮ →</button>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="episodes-section">
+        <div class="episodes-list-header">
+          <h2>Все выпуски — Следователь онлайн</h2>
+          <span>8 эпизодов</span>
+        </div>
+        <div class="episode-item active" data-idx="0"><span class="ep-item-num">01</span><div class="ep-item-content"><p class="ep-item-title">Дактилоскопия: история отпечатков</p><p class="ep-item-desc">Как идентификация по пальцам изменила криминалистику</p><div class="ep-item-meta"><span>10/06/2025</span><span>криминалистика</span></div></div><div class="ep-item-right"><span class="ep-duration">35 МИН</span><div class="ep-play-icon"><svg viewBox="0 0 10 10"><path d="M2 1L9 5L2 9V1Z" fill="#000"/></svg></div></div></div>
+        <div class="episode-item" data-idx="1"><span class="ep-item-num">02</span><div class="ep-item-content"><p class="ep-item-title">Цифровые следы: интернет всё помнит</p><p class="ep-item-desc">Как сыщики раскрывают преступления через соцсети</p><div class="ep-item-meta"><span>03/06/2025</span><span>технологии</span></div></div><div class="ep-item-right"><span class="ep-duration">42 МИН</span><div class="ep-play-icon"><svg viewBox="0 0 10 10"><path d="M2 1L9 5L2 9V1Z" fill="#000"/></svg></div></div></div>
+        <div class="episode-item" data-idx="2"><span class="ep-item-num">03</span><div class="ep-item-content"><p class="ep-item-title">ДНК-экспертиза в суде</p><p class="ep-item-desc">Разбираем реальные дела, где геном стал главным доказательством</p><div class="ep-item-meta"><span>27/05/2025</span><span>наука</span></div></div><div class="ep-item-right"><span class="ep-duration">39 МИН</span><div class="ep-play-icon"><svg viewBox="0 0 10 10"><path d="M2 1L9 5L2 9V1Z" fill="#000"/></svg></div></div></div>
+        <div class="episode-item" data-idx="3"><span class="ep-item-num">04</span><div class="ep-item-content"><p class="ep-item-title">Профайлинг преступников</p><p class="ep-item-desc">Как психологический портрет помогает ловить преступников</p><div class="ep-item-meta"><span>20/05/2025</span><span>психология</span></div></div><div class="ep-item-right"><span class="ep-duration">44 МИН</span><div class="ep-play-icon"><svg viewBox="0 0 10 10"><path d="M2 1L9 5L2 9V1Z" fill="#000"/></svg></div></div></div>
+        <div class="episode-item" data-idx="4"><span class="ep-item-num">05</span><div class="ep-item-content"><p class="ep-item-title">Судебная экспертиза: от слов к фактам</p><p class="ep-item-desc">Что эксперты видят там, где другие видят пустоту</p><div class="ep-item-meta"><span>13/05/2025</span><span>криминалистика</span></div></div><div class="ep-item-right"><span class="ep-duration">36 МИН</span><div class="ep-play-icon"><svg viewBox="0 0 10 10"><path d="M2 1L9 5L2 9V1Z" fill="#000"/></svg></div></div></div>
+        <div class="episode-item" data-idx="5"><span class="ep-item-num">06</span><div class="ep-item-content"><p class="ep-item-title">Трасология: улики под ногами</p><p class="ep-item-desc">Как следы обуви, шин и орудий указывают на преступника</p><div class="ep-item-meta"><span>06/05/2025</span><span>криминалистика</span></div></div><div class="ep-item-right"><span class="ep-duration">33 МИН</span><div class="ep-play-icon"><svg viewBox="0 0 10 10"><path d="M2 1L9 5L2 9V1Z" fill="#000"/></svg></div></div></div>
+        <div class="episode-item" data-idx="6"><span class="ep-item-num">07</span><div class="ep-item-content"><p class="ep-item-title">Баллистика: говорит пуля</p><p class="ep-item-desc">Что может рассказать гильза о том, кто нажал на курок</p><div class="ep-item-meta"><span>29/04/2025</span><span>наука</span></div></div><div class="ep-item-right"><span class="ep-duration">40 МИН</span><div class="ep-play-icon"><svg viewBox="0 0 10 10"><path d="M2 1L9 5L2 9V1Z" fill="#000"/></svg></div></div></div>
+        <div class="episode-item" data-idx="7"><span class="ep-item-num">08</span><div class="ep-item-content"><p class="ep-item-title">Виртуальная реконструкция преступления</p><p class="ep-item-desc">Как 3D-технологии восстанавливают события преступления</p><div class="ep-item-meta"><span>22/04/2025</span><span>технологии</span></div></div><div class="ep-item-right"><span class="ep-duration">45 МИН</span><div class="ep-play-icon"><svg viewBox="0 0 10 10"><path d="M2 1L9 5L2 9V1Z" fill="#000"/></svg></div></div></div>
+      </div>
+
+      <div class="other-section">
+        <div class="other-header"><h2>Другие подкасты</h2></div>
+        <div class="other-podcasts-grid">
+          <a href="/pages/podcast-types/podcast1.html" class="other-pod-card"><div class="other-cassette"><img src="../../imgs/cassette-1.png" alt="Криминальная хроника" /></div><div class="other-pod-info"><p class="other-pod-title">Криминальная хроника</p><p class="other-pod-eps">12 эпизодов</p></div></a>
+          <a href="/pages/podcast-types/podcast3.html" class="other-pod-card"><div class="other-cassette"><img src="../../imgs/cassette-1.png" alt="Дело живёт" /></div><div class="other-pod-info"><p class="other-pod-title">Дело живёт</p><p class="other-pod-eps">6 эпизодов</p></div></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const EPISODES = [
+      { num:'01', title:'Дактилоскопия: история отпечатков', desc:'Как идентификация по пальцам изменила криминалистику', date:'10/06/2025', dur:'35:00' },
+      { num:'02', title:'Цифровые следы: интернет всё помнит', desc:'Как сыщики раскрывают преступления через соцсети', date:'03/06/2025', dur:'42:00' },
+      { num:'03', title:'ДНК-экспертиза в суде', desc:'Разбираем реальные дела, где геном стал главным доказательством', date:'27/05/2025', dur:'39:00' },
+      { num:'04', title:'Профайлинг преступников', desc:'Как психологический портрет помогает ловить преступников', date:'20/05/2025', dur:'44:00' },
+      { num:'05', title:'Судебная экспертиза: от слов к фактам', desc:'Что эксперты видят там, где другие видят пустоту', date:'13/05/2025', dur:'36:00' },
+      { num:'06', title:'Трасология: улики под ногами', desc:'Как следы обуви, шин и орудий указывают на преступника', date:'06/05/2025', dur:'33:00' },
+      { num:'07', title:'Баллистика: говорит пуля', desc:'Что может рассказать гильза о том, кто нажал на курок', date:'29/04/2025', dur:'40:00' },
+      { num:'08', title:'Виртуальная реконструкция преступления', desc:'Как 3D-технологии восстанавливают события преступления', date:'22/04/2025', dur:'45:00' },
+    ];
+    let currentIdx=0, isPlaying=false, progressInterval=null, progressSec=0;
+    const playPauseBtn=document.getElementById('playPauseBtn'), playIcon=document.getElementById('playIcon'), progressFill=document.getElementById('progressFill'), currentTimeEl=document.getElementById('currentTime'), totalTimeEl=document.getElementById('totalTime'), cassetteImg=document.getElementById('cassetteImg');
+    function parseDur(s){const[m,sec]=s.split(':').map(Number);return m*60+(sec||0);}
+    function fmtTime(s){const m=Math.floor(s/60),sec=s%60;return`${m}:${sec.toString().padStart(2,'0')}`;}
+    function loadEpisode(idx){currentIdx=idx;const ep=EPISODES[idx];document.getElementById('epNumber').textContent=`ВЫПУСК ${ep.num} · ${ep.dur} МИН`;document.getElementById('epTitle').textContent=ep.title;document.getElementById('epDesc').textContent=ep.desc;document.getElementById('epDate').textContent=ep.date;totalTimeEl.textContent=ep.dur;progressSec=0;progressFill.style.width='0%';currentTimeEl.textContent='0:00';document.querySelectorAll('.episode-item').forEach((el,i)=>el.classList.toggle('active',i===idx));if(isPlaying)startProgress();}
+    function startProgress(){clearInterval(progressInterval);const total=parseDur(EPISODES[currentIdx].dur);progressInterval=setInterval(()=>{if(progressSec>=total){clearInterval(progressInterval);return;}progressSec++;progressFill.style.width=(progressSec/total*100)+'%';currentTimeEl.textContent=fmtTime(progressSec);},1000);}
+    playPauseBtn.addEventListener('click',()=>{isPlaying=!isPlaying;if(isPlaying){playIcon.innerHTML='<rect x="3" y="3" width="3" height="10" fill="#fff"/><rect x="8" y="3" width="3" height="10" fill="#fff"/>';cassetteImg.classList.add('spinning');startProgress();}else{playIcon.innerHTML='<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>';cassetteImg.classList.remove('spinning');clearInterval(progressInterval);}});
+    document.getElementById('prevBtn').addEventListener('click',()=>{if(currentIdx>0){isPlaying=false;playIcon.innerHTML='<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>';cassetteImg.classList.remove('spinning');clearInterval(progressInterval);loadEpisode(currentIdx-1);}});
+    document.getElementById('nextBtn').addEventListener('click',()=>{if(currentIdx<EPISODES.length-1){isPlaying=false;playIcon.innerHTML='<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>';cassetteImg.classList.remove('spinning');clearInterval(progressInterval);loadEpisode(currentIdx+1);}});
+    document.getElementById('rewindBtn').addEventListener('click',()=>{progressSec=Math.max(0,progressSec-15);const total=parseDur(EPISODES[currentIdx].dur);progressFill.style.width=(progressSec/total*100)+'%';currentTimeEl.textContent=fmtTime(progressSec);});
+    document.getElementById('forwardBtn').addEventListener('click',()=>{const total=parseDur(EPISODES[currentIdx].dur);progressSec=Math.min(total,progressSec+15);progressFill.style.width=(progressSec/total*100)+'%';currentTimeEl.textContent=fmtTime(progressSec);});
+    document.querySelectorAll('.episode-item').forEach((el,i)=>{el.addEventListener('click',()=>{isPlaying=true;playIcon.innerHTML='<rect x="3" y="3" width="3" height="10" fill="#fff"/><rect x="8" y="3" width="3" height="10" fill="#fff"/>';cassetteImg.classList.add('spinning');clearInterval(progressInterval);loadEpisode(i);startProgress();});});
+  </script>
 </body>
 </html>
