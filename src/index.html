@@ -1,161 +1,734 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/src/imgs/icons/logo.svg" />
-    <title>Case Atlas</title>
-  </head>
-  <body class="promo">
-    <section class="start-screen">
-      <p class="h1">We <img src="./imgs/start-screen/3.png" alt="">won't make forget what<img src="./imgs/start-screen/1.png" alt="">you saw<img src="./imgs/start-screen/2.png" alt="">remember.</p>
-      <nav class="start-screen-nav">
-        <button class="btn">читать дальше</button>
-        <img src="./imgs/icons/arrow-right.svg" alt="">
-      </nav>
-    </section>
-    <main class="main main-promo">
-      <a href="./pages/articles.html">
-        <div class="title">
-          <h1>Cтатьи</h1>
-          <img src="./imgs/icons/arrow-right-white.svg" alt="стрелка">
-        </div>
-      </a>
-      <div class="subtitle">
-        <p class="p1">изучи криминальный мир. cамые яркие заголовки последних лет</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Atlas</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background: #000;
+      color: #fff;
+      font-family: "Hauora", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { background: none; border: none; cursor: pointer; color: inherit; font-family: inherit; }
+
+    /* ── Above-fold section ── */
+    .main-section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #000;
+      overflow: hidden;
+    }
+
+    /* Top nav */
+    .top-nav {
+      height: 30px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #fff;
+      padding: 0 40px;
+    }
+
+    .nav-logo {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .nav-link {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #686868;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover { color: #fff; }
+    .nav-link.active { color: #fff; }
+
+    .nav-copy {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #686868;
+      transition: color 0.2s;
+    }
+
+    .nav-copy:hover { color: #fff; }
+
+    /* Middle row */
+    .middle-row {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* Left sidebar */
+    .left-sidebar {
+      width: 20px;
+      flex-shrink: 0;
+      border-right: 1px solid #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hamburger-btn {
+      height: 122px;
+      width: 100%;
+      border-bottom: 1px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .hamburger-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .hamburger-lines span {
+      display: block;
+      width: 8px;
+      height: 1px;
+      background: #fff;
+      border-radius: 25px;
+    }
+
+    /* Bento grid */
+    .bento-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      border-right: 1px solid #fff;
+    }
+
+    /* Bento cells */
+    .bento-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .bento-cell:hover { background-color: rgba(255,255,255,0.05); }
+
+    .cell-statii {
+      grid-column: 1 / span 2;
+      grid-row: 1 / span 2;
+      border-bottom: 1px solid #fff;
+      border-right: 1px solid #fff;
+    }
+
+    .cell-podcasts-header {
+      grid-column: 3 / span 2;
+      grid-row: 1;
+      border-bottom: 1px solid #fff;
+    }
+
+    .cell-onas {
+      grid-column: 1;
+      grid-row: 3;
+      border-right: 1px solid #fff;
+    }
+
+    .cell-testy {
+      grid-column: 2 / span 3;
+      grid-row: 3;
+    }
+
+    .cell-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .cell-title h2 {
+      font-size: 32px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+      color: #fff;
+    }
+
+    .cell-desc {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.3;
+      color: #fff;
+    }
+
+    /* Podcast list cell */
+    .podcast-list-cell {
+      grid-column: 3 / span 2;
+      grid-row: 2;
+      border: 1px solid #fff;
+      display: flex;
+      flex-direction: column;
+      divide-color: #fff;
+    }
+
+    .podcast-row {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 1px solid #fff;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .podcast-row:last-child { border-bottom: none; }
+    .podcast-row:hover { background-color: rgba(255,255,255,0.05); }
+
+    .podcast-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .podcast-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #d9d9d9;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .podcast-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      mix-blend-mode: luminosity;
+    }
+
+    .podcast-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .podcast-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .podcast-date {
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #d1d1d1;
+      line-height: 1;
+    }
+
+    .podcast-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
+    .podcast-action {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #d1d1d1;
+    }
+
+    .podcast-duration {
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .podcast-dots {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      width: 28px;
+    }
+
+    .podcast-dots span {
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    /* Bottom authors bar */
+    .authors-bar {
+      height: 30px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      border-top: 1px solid #fff;
+      padding: 0 40px;
+      gap: 15px;
+    }
+
+    .author-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #686868;
+      transition: color 0.2s;
+    }
+
+    .author-link:hover { color: #fff; }
+
+    /* ── Footer: white media links ── */
+    .footer-media {
+      background: #fff;
+      display: flex;
+      height: 202px;
+      flex-shrink: 0;
+    }
+
+    .footer-media-link {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      border: 1px solid #000;
+      padding: 20px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      color: #000;
+    }
+
+    .footer-media-link:hover { background: #f0f0f0; }
+
+    .footer-media-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .footer-media-title span {
+      font-size: 32px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+      color: #000;
+    }
+
+    .footer-subscribe {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-subscribe-top {
+      flex: 1;
+      border: 1px solid #000;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-subscribe-top span {
+      font-size: 32px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #000;
+      line-height: 1.25;
+      max-width: 274px;
+    }
+
+    .footer-email-row {
+      height: 35px;
+      border: 1px solid #000;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .footer-email-row span {
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 300;
+      color: #d1d1d1;
+    }
+
+    /* ── Footer: black info row ── */
+    .footer-info {
+      background: #000;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 20px;
+      height: 285px;
+      flex-shrink: 0;
+    }
+
+    .footer-hse-logo {
+      height: calc(285px - 40px);
+      aspect-ratio: 164 / 65.74;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .footer-hse-logo img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      object-position: left;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: flex-start;
+      gap: 48px;
+    }
+
+    .footer-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links-col-title {
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .footer-link-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #686868;
+      transition: color 0.2s;
+    }
+
+    .footer-link-item:hover { color: #fff; }
+
+    .footer-caseatlas-logo {
+      width: 65px;
+      height: 59px;
+      flex-shrink: 0;
+    }
+
+    .footer-caseatlas-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* ── SVG Arrow icons ── */
+    .icon-arrow-right {
+      width: 13px;
+      height: 9px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .icon-arrow-upright {
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .icon-arrow-down {
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Above-fold section ── -->
+  <section class="main-section">
+
+    <!-- Top nav bar -->
+    <nav class="top-nav">
+      <span class="nav-logo">CASE ATLAS</span>
+
+      <div class="nav-links">
+        <span class="nav-link active">[ГЛАВНАЯ]</span>
+        <a href="#" class="nav-link">[СТАТЬИ]</a>
+        <a href="#" class="nav-link">[ПОДКАСТЫ]</a>
+        <a href="#" class="nav-link">[ТЕСТЫ]</a>
+        <a href="#" class="nav-link">[О НАС]</a>
       </div>
-      <article class="articles-sec">
-        <a href="./pages/articles/article1.html">
-          <div class="card">
-            <div class="card__front">
-              <p class="p2 card__title">Заголовок</p>
-              <img src="./imgs/icons/card-icon-white.svg" alt="card__icon" class="card__icon">
-              <div class="tags">
-                <span class="tag">криминалистика</span>
-                <span class="tag">новости</span>
+
+      <a href="#" class="nav-copy">
+        © 2026 HSE STUDY PROJECT
+        <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
+      </a>
+    </nav>
+
+    <!-- Middle row: left sidebar + bento grid -->
+    <div class="middle-row">
+
+      <!-- Left sidebar -->
+      <aside class="left-sidebar">
+        <button class="hamburger-btn" aria-label="Меню">
+          <div class="hamburger-lines">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </aside>
+
+      <!-- Bento grid: 4 cols × 3 rows -->
+      <div class="bento-grid">
+
+        <!-- СТАТЬИ: col 1-2, row 1-2 -->
+        <a href="#" class="bento-cell cell-statii">
+          <div class="cell-title">
+            <h2>СТАТЬИ</h2>
+            <svg class="icon-arrow-right" viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+          </div>
+          <p class="cell-desc">Слушай истории про криминалистику в интерактивном формате</p>
+        </a>
+
+        <!-- ПОДКАСТЫ header: col 3-4, row 1 -->
+        <a href="#" class="bento-cell cell-podcasts-header">
+          <div class="cell-title">
+            <h2>ПОДКАСТЫ</h2>
+            <svg class="icon-arrow-right" viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+          </div>
+          <p class="cell-desc">Слушай истории про криминалистику в интерактивном формате</p>
+        </a>
+
+        <!-- Podcast list: col 3-4, row 2 -->
+        <div class="podcast-list-cell">
+
+          <div class="podcast-row">
+            <div class="podcast-left">
+              <div class="podcast-avatar">
+                <img src="imgs/podcast-avatar.png" alt="Дело перевала Дятлова" />
+              </div>
+              <div class="podcast-meta">
+                <span class="podcast-title">Дело перевала Дятлова</span>
+                <span class="podcast-date">22/06/2025</span>
               </div>
             </div>
-            <div class="card__back">
-              <p class="p2 card__title">Заголовок</p>
-              <img src="./imgs/icons/card-icon-black.svg" alt="card__icon" class="card__icon">
-              <div class="tags">
-                <span class="tag">криминалистика</span>
-                <span class="tag">новости</span>
-              </div>
+            <div class="podcast-right">
+              <span class="podcast-action">СЛУШАТЬ НА ЯНДЕКС МУЗЫКА
+                <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
+              </span>
+              <span class="podcast-action">ЧИТАТЬ СТАТЬЮ
+                <svg class="icon-arrow-down" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1V9M5 9L2 6M5 9L8 6"/></svg>
+              </span>
+              <span class="podcast-duration">03:47</span>
+              <div class="podcast-dots"><span></span><span></span><span></span></div>
             </div>
           </div>
-        </a>
-        <a href="./pages/articles/article1.html">
-          <div class="card">
-            <div class="card__front">
-              <p class="p2 card__title">Заголовок</p>
-              <img src="./imgs/icons/card-icon-white.svg" alt="card__icon" class="card__icon">
-              <div class="tags">
-                <span class="tag">криминалистика</span>
-                <span class="tag">новости</span>
+
+          <div class="podcast-row">
+            <div class="podcast-left">
+              <div class="podcast-avatar">
+                <img src="imgs/podcast-avatar.png" alt="Дело перевала Дятлова" />
+              </div>
+              <div class="podcast-meta">
+                <span class="podcast-title">Дело перевала Дятлова</span>
+                <span class="podcast-date">22/06/2025</span>
               </div>
             </div>
-            <div class="card__back">
-              <p class="p2 card__title">Заголовок</p>
-              <img src="./imgs/icons/card-icon-black.svg" alt="card__icon" class="card__icon">
-              <div class="tags">
-                <span class="tag">криминалистика</span>
-                <span class="tag">новости</span>
-              </div>
+            <div class="podcast-right">
+              <span class="podcast-action">СЛУШАТЬ НА ЯНДЕКС МУЗЫКА
+                <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
+              </span>
+              <span class="podcast-action">ЧИТАТЬ СТАТЬЮ
+                <svg class="icon-arrow-down" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1V9M5 9L2 6M5 9L8 6"/></svg>
+              </span>
+              <span class="podcast-duration">03:47</span>
+              <div class="podcast-dots"><span></span><span></span><span></span></div>
             </div>
           </div>
-        </a>
-        <a href="./pages/articles/article1.html">
-          <div class="card">
-            <div class="card__front">
-              <p class="p2 card__title">Заголовок</p>
-              <img src="./imgs/icons/card-icon-white.svg" alt="card__icon" class="card__icon">
-              <div class="tags">
-                <span class="tag">криминалистика</span>
-                <span class="tag">новости</span>
+
+          <div class="podcast-row">
+            <div class="podcast-left">
+              <div class="podcast-avatar">
+                <img src="imgs/podcast-avatar.png" alt="Дело перевала Дятлова" />
+              </div>
+              <div class="podcast-meta">
+                <span class="podcast-title">Дело перевала Дятлова</span>
+                <span class="podcast-date">22/06/2025</span>
               </div>
             </div>
-            <div class="card__back">
-              <p class="p2 card__title">Заголовок</p>
-              <img src="./imgs/icons/card-icon-black.svg" alt="card__icon" class="card__icon">
-              <div class="tags">
-                <span class="tag">криминалистика</span>
-                <span class="tag">новости</span>
-              </div>
+            <div class="podcast-right">
+              <span class="podcast-action">СЛУШАТЬ НА ЯНДЕКС МУЗЫКА
+                <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
+              </span>
+              <span class="podcast-action">ЧИТАТЬ СТАТЬЮ
+                <svg class="icon-arrow-down" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1V9M5 9L2 6M5 9L8 6"/></svg>
+              </span>
+              <span class="podcast-duration">03:47</span>
+              <div class="podcast-dots"><span></span><span></span><span></span></div>
             </div>
           </div>
-        </a>
-      </article>
 
-      <a href="./pages/podcast-types.html">
-        <div class="title">
-          <h1>Подкасты</h1>
-          <img src="./imgs/icons/arrow-right-white.svg" alt="стрелка">
-        </div>
-      </a>
-      <div class="subtitle">
-        <p class="p1">слушай истории про криминалистику в интерактивном формате</p>
-      </div>
-      <article class="podcasts-sec">
-        <img src="./imgs/icons/cassets.png" alt="">
-      </article>
-
-      <a href="./pages/test-types.html">
-        <div class="title">
-          <h1>Тесты</h1>
-          <img src="./imgs/icons/arrow-right-white.svg" alt="стрелка">
-        </div>
-      </a>
-      <div class="subtitle">
-        <p class="p1">проверь знания и смекалку с помощью тестовых заданий</p>
-      </div>
-      <article class="tests-sec table">
-        <div class="tests-sec-item-1 table-item"></div>
-        <a class="tests-sec-item-2 table-btn p1" href="./pages/test-types/tests1.html">ТЕСТ-РАССЛЕДОВАНИЕ</a>
-        <a class="tests-sec-item-3 table-btn p1" href="./pages/test-types/tests2.html">ТЕСТ-ПОИСК</a>
-        <a class="tests-sec-item-4 table-btn p1" href="./pages/test-types/tests3.html">ТЕСТ-УЗНАЙ.СЕБЯ</a>
-        <a class="tests-sec-item-5 table-btn p1" href="./pages/test-types/tests4.html">ТЕСТ-ВСПОМНИ.УЛИКИ</a>
-        <div class="tests-sec-item-6 table-item"></div>
-        <div class="tests-sec-item-7 table-item"></div>
-        <div class="tests-sec-item-8 table-item">
-          <!-- <a href="./pages/articles/article1.html">
-            <div class="card">
-              <div class="card__front">
-                <p class="p2 card__title">Заголовок</p>
-                <img src="./imgs/icons/card-icon-white.svg" alt="card__icon" class="card__icon">
-                <div class="tags">
-                  <span class="tag">криминалистика</span>
-                  <span class="tag">новости</span>
-                </div>
+          <div class="podcast-row">
+            <div class="podcast-left">
+              <div class="podcast-avatar">
+                <img src="imgs/podcast-avatar.png" alt="Дело перевала Дятлова" />
               </div>
-              <div class="card__back">
-                <p class="p2 card__title">Заголовок</p>
-                <img src="./imgs/icons/card-icon-black.svg" alt="card__icon" class="card__icon">
-                <div class="tags">
-                  <span class="tag">криминалистика</span>
-                  <span class="tag">новости</span>
-                </div>
+              <div class="podcast-meta">
+                <span class="podcast-title">Дело перевала Дятлова</span>
+                <span class="podcast-date">22/06/2025</span>
               </div>
             </div>
-          </a> -->
+            <div class="podcast-right">
+              <span class="podcast-action">СЛУШАТЬ НА ЯНДЕКС МУЗЫКА
+                <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
+              </span>
+              <span class="podcast-action">ЧИТАТЬ СТАТЬЮ
+                <svg class="icon-arrow-down" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M5 1V9M5 9L2 6M5 9L8 6"/></svg>
+              </span>
+              <span class="podcast-duration">03:47</span>
+              <div class="podcast-dots"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+
         </div>
-      </article>
 
-      <div class="title">
-        <h1>Мерч</h1>
-      </div>
-      <div class="subtitle">
-        <p class="p1">приобретай наш фирменный мерч</p>
-      </div>
-      <arcticle class="merch-sec table">
-        <div class="merch-sec-item-1 table-item"></div>
-        <div class="merch-sec-item-2 table-btn p1">Стикеры</div>
-        <div class="merch-sec-item-3 table-btn p1">Брелки с номерами</div>
-        <div class="merch-sec-item-4 table-btn p1">Карты для игры</div>
-        <div class="merch-sec-item-5 table-btn p1">Ленты для упаковки</div>
-        <div class="merch-sec-item-6 table-item"></div>
-      </article>
+        <!-- О НАС: col 1, row 3 -->
+        <a href="#" class="bento-cell cell-onas">
+          <div class="cell-title">
+            <h2>О НАС</h2>
+            <svg class="icon-arrow-right" viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+          </div>
+          <p class="cell-desc">Слушай истории про криминалистику в интерактивном формате</p>
+        </a>
 
-    </main>
-  </body>
+        <!-- ТЕСТЫ: col 2-4, row 3 -->
+        <a href="#" class="bento-cell cell-testy">
+          <div class="cell-title">
+            <h2>ТЕСТЫ</h2>
+            <svg class="icon-arrow-right" viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+          </div>
+          <p class="cell-desc">Слушай истории про криминалистику в интерактивном формате</p>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Bottom authors bar -->
+    <div class="authors-bar">
+      <a href="#" class="author-link">МАЩЕНКО <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+      <a href="#" class="author-link">АКДУЛУН <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+      <a href="#" class="author-link">НЕСТЕРКИНА <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+    </div>
+
+  </section>
+
+  <!-- ── Footer: white media links ── -->
+  <div class="footer-media">
+    <a href="#" class="footer-media-link">
+      <div class="footer-media-title">
+        <span>ТЕЛЕГРАММ</span>
+        <svg class="icon-arrow-right" style="stroke:#000" viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+      </div>
+    </a>
+    <a href="#" class="footer-media-link">
+      <div class="footer-media-title">
+        <span>ВКОНТАКТЕ</span>
+        <svg class="icon-arrow-right" style="stroke:#000" viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+      </div>
+    </a>
+    <a href="#" class="footer-media-link">
+      <div class="footer-media-title">
+        <span>ЯНДЕКС_МУЗЫКА</span>
+        <svg class="icon-arrow-right" style="stroke:#000" viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+      </div>
+    </a>
+    <div class="footer-subscribe">
+      <div class="footer-subscribe-top">
+        <span>Подпишись на рассылку</span>
+      </div>
+      <div class="footer-email-row">
+        <span>your-mail.ru</span>
+        <svg class="icon-arrow-right" style="stroke:#000" viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer: black info row ── -->
+  <div class="footer-info">
+    <div class="footer-hse-logo">
+      <img src="imgs/logo-hse.png" alt="HSE Art and Design School" />
+    </div>
+    <div class="footer-right">
+      <div class="footer-links-col">
+        <span class="footer-links-col-title">МЕДИА</span>
+        <a href="#" class="footer-link-item">ВКОНТАКТЕ <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+        <a href="#" class="footer-link-item">ТЕЛЕГРАММ <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+        <a href="#" class="footer-link-item">ЯНДЕКС_МУЗЫКА <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+      </div>
+      <div class="footer-links-col">
+        <span class="footer-links-col-title">АВТОРЫ</span>
+        <a href="#" class="footer-link-item">МАЩЕНКО <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+        <a href="#" class="footer-link-item">АКДУЛУН <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+        <a href="#" class="footer-link-item">НЕСТЕРКИНА <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+      </div>
+      <div class="footer-caseatlas-logo">
+        <img src="imgs/logo-caseatlas.png" alt="Case Atlas" />
+      </div>
+    </div>
+  </div>
+
+</body>
 </html>
