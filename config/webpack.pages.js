@@ -9,7 +9,7 @@ function createPages(template, filename, chunks) {
 }
 
 const htmlPages = [
-  createPages('./src/index.html', './index.html', ['index', 'footer', 'menu', 'allStyles']),
+  createPages('./src/index.html', './index.html', ['index', 'footer', 'allStyles']),
   // createPages('./src/pages/files.html', './pages/files.html', ['header', 'menu', 'allStyles', 'footer']),
   createPages('./src/pages/about.html', './pages/about.html', ['menu', 'footer', 'allStyles', 'footer']),
   createPages('./src/pages/styleguide.html', './pages/styleguide.html', ['menu', 'footer', 'styleguide', 'allStyles', 'footer']),
