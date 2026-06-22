@@ -2,6 +2,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const htmlPages = require('./webpack.pages.js')
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+const HtmlWebpackPartialsPlugin = require('html-webpack-partials-plugin');
 
 const webpack = require('webpack')
 const path = require('path')
@@ -59,7 +61,25 @@ module.exports = {
       },
     ],
   },
-  plugins: [new MiniCssExtractPlugin(), ...htmlPages],
+  plugins: [
+    new MiniCssExtractPlugin(), ...htmlPages,
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, '../src/share/CNAME'),
+          to: path.resolve(__dirname, '../docs')
+        }
+      ]
+    }),
+    new HtmlWebpackPartialsPlugin([
+      {
+        path: path.join(__dirname, '../src/partials/analytics.html'),
+        priority: 'replace',
+        location: 'analytics',
+        template_filename: '*'
+      }
+    ])
+  ],
   // optimization: {
   //   minimizer: [new CssMinimizerPlugin()]
   // },
