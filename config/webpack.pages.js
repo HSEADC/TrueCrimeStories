@@ -21,6 +21,10 @@ const htmlPages = [
   
   createPages('./src/pages/articles.html', './pages/articles.html', ['header', 'menu', 'articles', 'allStyles', 'footer']),
   createPages('./src/pages/articles/article1.html', './pages/articles/article1.html', ['menu', 'allStyles', 'footer']),
+  createPages('./src/pages/articles/article2.html', './pages/articles/article2.html', ['menu', 'allStyles', 'footer']),
+  createPages('./src/pages/articles/article3.html', './pages/articles/article3.html', ['menu', 'allStyles', 'footer']),
+  createPages('./src/pages/articles/article4.html', './pages/articles/article4.html', ['menu', 'allStyles', 'footer']),
+  createPages('./src/pages/articles/article5.html', './pages/articles/article5.html', ['menu', 'allStyles', 'footer']),
   
   createPages('./src/pages/test-types.html', './pages/test-types.html', ['menu', 'allStyles']),
   createPages('./src/pages/test-types/tests1.html', './pages/test-types/tests1.html', ['header','menu', 'allStyles', 'footer']),
