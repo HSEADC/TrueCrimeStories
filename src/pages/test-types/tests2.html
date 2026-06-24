@@ -1,16 +1,309 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/src/imgs/icons/logo.svg" />
-    <title>Case Atlas</title>
-  </head>
-  <body class="tests">
-    
-    <main class="main main-tests">
-        <h1>ТЕСТ-ПОИСК</h1>
-    </main>
-    
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Atlas — Как ты реагируешь на стресс?</title>
+  <style>
+    .menu { display: none !important; }
+    h1, h2, h3, h4, h5, h6 { font-family: "Hauora", -apple-system, BlinkMacSystemFont, sans-serif !important; font-size: unset; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #fff; color: #000; font-family: "Hauora", -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button { background: none; border: none; cursor: pointer; color: inherit; font-family: inherit; }
+    .top-nav { position: fixed; top: 0; left: 0; right: 0; height: 30px; display: flex; align-items: center; justify-content: space-between; background: #000; border-bottom: 1px solid #fff; padding: 0 40px; z-index: 100; }
+    .nav-logo { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #fff; }
+    .nav-links { display: flex; align-items: center; gap: 15px; }
+    .nav-link { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; transition: color 0.2s; }
+    .nav-link:hover { color: #fff; }
+    .nav-link.active { color: #fff; }
+    .nav-copy { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; }
+    .nav-copy:hover { color: #fff; }
+    .left-sidebar { position: fixed; top: 30px; left: 0; bottom: 0; width: 20px; background: #000; border-right: 1px solid #fff; z-index: 80; display: flex; flex-direction: column; align-items: center; }
+    .hamburger-btn { width: 20px; height: 122px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #fff; cursor: pointer; flex-shrink: 0; }
+    .hamburger-lines { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+    .hamburger-lines span { display: block; width: 8px; height: 1px; background: #fff; border-radius: 2px; }
+    .right-sidebar { position: fixed; top: 30px; right: 0; bottom: 0; width: 20px; background: #000; border-left: 1px solid #fff; z-index: 80; }
+    .page-content { margin-top: 30px; margin-left: 20px; margin-right: 20px; display: flex; align-items: flex-start; }
+    .test-panel { width: 25%; flex-shrink: 0; border-right: 1px solid #000; position: sticky; top: 30px; min-height: calc(100vh - 30px); display: flex; flex-direction: column; }
+    .panel-info { padding: 20px; border-bottom: 1px solid #000; }
+    .panel-title { font-size: 22px; font-weight: 800; text-transform: uppercase; line-height: 1.2; color: #000; margin-bottom: 10px; }
+    .panel-subtitle { font-size: 14px; font-weight: 400; color: #000; line-height: 1.4; margin-bottom: 14px; }
+    .panel-meta-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .panel-meta-date { font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868; }
+    .panel-meta-time { font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868; }
+    .panel-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .panel-tag { border: 1px solid #000; border-radius: 100px; padding: 5px 10px; font-size: 11px; font-weight: 400; text-transform: uppercase; color: #000; line-height: 1; }
+    .panel-question { flex: 1; padding: 20px; display: flex; flex-direction: column; }
+    .question-counter { font-size: 12px; font-weight: 400; color: #686868; text-transform: uppercase; margin-bottom: 16px; }
+    .question-text { font-size: 18px; font-weight: 700; text-transform: uppercase; line-height: 1.3; color: #000; margin-bottom: 24px; }
+    .answers-list { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+    .answer-item { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+    .radio-circle { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #000; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+    .radio-circle::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; display: none; }
+    .answer-item.selected .radio-circle { background: #000; }
+    .answer-item.selected .radio-circle::after { display: block; }
+    .answer-label { font-size: 14px; font-weight: 400; color: #000; line-height: 1.4; }
+    .panel-result { display: none; flex: 1; flex-direction: column; padding: 20px; }
+    .panel-result.show { display: flex; }
+    .result-label { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; letter-spacing: 0.1em; margin-bottom: 12px; }
+    .result-type { font-size: 36px; font-weight: 800; text-transform: uppercase; line-height: 1.1; color: #000; margin-bottom: 16px; }
+    .result-desc { font-size: 14px; font-weight: 400; line-height: 1.5; color: #000; margin-bottom: 16px; }
+    .result-traits { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+    .result-trait { border: 1px solid #000; padding: 6px 10px; font-size: 12px; font-weight: 400; text-transform: uppercase; color: #000; }
+    .panel-nav { padding: 20px; border-top: 1px solid #000; display: flex; gap: 8px; }
+    .btn-back { flex: 1; padding: 10px 16px; background: #000; color: #fff; border: 1px solid #000; font-size: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: background 0.15s; text-align: center; }
+    .btn-back:hover { background: #333; }
+    .btn-back:disabled { background: #d1d1d1; border-color: #d1d1d1; cursor: default; }
+    .btn-next { flex: 1; padding: 10px 16px; background: #fff; color: #000; border: 1px solid #000; font-size: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: background 0.15s; text-align: center; }
+    .btn-next:hover { background: #f5f5f5; }
+    .cards-section { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .test-card { border: 1px solid #000; margin: -1px 0 0 -1px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 10px 10px 15px 10px; aspect-ratio: 321 / 428; position: relative; background: #fff; cursor: pointer; transition: background-color 0.2s; text-decoration: none; color: #000; }
+    .test-card:hover { background-color: #f8f8f8; }
+    .test-card.current { background: #f0f0f0; pointer-events: none; }
+    .card-cross { position: absolute; top: 50%; left: calc(50% + 6.6px); transform: translate(-50%, -50%); width: 113px; height: 113px; pointer-events: none; }
+    .card-cross::before, .card-cross::after { content: ""; position: absolute; background: #000; }
+    .card-cross::before { width: 1px; height: 100%; left: 50%; top: 0; }
+    .card-cross::after { width: 100%; height: 1px; left: 0; top: 50%; }
+    .card-text { display: flex; flex-direction: column; gap: 8px; width: 100%; position: relative; z-index: 1; }
+    .card-title { font-size: 16px; font-weight: 700; text-transform: uppercase; line-height: 1.2; color: #000; }
+    .card-subtitle { font-size: 14px; font-weight: 400; line-height: 1.2; color: #000; }
+    .card-meta { display: flex; flex-direction: column; gap: 8px; width: 100%; position: relative; z-index: 1; }
+    .card-info { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 400; text-transform: uppercase; color: #686868; }
+    .card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .tag { border: 1px solid #000; border-radius: 100px; padding: 5px 10px; font-size: 11px; font-weight: 400; text-transform: uppercase; color: #000; background: #fff; line-height: 1; }
+    .footer-media { background: #fff; display: flex; height: 202px; flex-shrink: 0; }
+    .footer-media-link { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; border: 1px solid #000; padding: 20px; cursor: pointer; transition: background-color 0.2s; }
+    .footer-media-link:hover { background: #f0f0f0; }
+    .footer-media-title { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .footer-media-title span { font-size: 32px; font-weight: 700; text-transform: uppercase; color: #000; line-height: 1; }
+    .footer-media-title svg { width: 13px; height: 9px; stroke: #000; fill: none; flex-shrink: 0; }
+    .footer-subscribe { flex: 1; display: flex; flex-direction: column; }
+    .footer-subscribe-top { flex: 1; border: 1px solid #000; padding: 20px; display: flex; flex-direction: column; }
+    .footer-subscribe-top span { font-size: 32px; font-weight: 700; text-transform: uppercase; color: #000; line-height: 1.25; max-width: 274px; }
+    .footer-email-row { height: 35px; border: 1px solid #000; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .footer-email-row span { font-size: 14px; text-transform: uppercase; font-weight: 300; color: #d1d1d1; }
+    .footer-email-row svg { width: 13px; height: 9px; stroke: #000; fill: none; }
+    .footer-info { background: #000; display: flex; align-items: flex-start; justify-content: space-between; padding: 20px; height: 285px; flex-shrink: 0; }
+    .footer-hse-logo { height: calc(285px - 40px); aspect-ratio: 164 / 65.74; flex-shrink: 0; }
+    .footer-hse-logo img { height: 100%; width: 100%; object-fit: contain; object-position: left; }
+    .footer-right { display: flex; align-items: flex-start; gap: 48px; }
+    .footer-links-col { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links-col-title { font-size: 18px; font-weight: 700; text-transform: uppercase; color: #fff; line-height: 1; }
+    .footer-link-item { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; transition: color 0.2s; }
+    .footer-link-item:hover { color: #fff; }
+    .footer-link-item svg { width: 10px; height: 10px; stroke: currentColor; fill: none; }
+    .footer-caseatlas-logo { width: 65px; height: 59px; flex-shrink: 0; }
+    .footer-caseatlas-logo img { width: 100%; height: 100%; object-fit: contain; }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <a href="/index.html" class="nav-logo">CASE ATLAS</a>
+    <div class="nav-links">
+      <a href="/index.html" class="nav-link">[ГЛАВНАЯ]</a>
+      <a href="/pages/articles.html" class="nav-link">[СТАТЬИ]</a>
+      <a href="/pages/podcast-types.html" class="nav-link">[ПОДКАСТЫ]</a>
+      <a href="/pages/test-types.html" class="nav-link active">[ТЕСТЫ]</a>
+      <a href="#" class="nav-link">[О НАС]</a>
+    </div>
+    <a href="#" class="nav-copy">© 2026 HSE STUDY PROJECT <svg style="width:10px;height:10px;stroke:currentColor;fill:none" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
+  </nav>
+  <aside class="left-sidebar"><button class="hamburger-btn" aria-label="Меню"><div class="hamburger-lines"><span></span><span></span><span></span></div></button></aside>
+  <aside class="right-sidebar"></aside>
+
+  <div class="page-content">
+    <div class="test-panel">
+      <div class="panel-info">
+        <h1 class="panel-title">Как ты реагируешь на стресс?</h1>
+        <p class="panel-subtitle">Узнай свою стратегию поведения в критических ситуациях — как следователи под давлением</p>
+        <div class="panel-meta-row">
+          <span class="panel-meta-date">15/07/2025</span>
+          <span class="panel-meta-time">3–5 МИН</span>
+        </div>
+        <div class="panel-tags">
+          <span class="panel-tag">ПСИХОЛОГИЯ</span>
+          <span class="panel-tag">СРЕДНЕЕ</span>
+        </div>
+      </div>
+      <div class="panel-question" id="questionArea"></div>
+      <div class="panel-result" id="resultArea">
+        <p class="result-label">Твоя стратегия в стрессе</p>
+        <h2 class="result-type" id="resultType">—</h2>
+        <p class="result-desc" id="resultDesc"></p>
+        <div class="result-traits" id="resultTraits"></div>
+      </div>
+      <div class="panel-nav" id="panelNav">
+        <button class="btn-back" id="btnBack" onclick="prevQ()" disabled>НАЗАД</button>
+        <button class="btn-next" id="btnNext" onclick="nextQ()">ВПЕРЕД</button>
+      </div>
+    </div>
+
+    <div class="cards-section">
+      <a href="/pages/test-types/tests1.html" class="test-card">
+        <div class="card-cross"></div>
+        <div class="card-text"><p class="card-title">Какой у тебя тип личности?</p><p class="card-subtitle">MBTI-тест в контексте криминальной психологии</p></div>
+        <div class="card-meta"><div class="card-info"><span>22/07/2025</span><span>3–4 мин</span></div><div class="card-tags"><span class="tag">узнай себя</span></div></div>
+      </a>
+      <a href="/pages/test-types/tests2.html" class="test-card current">
+        <div class="card-cross"></div>
+        <div class="card-text"><p class="card-title">Как ты реагируешь на стресс?</p><p class="card-subtitle">Твоя стратегия поведения под давлением</p></div>
+        <div class="card-meta"><div class="card-info"><span>15/07/2025</span><span>3–5 мин</span></div><div class="card-tags"><span class="tag">психология</span></div></div>
+      </a>
+      <a href="/pages/test-types/tests3.html" class="test-card">
+        <div class="card-cross"></div>
+        <div class="card-text"><p class="card-title">Ты лидер или наблюдатель?</p><p class="card-subtitle">Определи свою роль в команде следователей</p></div>
+        <div class="card-meta"><div class="card-info"><span>08/07/2025</span><span>3–4 мин</span></div><div class="card-tags"><span class="tag">лидерство</span></div></div>
+      </a>
+      <a href="/pages/test-types/tests4.html" class="test-card">
+        <div class="card-cross"></div>
+        <div class="card-text"><p class="card-title">Раскрой послание преступника</p><p class="card-subtitle">Тест на криминальное мышление и логику</p></div>
+        <div class="card-meta"><div class="card-info"><span>01/07/2025</span><span>4–6 мин</span></div><div class="card-tags"><span class="tag">расследование</span></div></div>
+      </a>
+
+      <div style="grid-column: 1 / -1;">
+        <div class="footer-media">
+          <a href="https://t.me/truecrimeHSE" target="_blank" class="footer-media-link"><div class="footer-media-title"><span>ТЕЛЕГРАММ</span><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></div></a>
+          <a href="https://vk.com/club233590630" target="_blank" class="footer-media-link"><div class="footer-media-title"><span>ВКОНТАКТЕ</span><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></div></a>
+          <a href="#" class="footer-media-link"><div class="footer-media-title"><span>ЯНДЕКС_МУЗЫКА</span><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></div></a>
+          <div class="footer-subscribe"><div class="footer-subscribe-top"><span>Подпишись на рассылку</span></div><div class="footer-email-row"><span>your-mail.ru</span><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></div></div>
+        </div>
+        <div class="footer-info">
+          <div class="footer-hse-logo"><img src="../../imgs/logo-hse.png" alt="HSE" /></div>
+          <div class="footer-right">
+            <div class="footer-links-col"><span class="footer-links-col-title">МЕДИА</span><a href="https://vk.com/club233590630" target="_blank" class="footer-link-item">ВКОНТАКТЕ <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a><a href="https://t.me/truecrimeHSE" target="_blank" class="footer-link-item">ТЕЛЕГРАММ <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a><a href="#" class="footer-link-item">ЯНДЕКС_МУЗЫКА <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a></div>
+            <div class="footer-links-col"><span class="footer-links-col-title">АВТОРЫ</span><a href="#" class="footer-link-item">МАЩЕНКО <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a><a href="#" class="footer-link-item">АКДУЛУН <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a><a href="#" class="footer-link-item">НЕСТЕРКИНА <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a></div>
+            <div class="footer-caseatlas-logo"><img src="../../imgs/logo-caseatlas.png" alt="Case Atlas" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const QUESTIONS = [
+      {
+        text: "Тебе неожиданно сообщают плохую новость. Твоя первая реакция?",
+        answers: [
+          { text: "Немедленно начинаю действовать — анализирую ситуацию", v: "A" },
+          { text: "Ухожу в себя, нужно время переварить", v: "B" },
+          { text: "Звоню близкому человеку, чтобы выговориться", v: "C" },
+          { text: "Стараюсь сохранять спокойствие и не показывать эмоции", v: "D" }
+        ]
+      },
+      {
+        text: "На работе возникает серьёзный конфликт. Что делаешь?",
+        answers: [
+          { text: "Предлагаю конкретный план решения проблемы", v: "A" },
+          { text: "Избегаю конфликта — лучше переждать", v: "B" },
+          { text: "Пытаюсь найти компромисс, поговорить с обеими сторонами", v: "C" },
+          { text: "Контролирую эмоции, действую по процедуре", v: "D" }
+        ]
+      },
+      {
+        text: "У тебя дедлайн через час, а задание ещё не готово. Ты:",
+        answers: [
+          { text: "Концентрируюсь и работаю максимально эффективно", v: "A" },
+          { text: "Паникую, но в итоге как-то справляюсь", v: "B" },
+          { text: "Прошу помощи у коллег или друзей", v: "C" },
+          { text: "Расставляю приоритеты и делаю главное, жертвуя второстепенным", v: "D" }
+        ]
+      },
+      {
+        text: "Как ты восстанавливаешься после напряжённого дня?",
+        answers: [
+          { text: "Иду в спортзал или на пробежку — разрядка через действие", v: "A" },
+          { text: "Остаюсь дома, нужна тишина и одиночество", v: "B" },
+          { text: "Провожу время с людьми, которые меня заряжают", v: "C" },
+          { text: "Занимаюсь медитацией, чтением или другим ритуалом", v: "D" }
+        ]
+      },
+      {
+        text: "Ты узнаёшь, что совершил серьёзную ошибку. Как реагируешь?",
+        answers: [
+          { text: "Немедленно берусь за исправление — сожаление потом", v: "A" },
+          { text: "Долго переживаю и прокручиваю ситуацию в голове", v: "B" },
+          { text: "Обсуждаю с кем-то близким, ищу поддержки", v: "C" },
+          { text: "Признаю ошибку спокойно и делаю выводы на будущее", v: "D" }
+        ]
+      }
+    ];
+
+    const RESULTS = {
+      A: { type: "Боец", desc: "Ты реагируешь на стресс действием. Давление активирует тебя — именно в критические моменты ты работаешь лучше всего. Риск: склонность к поспешным решениям без обдумывания.", traits: ["Решительный", "Быстрый", "Ориентирован на результат"] },
+      B: { type: "Укрыватель", desc: "Стресс заставляет тебя уходить внутрь. Ты переживаешь глубоко, но это помогает обдумать ситуацию без лишнего шума. Риск: промедление в моменты, когда нужна скорость.", traits: ["Вдумчивый", "Осторожный", "Глубокий"] },
+      C: { type: "Социализатор", desc: "Ты справляешься со стрессом через людей. Разговор, поддержка и совместное решение — твоя сила. Риск: зависимость от чужого мнения в кризисных решениях.", traits: ["Коммуникабельный", "Эмпатичный", "Командный игрок"] },
+      D: { type: "Аналитик", desc: "Ты сохраняешь хладнокровие там, где другие теряют голову. Процедуры и логика — твои инструменты. Риск: подавление эмоций, которые всё равно накапливаются.", traits: ["Хладнокровный", "Методичный", "Контролирующий"] }
+    };
+
+    const TOTAL = QUESTIONS.length;
+    let current = 0;
+    const answers = {};
+    const tally = { A: 0, B: 0, C: 0, D: 0 };
+
+    function renderQuestion() {
+      const q = QUESTIONS[current];
+      const qArea = document.getElementById('questionArea');
+      qArea.innerHTML = `
+        <p class="question-counter">Вопрос ${current + 1}/${TOTAL}</p>
+        <p class="question-text">${q.text}</p>
+        <ul class="answers-list">
+          ${q.answers.map((a, i) => `
+            <li class="answer-item${answers[current] === i ? ' selected' : ''}" data-idx="${i}">
+              <span class="radio-circle"></span>
+              <span class="answer-label">${a.text}</span>
+            </li>`).join('')}
+        </ul>`;
+      qArea.querySelectorAll('.answer-item').forEach(item => {
+        item.addEventListener('click', () => {
+          qArea.querySelectorAll('.answer-item').forEach(i => i.classList.remove('selected'));
+          item.classList.add('selected');
+          answers[current] = parseInt(item.dataset.idx);
+        });
+      });
+      document.getElementById('btnBack').disabled = current === 0;
+      document.getElementById('btnNext').textContent = current === TOTAL - 1 ? 'РЕЗУЛЬТАТ' : 'ВПЕРЕД';
+    }
+
+    function nextQ() {
+      if (answers[current] === undefined) {
+        document.querySelectorAll('.answer-item').forEach(i => { i.style.opacity = '0.4'; setTimeout(() => i.style.opacity = '', 500); });
+        return;
+      }
+      if (current < TOTAL - 1) { current++; renderQuestion(); }
+      else showResult();
+    }
+
+    function prevQ() { if (current > 0) { current--; renderQuestion(); } }
+
+    function showResult() {
+      const count = { A: 0, B: 0, C: 0, D: 0 };
+      Object.entries(answers).forEach(([qi, ai]) => { count[QUESTIONS[parseInt(qi)].answers[ai].v]++; });
+      const winner = Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
+      const r = RESULTS[winner];
+      document.getElementById('resultType').textContent = r.type;
+      document.getElementById('resultDesc').textContent = r.desc;
+      document.getElementById('resultTraits').innerHTML = r.traits.map(t => `<span class="result-trait">${t}</span>`).join('');
+      document.getElementById('questionArea').style.display = 'none';
+      document.getElementById('resultArea').classList.add('show');
+      document.getElementById('panelNav').innerHTML = `
+        <button class="btn-back" onclick="retryTest()">ПРОЙТИ ЕЩЁ РАЗ</button>
+        <a href="/pages/test-types.html" class="btn-next" style="text-align:center;">К ТЕСТАМ</a>`;
+    }
+
+    function retryTest() {
+      Object.keys(answers).forEach(k => delete answers[k]);
+      current = 0;
+      document.getElementById('questionArea').style.display = '';
+      document.getElementById('resultArea').classList.remove('show');
+      document.getElementById('panelNav').innerHTML = `
+        <button class="btn-back" id="btnBack" onclick="prevQ()" disabled>НАЗАД</button>
+        <button class="btn-next" id="btnNext" onclick="nextQ()">ВПЕРЕД</button>`;
+      renderQuestion();
+    }
+
+    renderQuestion();
+  </script>
+</body>
 </html>

@@ -68,6 +68,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, '../src/share/CNAME'),
           to: path.resolve(__dirname, '../docs')
+        },
+        {
+          from: path.resolve(__dirname, '../src/audio'),
+          to: 'audio'
         }
       ]
     }),

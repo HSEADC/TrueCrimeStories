@@ -162,27 +162,117 @@
     </div>
   </div>
 
+  <audio id="mainAudio" preload="metadata"></audio>
+
   <script>
     const EPISODES = [
-      { num:'01', title:'Убийство Кеннеди: новые свидетели', desc:'Что рассказали рассекреченные документы ЦРУ в 2023 году', date:'01/06/2025', dur:'55:00' },
-      { num:'02', title:'Нераскрытое убийство: дело 1987 года', desc:'Спустя 35 лет следователи получили новую улику', date:'25/05/2025', dur:'48:00' },
-      { num:'03', title:'Исчезновение Бориса Немцова', desc:'Что стоит за официальной версией следствия', date:'18/05/2025', dur:'50:00' },
-      { num:'04', title:'Холодное дело становится горячим', desc:'Как ДНК-база помогла раскрыть дело 1996 года', date:'11/05/2025', dur:'43:00' },
-      { num:'05', title:'Ошибка прокурора', desc:'История человека, осуждённого за чужое преступление', date:'04/05/2025', dur:'46:00' },
-      { num:'06', title:'Дело не закрыто: итоги сезона', desc:'Пять дел, которые мы продолжаем отслеживать', date:'27/04/2025', dur:'38:00' },
+      { num:'01', title:'Убийство Кеннеди: новые свидетели',      desc:'Что рассказали рассекреченные документы ЦРУ в 2023 году', date:'01/06/2025', src:'/audio/kennedy.mp3' },
+      { num:'02', title:'Нераскрытое убийство: дело 1987 года',   desc:'Спустя 35 лет следователи получили новую улику',          date:'25/05/2025', src:'/audio/1987.mp3' },
+      { num:'03', title:'Исчезновение Бориса Немцова',            desc:'Что стоит за официальной версией следствия',              date:'18/05/2025', src:'/audio/Boris.mp3' },
+      { num:'04', title:'Холодное дело становится горячим',        desc:'Как ДНК-база помогла раскрыть дело 1996 года',            date:'11/05/2025', src:'/audio/coldcase.mp3' },
+      { num:'05', title:'Ошибка прокурора',                       desc:'История человека, осуждённого за чужое преступление',     date:'04/05/2025', src:'/audio/prokuror.mp3' },
+      { num:'06', title:'Дело не закрыто: итоги сезона',          desc:'Пять дел, которые мы продолжаем отслеживать',             date:'27/04/2025', src:'/audio/caseisnotclosed.mp3' },
     ];
-    let currentIdx=0, isPlaying=false, progressInterval=null, progressSec=0;
-    const playPauseBtn=document.getElementById('playPauseBtn'), playIcon=document.getElementById('playIcon'), progressFill=document.getElementById('progressFill'), currentTimeEl=document.getElementById('currentTime'), totalTimeEl=document.getElementById('totalTime'), cassetteImg=document.getElementById('cassetteImg');
-    function parseDur(s){const[m,sec]=s.split(':').map(Number);return m*60+(sec||0);}
-    function fmtTime(s){const m=Math.floor(s/60),sec=s%60;return`${m}:${sec.toString().padStart(2,'0')}`;}
-    function loadEpisode(idx){currentIdx=idx;const ep=EPISODES[idx];document.getElementById('epNumber').textContent=`ВЫПУСК ${ep.num} · ${ep.dur} МИН`;document.getElementById('epTitle').textContent=ep.title;document.getElementById('epDesc').textContent=ep.desc;document.getElementById('epDate').textContent=ep.date;totalTimeEl.textContent=ep.dur;progressSec=0;progressFill.style.width='0%';currentTimeEl.textContent='0:00';document.querySelectorAll('.episode-item').forEach((el,i)=>el.classList.toggle('active',i===idx));if(isPlaying)startProgress();}
-    function startProgress(){clearInterval(progressInterval);const total=parseDur(EPISODES[currentIdx].dur);progressInterval=setInterval(()=>{if(progressSec>=total){clearInterval(progressInterval);return;}progressSec++;progressFill.style.width=(progressSec/total*100)+'%';currentTimeEl.textContent=fmtTime(progressSec);},1000);}
-    playPauseBtn.addEventListener('click',()=>{isPlaying=!isPlaying;if(isPlaying){playIcon.innerHTML='<rect x="3" y="3" width="3" height="10" fill="#fff"/><rect x="8" y="3" width="3" height="10" fill="#fff"/>';cassetteImg.classList.add('spinning');startProgress();}else{playIcon.innerHTML='<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>';cassetteImg.classList.remove('spinning');clearInterval(progressInterval);}});
-    document.getElementById('prevBtn').addEventListener('click',()=>{if(currentIdx>0){isPlaying=false;playIcon.innerHTML='<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>';cassetteImg.classList.remove('spinning');clearInterval(progressInterval);loadEpisode(currentIdx-1);}});
-    document.getElementById('nextBtn').addEventListener('click',()=>{if(currentIdx<EPISODES.length-1){isPlaying=false;playIcon.innerHTML='<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>';cassetteImg.classList.remove('spinning');clearInterval(progressInterval);loadEpisode(currentIdx+1);}});
-    document.getElementById('rewindBtn').addEventListener('click',()=>{progressSec=Math.max(0,progressSec-15);const total=parseDur(EPISODES[currentIdx].dur);progressFill.style.width=(progressSec/total*100)+'%';currentTimeEl.textContent=fmtTime(progressSec);});
-    document.getElementById('forwardBtn').addEventListener('click',()=>{const total=parseDur(EPISODES[currentIdx].dur);progressSec=Math.min(total,progressSec+15);progressFill.style.width=(progressSec/total*100)+'%';currentTimeEl.textContent=fmtTime(progressSec);});
-    document.querySelectorAll('.episode-item').forEach((el,i)=>{el.addEventListener('click',()=>{isPlaying=true;playIcon.innerHTML='<rect x="3" y="3" width="3" height="10" fill="#fff"/><rect x="8" y="3" width="3" height="10" fill="#fff"/>';cassetteImg.classList.add('spinning');clearInterval(progressInterval);loadEpisode(i);startProgress();});});
+
+    let currentIdx = 0;
+    const audio         = document.getElementById('mainAudio');
+    const playPauseBtn  = document.getElementById('playPauseBtn');
+    const playIcon      = document.getElementById('playIcon');
+    const progressFill  = document.getElementById('progressFill');
+    const progressBar   = document.querySelector('.progress-bar-outer');
+    const currentTimeEl = document.getElementById('currentTime');
+    const totalTimeEl   = document.getElementById('totalTime');
+    const cassetteImg   = document.getElementById('cassetteImg');
+    const epItems       = document.querySelectorAll('.episode-item');
+
+    audio.src = EPISODES[0].src;
+
+    function fmtTime(s) {
+      if (!isFinite(s)) return '0:00';
+      return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+    }
+
+    function setPlaying(state) {
+      playIcon.innerHTML = state
+        ? '<rect x="3" y="3" width="3" height="10" fill="#fff"/><rect x="8" y="3" width="3" height="10" fill="#fff"/>'
+        : '<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>';
+      cassetteImg.classList.toggle('spinning', state);
+    }
+
+    const realDurations = {};
+
+    function applyDuration(i, seconds) {
+      realDurations[i] = seconds;
+      const mins  = Math.ceil(seconds / 60);
+      const label = `${mins} МИН`;
+      const durEl = epItems[i]?.querySelector('.ep-duration');
+      if (durEl) durEl.textContent = label;
+      if (i === currentIdx) {
+        totalTimeEl.textContent = fmtTime(seconds);
+        document.getElementById('epNumber').textContent = `ВЫПУСК ${EPISODES[i].num} · ${label}`;
+      }
+    }
+
+    // Preload all durations on page load
+    EPISODES.forEach((ep, i) => {
+      if (!ep.src) return;
+      const probe = new Audio();
+      probe.preload = 'metadata';
+      probe.addEventListener('loadedmetadata', () => applyDuration(i, probe.duration));
+      probe.src = ep.src;
+    });
+
+    function loadEpisode(idx, autoplay) {
+      currentIdx = idx;
+      const ep = EPISODES[idx];
+      document.getElementById('epNumber').textContent = `ВЫПУСК ${ep.num}`;
+      document.getElementById('epTitle').textContent   = ep.title;
+      document.getElementById('epDesc').textContent    = ep.desc;
+      document.getElementById('epDate').textContent    = ep.date;
+      progressFill.style.width = '0%';
+      currentTimeEl.textContent = '0:00';
+      totalTimeEl.textContent   = realDurations[idx] ? fmtTime(realDurations[idx]) : '0:00';
+      if (realDurations[idx]) {
+        document.getElementById('epNumber').textContent = `ВЫПУСК ${ep.num} · ${Math.ceil(realDurations[idx]/60)} МИН`;
+      }
+      epItems.forEach((el, i) => el.classList.toggle('active', i === idx));
+      audio.pause();
+      if (ep.src) {
+        audio.src = ep.src;
+        audio.load();
+        if (autoplay) audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+        else setPlaying(false);
+      } else {
+        audio.removeAttribute('src');
+        setPlaying(false);
+      }
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+      currentTimeEl.textContent = fmtTime(audio.currentTime);
+    });
+    audio.addEventListener('loadedmetadata', () => applyDuration(currentIdx, audio.duration));
+    audio.addEventListener('ended',  () => setPlaying(false));
+    audio.addEventListener('play',   () => setPlaying(true));
+    audio.addEventListener('pause',  () => setPlaying(false));
+
+    progressBar.addEventListener('click', e => {
+      if (!audio.duration) return;
+      const r = progressBar.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      if (!EPISODES[currentIdx].src) return;
+      audio.paused ? audio.play().catch(() => {}) : audio.pause();
+    });
+    document.getElementById('rewindBtn').addEventListener('click',  () => { audio.currentTime = Math.max(0, audio.currentTime - 15); });
+    document.getElementById('forwardBtn').addEventListener('click', () => { audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 15); });
+    document.getElementById('prevBtn').addEventListener('click', () => { if (currentIdx > 0) loadEpisode(currentIdx - 1, false); });
+    document.getElementById('nextBtn').addEventListener('click', () => { if (currentIdx < EPISODES.length - 1) loadEpisode(currentIdx + 1, false); });
+    epItems.forEach((el, i) => el.addEventListener('click', () => loadEpisode(i, true)));
   </script>
 </body>
 </html>

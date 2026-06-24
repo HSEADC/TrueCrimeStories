@@ -31,6 +31,11 @@ const htmlPages = [
   createPages('./src/pages/test-types/tests2.html', './pages/test-types/tests2.html', ['header', 'menu', 'allStyles', 'footer']),
   createPages('./src/pages/test-types/tests3.html', './pages/test-types/tests3.html', ['header', 'menu', 'allStyles', 'footer']),
   createPages('./src/pages/test-types/tests4.html', './pages/test-types/tests4.html', ['header', 'menu', 'allStyles', 'footer']),
+  createPages('./src/pages/test-types/tests5.html', './pages/test-types/tests5.html', ['header', 'menu', 'allStyles', 'footer']),
+  createPages('./src/pages/test-types/tests6.html', './pages/test-types/tests6.html', ['header', 'menu', 'allStyles', 'footer']),
+  createPages('./src/pages/test-types/tests7.html', './pages/test-types/tests7.html', ['header', 'menu', 'allStyles', 'footer']),
+  createPages('./src/pages/test-types/tests8.html', './pages/test-types/tests8.html', ['header', 'menu', 'allStyles', 'footer']),
+  createPages('./src/pages/test-types/tests9.html', './pages/test-types/tests9.html', ['header', 'menu', 'allStyles', 'footer']),
 ]
 
 module.exports = htmlPages;

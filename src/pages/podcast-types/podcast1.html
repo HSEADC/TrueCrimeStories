@@ -587,89 +587,145 @@
 
   </div><!-- end split layout -->
 
+  <!-- Audio element – src set by JS to avoid html-loader resolution -->
+  <audio id="mainAudio" preload="metadata"></audio>
+
   <script>
     const EPISODES = [
-      { num:'01', title:'Дело Чикатило: последние часы',        desc:'Как следователи вышли на след серийного преступника',            date:'22/06/2025', dur:'45:00' },
-      { num:'02', title:'Перевал Дятлова: что скрывают архивы', desc:'Новые факты из рассекреченных документов КГБ',                   date:'15/06/2025', dur:'52:00' },
-      { num:'03', title:'Маньяк из Ростова: психология убийцы', desc:'Интервью с судебным психиатром о мотивах преступника',            date:'08/06/2025', dur:'38:00' },
-      { num:'04', title:'Дело об ограблении века',               desc:'Банк России, 1994 год: крупнейшее нераскрытое ограбление',       date:'01/06/2025', dur:'41:00' },
-      { num:'05', title:'Анонимный свидетель',                   desc:'История человека, который видел всё, но не мог говорить',        date:'25/05/2025', dur:'47:00' },
-      { num:'06', title:'Серийные убийцы: что говорит наука',    desc:'Нейробиолог о том, как мозг убийцы отличается от обычного',     date:'18/05/2025', dur:'39:00' },
-      { num:'07', title:'Следствие ведут: взгляд изнутри',       desc:'Бывший следователь рассказывает о самых сложных делах карьеры', date:'11/05/2025', dur:'44:00' },
-      { num:'08', title:'Преступление без наказания',            desc:'Дела, которые так и не были раскрыты — что пошло не так',       date:'04/05/2025', dur:'50:00' },
-      { num:'09', title:'Детектив цифровой эпохи',               desc:'Как социальные сети стали главным местом улик',                 date:'27/04/2025', dur:'36:00' },
-      { num:'10', title:'Организованная преступность: история ОПГ', desc:'Как работали преступные группировки 90-х',                  date:'20/04/2025', dur:'42:00' },
-      { num:'11', title:'Коррупция в погонах',                   desc:'Расследование системных нарушений в правоохранительных органах',date:'13/04/2025', dur:'48:00' },
-      { num:'12', title:'Итоги сезона: главные дела года',        desc:'Подводим итоги самых резонансных дел 2025 года',               date:'06/04/2025', dur:'55:00' },
+      { num:'01', title:'Дело Чикатило: последние часы',           desc:'Как следователи вышли на след серийного преступника',            date:'22/06/2025', src:'/audio/audio-chikatilo.mp3' },
+      { num:'02', title:'Перевал Дятлова: что скрывают архивы',    desc:'Новые факты из рассекреченных документов КГБ',                   date:'15/06/2025', src:'/audio/audio-dyatlov.mp3' },
+      { num:'03', title:'Маньяк из Ростова: психология убийцы',    desc:'Интервью с судебным психиатром о мотивах преступника',            date:'08/06/2025', src:'/audio/audio-rostov.mp3' },
+      { num:'04', title:'Дело об ограблении века',                  desc:'Банк России, 1994 год: крупнейшее нераскрытое ограбление',       date:'01/06/2025', src:'/audio/audio-bank.mp3' },
+      { num:'05', title:'Анонимный свидетель',                      desc:'История человека, который видел всё, но не мог говорить',        date:'25/05/2025', src:'/audio/audio-anonymous.mp3' },
+      { num:'06', title:'Серийные убийцы: что говорит наука',       desc:'Нейробиолог о том, как мозг убийцы отличается от обычного',     date:'18/05/2025', src:'/audio/audio-science.mp3' },
+      { num:'07', title:'Следствие ведут: взгляд изнутри',          desc:'Бывший следователь рассказывает о самых сложных делах карьеры', date:'11/05/2025', src:'/audio/audio-lookfromtheinside.mp3' },
+      { num:'08', title:'Преступление без наказания',               desc:'Дела, которые так и не были раскрыты — что пошло не так',       date:'04/05/2025', src:'/audio/audio-without-punishment.mp3' },
+      { num:'09', title:'Детектив цифровой эпохи',                  desc:'Как социальные сети стали главным местом улик',                 date:'27/04/2025', src:'/audio/audio-detective.mp3' },
+      { num:'10', title:'Организованная преступность: история ОПГ', desc:'Как работали преступные группировки 90-х',                      date:'20/04/2025', src:'/audio/audio-crimes.mp3' },
+      { num:'11', title:'Коррупция в погонах',                      desc:'Расследование системных нарушений в правоохранительных органах',date:'13/04/2025', src:'/audio/audio-corruption.mp3' },
+      { num:'12', title:'Итоги сезона: главные дела года',           desc:'Подводим итоги самых резонансных дел 2025 года',               date:'06/04/2025', src:'/audio/audio-theendofseason.mp3' },
     ];
 
     let currentIdx = 0;
-    let isPlaying = false;
-    let progressInterval = null;
-    let progressSec = 0;
+    const audio         = document.getElementById('mainAudio');
 
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const playIcon     = document.getElementById('playIcon');
-    const progressFill = document.getElementById('progressFill');
+    // Set ep 01 audio immediately (CopyPlugin copies it to /audio/ at root)
+    audio.src = '/audio/audio-chikatilo.mp3';
+    const playPauseBtn  = document.getElementById('playPauseBtn');
+    const playIcon      = document.getElementById('playIcon');
+    const progressFill  = document.getElementById('progressFill');
+    const progressBar   = document.getElementById('progressBar');
     const currentTimeEl = document.getElementById('currentTime');
     const totalTimeEl   = document.getElementById('totalTime');
     const cassetteImg   = document.getElementById('cassetteImg');
 
-    function parseDur(s) {
-      const [m, sec] = s.split(':').map(Number);
-      return m * 60 + (sec || 0);
-    }
     function fmtTime(s) {
-      const m = Math.floor(s / 60), sec = s % 60;
+      if (!isFinite(s)) return '0:00';
+      const m = Math.floor(s / 60), sec = Math.floor(s % 60);
       return `${m}:${sec.toString().padStart(2,'0')}`;
     }
 
-    function loadEpisode(idx) {
-      currentIdx = idx;
-      const ep = EPISODES[idx];
-      document.getElementById('epNumber').textContent = `ВЫПУСК ${ep.num} · ${ep.dur.replace(':','ч ')} МИН`;
-      document.getElementById('epTitle').textContent   = ep.title;
-      document.getElementById('epDesc').textContent    = ep.desc;
-      document.getElementById('epDate').textContent    = ep.date;
-      totalTimeEl.textContent = ep.dur;
-      progressSec = 0;
-      progressFill.style.width = '0%';
-      currentTimeEl.textContent = '0:00';
-      document.querySelectorAll('.episode-item').forEach((el, i) => el.classList.toggle('active', i === idx));
-      if (isPlaying) startProgress();
+    const epItems = document.querySelectorAll('.episode-item');
+    const realDurations = {};
+
+    function applyDuration(i, seconds) {
+      realDurations[i] = seconds;
+      const mins  = Math.ceil(seconds / 60);
+      const label = `${mins} МИН`;
+      const durEl = epItems[i]?.querySelector('.ep-duration');
+      if (durEl) durEl.textContent = label;
+      if (i === currentIdx) {
+        totalTimeEl.textContent = fmtTime(seconds);
+        document.getElementById('epNumber').textContent = `ВЫПУСК ${EPISODES[i].num} · ${label}`;
+      }
     }
 
-    function startProgress() {
-      clearInterval(progressInterval);
-      const total = parseDur(EPISODES[currentIdx].dur);
-      progressInterval = setInterval(() => {
-        if (progressSec >= total) { clearInterval(progressInterval); return; }
-        progressSec++;
-        progressFill.style.width = (progressSec / total * 100) + '%';
-        currentTimeEl.textContent = fmtTime(progressSec);
-      }, 1000);
-    }
+    // Preload metadata for every episode so durations show immediately
+    EPISODES.forEach((ep, i) => {
+      if (!ep.src) return;
+      const probe = new Audio();
+      probe.preload = 'metadata';
+      probe.addEventListener('loadedmetadata', () => applyDuration(i, probe.duration));
+      probe.src = ep.src;
+    });
 
-    playPauseBtn.addEventListener('click', () => {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
+    function setPlaying(state) {
+      if (state) {
         playIcon.innerHTML = '<rect x="3" y="3" width="3" height="10" fill="#fff"/><rect x="8" y="3" width="3" height="10" fill="#fff"/>';
         cassetteImg.classList.add('spinning');
-        startProgress();
       } else {
         playIcon.innerHTML = '<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>';
         cassetteImg.classList.remove('spinning');
-        clearInterval(progressInterval);
+      }
+    }
+
+    function loadEpisode(idx, autoplay) {
+      currentIdx = idx;
+      const ep = EPISODES[idx];
+      document.getElementById('epNumber').textContent = `ВЫПУСК ${ep.num}`;
+      document.getElementById('epTitle').textContent   = ep.title;
+      document.getElementById('epDesc').textContent    = ep.desc;
+      document.getElementById('epDate').textContent    = ep.date;
+      progressFill.style.width = '0%';
+      currentTimeEl.textContent = '0:00';
+      totalTimeEl.textContent = '0:00';
+      document.querySelectorAll('.episode-item').forEach((el, i) => el.classList.toggle('active', i === idx));
+
+      audio.pause();
+      if (ep.src) {
+        audio.src = ep.src;
+        audio.load();
+        if (autoplay) {
+          audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+        } else {
+          setPlaying(false);
+        }
+      } else {
+        audio.removeAttribute('src');
+        setPlaying(false);
+      }
+    }
+
+    // Sync progress bar with audio
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      const pct = audio.currentTime / audio.duration * 100;
+      progressFill.style.width = pct + '%';
+      currentTimeEl.textContent = fmtTime(audio.currentTime);
+    });
+    audio.addEventListener('loadedmetadata', () => applyDuration(currentIdx, audio.duration));
+    audio.addEventListener('ended', () => setPlaying(false));
+    audio.addEventListener('play',  () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+
+    // Seek on click
+    progressBar.addEventListener('click', (e) => {
+      if (!audio.duration) return;
+      const rect = progressBar.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+    });
+
+    // Play / pause
+    playPauseBtn.addEventListener('click', () => {
+      if (!audio.src || !EPISODES[currentIdx].src) return;
+      if (audio.paused) {
+        audio.play().catch(() => {});
+      } else {
+        audio.pause();
       }
     });
 
-    document.getElementById('prevBtn').addEventListener('click', () => { if (currentIdx > 0) { isPlaying = false; playIcon.innerHTML = '<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>'; cassetteImg.classList.remove('spinning'); clearInterval(progressInterval); loadEpisode(currentIdx - 1); } });
-    document.getElementById('nextBtn').addEventListener('click', () => { if (currentIdx < EPISODES.length - 1) { isPlaying = false; playIcon.innerHTML = '<path d="M5 3L13 8L5 13V3Z" fill="#fff"/>'; cassetteImg.classList.remove('spinning'); clearInterval(progressInterval); loadEpisode(currentIdx + 1); } });
-    document.getElementById('rewindBtn').addEventListener('click', () => { progressSec = Math.max(0, progressSec - 15); const total = parseDur(EPISODES[currentIdx].dur); progressFill.style.width = (progressSec / total * 100) + '%'; currentTimeEl.textContent = fmtTime(progressSec); });
-    document.getElementById('forwardBtn').addEventListener('click', () => { const total = parseDur(EPISODES[currentIdx].dur); progressSec = Math.min(total, progressSec + 15); progressFill.style.width = (progressSec / total * 100) + '%'; currentTimeEl.textContent = fmtTime(progressSec); });
+    // −15 / +15
+    document.getElementById('rewindBtn').addEventListener('click',  () => { audio.currentTime = Math.max(0, audio.currentTime - 15); });
+    document.getElementById('forwardBtn').addEventListener('click', () => { audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 15); });
 
+    // Prev / Next
+    document.getElementById('prevBtn').addEventListener('click', () => { if (currentIdx > 0) loadEpisode(currentIdx - 1, false); });
+    document.getElementById('nextBtn').addEventListener('click', () => { if (currentIdx < EPISODES.length - 1) loadEpisode(currentIdx + 1, false); });
+
+    // Click on episode list item
     document.querySelectorAll('.episode-item').forEach((el, i) => {
-      el.addEventListener('click', () => { isPlaying = true; playIcon.innerHTML = '<rect x="3" y="3" width="3" height="10" fill="#fff"/><rect x="8" y="3" width="3" height="10" fill="#fff"/>'; cassetteImg.classList.add('spinning'); clearInterval(progressInterval); loadEpisode(i); startProgress(); });
+      el.addEventListener('click', () => loadEpisode(i, true));
     });
   </script>
 
