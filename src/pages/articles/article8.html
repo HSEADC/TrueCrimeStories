@@ -101,17 +101,18 @@
     .sfm-email span { font-size: 14px; text-transform: uppercase; font-weight: 300; color: #d1d1d1; }
     .sfm-email svg { width: 13px; height: 9px; stroke: #000; fill: none; }
     .site-footer-info { background: #000; display: flex; align-items: flex-start; justify-content: space-between; padding: 20px; height: 285px; flex-shrink: 0; }
-    .footer-hse-logo { height: calc(285px - 40px); flex-shrink: 0; }
-    .footer-hse-logo img { height: 100%; width: auto; object-fit: contain; object-position: left; }
+    .footer-caseatlas-logo { height: calc(285px - 40px); flex-shrink: 0; }
+    .footer-caseatlas-logo img { height: 100%; width: auto; object-fit: contain; object-position: left; }
     .footer-right { display: flex; align-items: flex-start; gap: 48px; }
     .footer-links-col { display: flex; flex-direction: column; gap: 10px; }
     .footer-links-col-title { font-size: 18px; font-weight: 700; text-transform: uppercase; color: #fff; }
     .footer-link-item { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #686868; transition: color 0.2s; }
     .footer-link-item:hover { color: #fff; }
     .footer-link-item svg { width: 10px; height: 10px; stroke: currentColor; fill: none; }
-    .footer-caseatlas-logo { width: 65px; height: 59px; flex-shrink: 0; }
-    .footer-caseatlas-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .footer-hse-logo { height: 50px; flex-shrink: 0; }
+    .footer-hse-logo img { height: 100%; width: auto; object-fit: contain; object-position: right; }
   </style>
+  <link rel="stylesheet" href="../../stylesheets/responsive.css" />
 </head>
 <body>
 
@@ -320,8 +321,10 @@
       </div>
 
       <div class="site-footer-info">
-        <div class="footer-hse-logo"><img src="../../imgs/logo-hse.png" alt="HSE" /></div>
-        <div class="footer-right">
+              <div class="footer-caseatlas-logo">
+        <img src="../../imgs/logo-caseatlas.png" alt="Case Atlas" />
+      </div>
+      <div class="footer-right">
           <div class="footer-links-col">
             <span class="footer-links-col-title">МЕДИА</span>
             <a href="https://vk.com/club233590630" target="_blank" class="footer-link-item">ВКОНТАКТЕ <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
@@ -333,8 +336,12 @@
             <a href="#" class="footer-link-item">АКДУЛУН <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
             <a href="#" class="footer-link-item">НЕСТЕРКИНА <svg viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
           </div>
-          <div class="footer-caseatlas-logo"><img src="../../imgs/logo-caseatlas.png" alt="Case Atlas" /></div>
+          <div class="footer-caseatlas-logo"><img src="../../imgs/logo-caseatlas.png" alt="Case Atlas" />
+        <div class="footer-hse-logo">
+          <img src="../../imgs/logo-hse.png" alt="HSE Art and Design School" />
         </div>
+      </div>
+    </div>
       </div>
 
     </main>

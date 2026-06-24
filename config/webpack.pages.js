@@ -12,6 +12,8 @@ const htmlPages = [
   createPages('./src/index.html', './index.html', ['index', 'footer', 'allStyles']),
   // createPages('./src/pages/files.html', './pages/files.html', ['header', 'menu', 'allStyles', 'footer']),
   createPages('./src/pages/about.html', './pages/about.html', ['menu', 'footer', 'allStyles', 'footer']),
+  createPages('./src/pages/game.html', './pages/game.html', ['menu', 'allStyles']),
+  createPages('./src/pages/expert.html', './pages/expert.html', ['menu', 'allStyles']),
   createPages('./src/pages/styleguide.html', './pages/styleguide.html', ['menu', 'footer', 'styleguide', 'allStyles', 'footer']),
   
   createPages('./src/pages/podcast-types.html', './pages/podcast-types.html', ['menu', 'allStyles', 'footer']),

@@ -1,0 +1,87 @@
+/* ══════════════════════════════
+   CASE ATLAS — MOBILE ADAPTIVE
+   Kicks in at ≤ 768px
+══════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── Navigation ── */
+  .top-nav { padding: 0 12px; }
+  .nav-links { display: none; }
+  .nav-copy  { display: none; }
+
+  /* ── Sidebars: hide ── */
+  .left-sidebar,
+  .right-sidebar { display: none; }
+
+  /* ── Content area: full width ── */
+  .page-content,
+  .page-wrap {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* ── Search / filter bar: full width ── */
+  .search-bar   { left: 0 !important; right: 0 !important; }
+  .filter-panel { left: 0 !important; right: 0 !important; flex-wrap: wrap; padding: 10px; gap: 6px; }
+
+  /* ── Article / test / podcast card grids: single column ── */
+  .articles-grid,
+  .podcast-grid {
+    display: flex !important;
+    flex-direction: column;
+    margin-top: 70px;
+  }
+
+  .article-card,
+  .podcast-card,
+  .test-card {
+    width: 100% !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  /* ── Podcast card inner layout ── */
+  .card-bottom { flex-direction: column; gap: 12px; align-items: flex-start; }
+
+  /* ── Footer media strip: wrap ── */
+  .footer-media {
+    flex-wrap: wrap !important;
+    height: auto !important;
+    padding: 12px !important;
+  }
+  .footer-media-link { width: 50% !important; height: 44px !important; }
+
+  /* ── Footer info row: stack vertically ── */
+  .footer-info,
+  .site-footer-info {
+    flex-direction: column !important;
+    height: auto !important;
+    padding: 24px 16px !important;
+    gap: 24px;
+  }
+  .footer-caseatlas-logo { height: 80px !important; }
+  .footer-right          { flex-direction: column !important; gap: 20px; width: 100%; }
+  .footer-hse-logo       { height: 36px !important; }
+
+  /* ── Article reading pages ── */
+  .article-sidebar,
+  .article-toc { display: none !important; }
+
+  .article-content,
+  .article-body {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 24px 16px !important;
+    box-sizing: border-box;
+  }
+
+  /* ── Hero text ── */
+  .hero-title,
+  .article-hero h1 { font-size: clamp(28px, 9vw, 56px) !important; }
+
+  /* ── 404 page ── */
+  .error-hero { grid-template-columns: 1fr !important; }
+  .error-left { border-right: none !important; border-bottom: 1px solid #333; }
+  .info-strip { grid-template-columns: 1fr !important; }
+  .info-cell  { border-right: none !important; border-bottom: 1px solid #333; }
+}

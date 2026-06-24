@@ -418,19 +418,8 @@
       flex-shrink: 0;
     }
 
-    .footer-hse-logo {
-      height: calc(285px - 40px);
-      aspect-ratio: 164 / 65.74;
-      position: relative;
-      flex-shrink: 0;
-    }
-
-    .footer-hse-logo img {
-      height: 100%;
-      width: 100%;
-      object-fit: contain;
-      object-position: left;
-    }
+    .footer-caseatlas-logo { height: calc(285px - 40px); flex-shrink: 0; }
+    .footer-caseatlas-logo img { height: 100%; width: auto; object-fit: contain; object-position: left; }
 
     .footer-right {
       display: flex;
@@ -465,17 +454,8 @@
 
     .footer-link-item:hover { color: #fff; }
 
-    .footer-caseatlas-logo {
-      width: 65px;
-      height: 59px;
-      flex-shrink: 0;
-    }
-
-    .footer-caseatlas-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
+    .footer-hse-logo { height: 50px; flex-shrink: 0; }
+    .footer-hse-logo img { height: 100%; width: auto; object-fit: contain; }
 
     /* ── SVG Arrow icons ── */
     .icon-arrow-right {
@@ -502,6 +482,7 @@
       fill: none;
     }
   </style>
+  <link rel="stylesheet" href="stylesheets/responsive.css" />
 </head>
 <body>
 
@@ -707,24 +688,27 @@
 
   <!-- ── Footer: black info row ── -->
   <div class="footer-info">
-    <div class="footer-hse-logo">
-      <img src="imgs/logo-hse.png" alt="HSE Art and Design School" />
-    </div>
-    <div class="footer-right">
-      <div class="footer-links-col">
+      <div class="footer-caseatlas-logo">
+        <img src="imgs/logo-caseatlas.png" alt="Case Atlas" />
+      </div>
+      <div class="footer-right">
+        <div class="footer-links-col">
         <span class="footer-links-col-title">МЕДИА</span>
         <a href="https://vk.com/club233590630" target="_blank" class="footer-link-item">ВКОНТАКТЕ <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
         <a href="https://t.me/truecrimeHSE" target="_blank" class="footer-link-item">ТЕЛЕГРАММ <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
         <a href="#" class="footer-link-item">ЯНДЕКС_МУЗЫКА <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
       </div>
-      <div class="footer-links-col">
+        <div class="footer-links-col">
         <span class="footer-links-col-title">АВТОРЫ</span>
         <a href="#" class="footer-link-item">МАЩЕНКО <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
         <a href="#" class="footer-link-item">АКДУЛУН <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
         <a href="#" class="footer-link-item">НЕСТЕРКИНА <svg class="icon-arrow-upright" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg></a>
       </div>
-      <div class="footer-caseatlas-logo">
-        <img src="imgs/logo-caseatlas.png" alt="Case Atlas" />
+        <div class="footer-hse-logo">
+          <img src="imgs/logo-hse.png" alt="HSE Art and Design School" />
+        </div>
+      </div>
+    </div>
       </div>
     </div>
   </div>
