@@ -74,6 +74,16 @@
     .search-icon { width: 12px; height: 12px; flex-shrink: 0; stroke: #d1d1d1; fill: none; }
     .search-placeholder { font-size: 18px; font-weight: 400; color: #d1d1d1; }
     .search-count { font-size: 18px; font-weight: 400; color: #000; }
+    .search-input {
+      font-size: 18px; font-weight: 400; color: #000; background: transparent;
+      border: none; outline: none; width: 100%; font-family: inherit;
+    }
+    .search-input::placeholder { color: #d1d1d1; }
+    .no-results {
+      display: none; padding: 60px 48px;
+      font-size: 13px; font-weight: 800; text-transform: uppercase; color: #686868;
+      text-align: center; border-bottom: 1px solid #000;
+    }
     .sort-btn {
       display: flex; align-items: center; justify-content: center; gap: 10px;
       padding: 0 20px; height: 100%; border-right: 1px solid #000;
@@ -326,7 +336,7 @@
       <a href="/pages/articles.html" class="nav-link">[СТАТЬИ]</a>
       <span class="nav-link active">[ПОДКАСТЫ]</span>
       <a href="/pages/test-types.html" class="nav-link">[ТЕСТЫ]</a>
-      <a href="#" class="nav-link">[О НАС]</a>
+      <a href="/pages/about.html" class="nav-link">[О НАС]</a>
     </div>
     <a href="#" class="nav-copy">
       © 2026 HSE STUDY PROJECT
@@ -345,13 +355,13 @@
   <!-- Search / filter bar -->
   <div class="search-bar">
     <div class="search-input-wrap">
-      <div class="search-left">
+      <div class="search-left" style="flex:1">
         <svg class="search-icon" viewBox="0 0 12 12" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="4.5" cy="4.5" r="3.5"/><line x1="7.5" y1="7.5" x2="11" y2="11"/>
         </svg>
-        <span class="search-placeholder">Поиск</span>
+        <input id="podcastSearch" class="search-input" type="text" placeholder="Поиск" autocomplete="off" />
       </div>
-      <span class="search-count">[6/6]</span>
+      <span class="search-count" id="searchCount">[3/3]</span>
     </div>
     <button class="sort-btn">
       <span class="sort-label">ДАТА</span>
@@ -424,7 +434,7 @@
             <p class="ep-title">Дело Чикатило: последние часы</p>
             <p class="ep-desc">Как следователи вышли на след серийного преступника</p>
           </div>
-          <div class="ep-meta"><span>45 МИН</span><span>22/06/2025</span></div>
+          <div class="ep-meta"><span>5 МИН</span><span>22/06/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast1.html" class="episode-row">
           <span class="ep-num">02</span>
@@ -432,7 +442,7 @@
             <p class="ep-title">Перевал Дятлова: что скрывают архивы</p>
             <p class="ep-desc">Новые факты из рассекреченных документов КГБ</p>
           </div>
-          <div class="ep-meta"><span>52 МИН</span><span>15/06/2025</span></div>
+          <div class="ep-meta"><span>4 МИН</span><span>15/06/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast1.html" class="episode-row">
           <span class="ep-num">03</span>
@@ -440,7 +450,7 @@
             <p class="ep-title">Маньяк из Ростова: психология убийцы</p>
             <p class="ep-desc">Интервью с судебным психиатром о мотивах преступника</p>
           </div>
-          <div class="ep-meta"><span>38 МИН</span><span>08/06/2025</span></div>
+          <div class="ep-meta"><span>3 МИН</span><span>08/06/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast1.html" class="episode-row">
           <span class="ep-num">04</span>
@@ -448,7 +458,7 @@
             <p class="ep-title">Дело об ограблении века</p>
             <p class="ep-desc">Банк России, 1994 год: крупнейшее нераскрытое ограбление</p>
           </div>
-          <div class="ep-meta"><span>41 МИН</span><span>01/06/2025</span></div>
+          <div class="ep-meta"><span>4 МИН</span><span>01/06/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast1.html" class="episode-row">
           <span class="ep-num">05</span>
@@ -456,7 +466,7 @@
             <p class="ep-title">Анонимный свидетель</p>
             <p class="ep-desc">История человека, который видел всё, но не мог говорить</p>
           </div>
-          <div class="ep-meta"><span>47 МИН</span><span>25/05/2025</span></div>
+          <div class="ep-meta"><span>5 МИН</span><span>25/05/2025</span></div>
         </a>
       </div>
 
@@ -502,7 +512,7 @@
             <p class="ep-title">Дактилоскопия: история отпечатков</p>
             <p class="ep-desc">Как идентификация по пальцам изменила криминалистику</p>
           </div>
-          <div class="ep-meta"><span>35 МИН</span><span>10/06/2025</span></div>
+          <div class="ep-meta"><span>3 МИН</span><span>10/06/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast2.html" class="episode-row">
           <span class="ep-num">02</span>
@@ -510,7 +520,7 @@
             <p class="ep-title">Цифровые следы: интернет всё помнит</p>
             <p class="ep-desc">Как сыщики раскрывают преступления через соцсети</p>
           </div>
-          <div class="ep-meta"><span>42 МИН</span><span>03/06/2025</span></div>
+          <div class="ep-meta"><span>4 МИН</span><span>03/06/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast2.html" class="episode-row">
           <span class="ep-num">03</span>
@@ -518,7 +528,7 @@
             <p class="ep-title">ДНК-экспертиза в суде</p>
             <p class="ep-desc">Разбираем реальные дела, где геном стал главным доказательством</p>
           </div>
-          <div class="ep-meta"><span>39 МИН</span><span>27/05/2025</span></div>
+          <div class="ep-meta"><span>5 МИН</span><span>27/05/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast2.html" class="episode-row">
           <span class="ep-num">04</span>
@@ -526,7 +536,7 @@
             <p class="ep-title">Профайлинг преступников</p>
             <p class="ep-desc">Как психологический портрет помогает ловить преступников</p>
           </div>
-          <div class="ep-meta"><span>44 МИН</span><span>20/05/2025</span></div>
+          <div class="ep-meta"><span>4 МИН</span><span>20/05/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast2.html" class="episode-row">
           <span class="ep-num">05</span>
@@ -534,7 +544,7 @@
             <p class="ep-title">Судебная экспертиза: от слов к фактам</p>
             <p class="ep-desc">Что эксперты видят там, где другие видят пустоту</p>
           </div>
-          <div class="ep-meta"><span>36 МИН</span><span>13/05/2025</span></div>
+          <div class="ep-meta"><span>3 МИН</span><span>13/05/2025</span></div>
         </a>
       </div>
 
@@ -580,7 +590,7 @@
             <p class="ep-title">Убийство Кеннеди: новые свидетели</p>
             <p class="ep-desc">Что рассказали рассекреченные документы ЦРУ в 2023 году</p>
           </div>
-          <div class="ep-meta"><span>55 МИН</span><span>01/06/2025</span></div>
+          <div class="ep-meta"><span>5 МИН</span><span>01/06/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast3.html" class="episode-row">
           <span class="ep-num">02</span>
@@ -588,7 +598,7 @@
             <p class="ep-title">Нераскрытое убийство: дело 1987 года</p>
             <p class="ep-desc">Спустя 35 лет следователи получили новую улику</p>
           </div>
-          <div class="ep-meta"><span>48 МИН</span><span>25/05/2025</span></div>
+          <div class="ep-meta"><span>4 МИН</span><span>25/05/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast3.html" class="episode-row">
           <span class="ep-num">03</span>
@@ -596,7 +606,7 @@
             <p class="ep-title">Исчезновение Бориса Немцова</p>
             <p class="ep-desc">Что стоит за официальной версией следствия</p>
           </div>
-          <div class="ep-meta"><span>50 МИН</span><span>18/05/2025</span></div>
+          <div class="ep-meta"><span>3 МИН</span><span>18/05/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast3.html" class="episode-row">
           <span class="ep-num">04</span>
@@ -604,7 +614,7 @@
             <p class="ep-title">Холодное дело становится горячим</p>
             <p class="ep-desc">Как ДНК-база помогла раскрыть дело 1996 года</p>
           </div>
-          <div class="ep-meta"><span>43 МИН</span><span>11/05/2025</span></div>
+          <div class="ep-meta"><span>5 МИН</span><span>11/05/2025</span></div>
         </a>
         <a href="/pages/podcast-types/podcast3.html" class="episode-row">
           <span class="ep-num">05</span>
@@ -612,12 +622,14 @@
             <p class="ep-title">Ошибка прокурора</p>
             <p class="ep-desc">История человека, осуждённого за чужое преступление</p>
           </div>
-          <div class="ep-meta"><span>46 МИН</span><span>04/05/2025</span></div>
+          <div class="ep-meta"><span>4 МИН</span><span>04/05/2025</span></div>
         </a>
       </div>
 
     </div>
     <!-- end podcast grid -->
+
+    <div class="no-results" id="noResults">Ничего не найдено</div>
 
     <!-- Footer -->
     <div class="footer-media">
@@ -693,6 +705,78 @@
         activeTagsBar.appendChild(el);
       });
     }
+  </script>
+
+  <script>
+    // ── Search ──
+    const searchInput = document.getElementById('podcastSearch');
+    const searchCount = document.getElementById('searchCount');
+    const noResults   = document.getElementById('noResults');
+    const podcastCards = Array.from(document.querySelectorAll('.podcast-card'));
+    const episodeCards = Array.from(document.querySelectorAll('.episodes-card'));
+    const total = podcastCards.length;
+
+    function updateSearch() {
+      const q = searchInput.value.trim().toLowerCase();
+      let visible = 0;
+
+      podcastCards.forEach((card, i) => {
+        const epCard = episodeCards[i];
+
+        // text from the main card
+        const title    = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
+        const subtitle = card.querySelector('.card-subtitle')?.textContent.toLowerCase() || '';
+
+        // text from episode titles and descriptions in the paired episodes card
+        const epText = epCard
+          ? Array.from(epCard.querySelectorAll('.ep-title, .ep-desc'))
+              .map(el => el.textContent.toLowerCase())
+              .join(' ')
+          : '';
+
+        const match = !q || title.includes(q) || subtitle.includes(q) || epText.includes(q);
+
+        card.style.display = match ? '' : 'none';
+        if (epCard) epCard.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+
+      searchCount.textContent = `[${visible}/${total}]`;
+      noResults.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    searchInput.addEventListener('input', updateSearch);
+    updateSearch();
+  </script>
+
+  <script>
+    const cassetteSound = new Audio('/audio/cassette_deckno.mp3');
+    cassetteSound.loop = true;
+    let audioUnlocked = false;
+
+    // Unlock audio on first any user interaction
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      cassetteSound.play().then(() => {
+        cassetteSound.pause();
+        cassetteSound.currentTime = 0;
+        audioUnlocked = true;
+      }).catch(() => {});
+    }
+    document.addEventListener('click', unlockAudio, { once: false });
+    document.addEventListener('keydown', unlockAudio, { once: false });
+    document.addEventListener('mousemove', unlockAudio, { once: true });
+
+    document.querySelectorAll('.cassette-area').forEach(area => {
+      area.addEventListener('mouseenter', () => {
+        cassetteSound.currentTime = 0;
+        cassetteSound.play().catch(() => {});
+      });
+      area.addEventListener('mouseleave', () => {
+        cassetteSound.pause();
+        cassetteSound.currentTime = 0;
+      });
+    });
   </script>
 
 </body>
