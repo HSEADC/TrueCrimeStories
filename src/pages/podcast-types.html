@@ -91,7 +91,7 @@
     }
     .sort-label { font-size: 14px; font-weight: 400; text-transform: uppercase; color: #000; }
     .sort-arrows { display: flex; flex-direction: column; gap: 2px; align-items: center; }
-    .sort-arrows svg { width: 10px; height: 7px; stroke: #000; fill: none; }
+    .sort-arrows svg { width: 10px; height: 7px; stroke: #d1d1d1; fill: none; transition: stroke 0.15s; }
     .filter-btn {
       display: flex; align-items: center; justify-content: center;
       padding: 0 20px; height: 100%; border-right: 1px solid #000;
@@ -338,7 +338,7 @@
       <a href="/pages/test-types.html" class="nav-link">[ТЕСТЫ]</a>
       <a href="/pages/about.html" class="nav-link">[О НАС]</a>
     </div>
-    <a href="#" class="nav-copy">
+    <a href="https://hsedesign.ru/project/df65f721cbf8490b8a1c3aeffcf73501" target="_blank" class="nav-copy">
       © 2026 HSE STUDY PROJECT
       <svg style="width:10px;height:10px;stroke:currentColor;fill:none" viewBox="0 0 10 10" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9L9 1M9 1H2M9 1V8"/></svg>
     </a>
@@ -363,7 +363,7 @@
       </div>
       <span class="search-count" id="searchCount">[3/3]</span>
     </div>
-    <button class="sort-btn">
+    <button class="sort-btn" id="sortBtn">
       <span class="sort-label">ДАТА</span>
       <div class="sort-arrows">
         <svg viewBox="0 0 10 7" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6L5 1L9 6"/></svg>
@@ -379,10 +379,7 @@
   <div class="filter-panel" id="filterPanel">
     <span class="filter-option" data-tag="расследование">РАССЛЕДОВАНИЕ</span>
     <span class="filter-option" data-tag="криминалистика">КРИМИНАЛИСТИКА</span>
-    <span class="filter-option" data-tag="интервью">ИНТЕРВЬЮ</span>
     <span class="filter-option" data-tag="история">ИСТОРИЯ</span>
-    <span class="filter-option" data-tag="психология">ПСИХОЛОГИЯ</span>
-    <span class="filter-option" data-tag="новости">НОВОСТИ</span>
   </div>
 
   <div class="active-tags-bar" id="activeTagsBar"></div>
@@ -393,7 +390,7 @@
     <div class="podcast-grid">
 
       <!-- ── PODCAST 1 ── -->
-      <a href="/pages/podcast-types/podcast1.html" class="podcast-card">
+      <a href="/pages/podcast-types/podcast1.html" class="podcast-card" data-tags="расследование история" data-date="22/06/2025">
         <div class="cassette-area">
           <span class="episode-badge">01</span>
           <img src="../imgs/cassette-1.png" alt="Криминальная хроника" />
@@ -471,7 +468,7 @@
       </div>
 
       <!-- ── PODCAST 2 ── -->
-      <a href="/pages/podcast-types/podcast2.html" class="podcast-card">
+      <a href="/pages/podcast-types/podcast2.html" class="podcast-card" data-tags="криминалистика расследование" data-date="10/06/2025">
         <div class="cassette-area">
           <span class="episode-badge">02</span>
           <img src="../imgs/cassette-2.png" alt="Следователь онлайн" />
@@ -549,7 +546,7 @@
       </div>
 
       <!-- ── PODCAST 3 ── -->
-      <a href="/pages/podcast-types/podcast3.html" class="podcast-card">
+      <a href="/pages/podcast-types/podcast3.html" class="podcast-card" data-tags="расследование история" data-date="01/06/2025">
         <div class="cassette-area">
           <span class="episode-badge">03</span>
           <img src="../imgs/cassette-1.png" alt="Дело живёт" />
@@ -644,7 +641,7 @@
       </a>
       <div class="footer-subscribe">
         <div class="footer-subscribe-top"><span>Подпишись на рассылку</span></div>
-        <div class="footer-email-row"><span>your-mail.ru</span><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></div>
+        <form class="footer-email-row" onsubmit="event.preventDefault();window.location.href='/pages/404.html'"><input type="email" placeholder="your-mail.ru" style="background:transparent;border:none;outline:none;font-family:inherit;font-size:14px;text-transform:uppercase;color:#000;width:100%;font-weight:300" required /><button type="submit" style="background:none;border:none;cursor:pointer;display:flex;align-items:center"><svg viewBox="0 0 13 9" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:9px;stroke:#000;fill:none"><path d="M0.5 4.5H12.5M12.5 4.5L8.5 0.5M12.5 4.5L8.5 8.5"/></svg></button></form>
       </div>
     </div>
 
@@ -673,27 +670,96 @@
     const filterBtn     = document.getElementById('filterBtn');
     const filterPanel   = document.getElementById('filterPanel');
     const clearBtn      = document.getElementById('clearBtn');
+    const sortBtn       = document.getElementById('sortBtn');
     const activeTagsBar = document.getElementById('activeTagsBar');
-    const selectedTags  = new Set();
+    const searchInput   = document.getElementById('podcastSearch');
+    const searchCount   = document.getElementById('searchCount');
+    const noResults     = document.getElementById('noResults');
+    const podcastCards   = Array.from(document.querySelectorAll('.podcast-card'));
+    const episodeCards   = Array.from(document.querySelectorAll('.episodes-card'));
+    const total          = podcastCards.length;
+    const grid           = podcastCards[0].parentElement;
+    // Keep podcast+episode together as pairs
+    const pairs          = podcastCards.map((card, i) => ({ podcast: card, episode: episodeCards[i] }));
+    const originalOrder  = [...pairs];
+    const selectedTags   = new Set();
+    const arrowUp        = sortBtn.querySelectorAll('svg')[0];
+    const arrowDown      = sortBtn.querySelectorAll('svg')[1];
+    let sortDir          = null;
+
+    function parseDate(str) {
+      str = (str || '').trim();
+      if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(str)) {
+        const [d, m, y] = str.split('/');
+        return new Date(+y, +m - 1, +d).getTime();
+      }
+      return 0;
+    }
+
+    function filterCards() {
+      const q = searchInput.value.trim().toLowerCase();
+      let visible = 0;
+      podcastCards.forEach((card, i) => {
+        const epCard   = episodeCards[i];
+        const title    = card.querySelector('.card-title')?.textContent.toLowerCase()    || '';
+        const subtitle = card.querySelector('.card-subtitle')?.textContent.toLowerCase() || '';
+        const epText   = epCard
+          ? Array.from(epCard.querySelectorAll('.ep-title, .ep-desc')).map(el => el.textContent.toLowerCase()).join(' ')
+          : '';
+        const cardTags = (card.dataset.tags || '').toLowerCase();
+        const textMatch = !q || title.includes(q) || subtitle.includes(q) || epText.includes(q);
+        const tagMatch  = selectedTags.size === 0 || [...selectedTags].some(t => cardTags.includes(t));
+        const show = textMatch && tagMatch;
+        card.style.display          = show ? '' : 'none';
+        if (epCard) epCard.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      searchCount.textContent = `[${visible}/${total}]`;
+      noResults.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    searchInput.addEventListener('input', filterCards);
+
+    sortBtn.addEventListener('click', () => {
+      sortDir = sortDir === null ? 'desc' : sortDir === 'desc' ? 'asc' : null;
+      arrowUp.style.stroke   = sortDir === 'asc'  ? '#000' : '#d1d1d1';
+      arrowDown.style.stroke = sortDir === 'desc' ? '#000' : '#d1d1d1';
+      const orderedPairs = sortDir === null
+        ? originalOrder
+        : [...originalOrder].sort((a, b) => {
+            const da = parseDate(a.podcast.dataset.date);
+            const db = parseDate(b.podcast.dataset.date);
+            return sortDir === 'desc' ? db - da : da - db;
+          });
+      // Move each podcast card immediately followed by its episode card
+      orderedPairs.forEach(({ podcast, episode }) => {
+        grid.appendChild(podcast);
+        if (episode) grid.appendChild(episode);
+      });
+      filterCards();
+    });
 
     filterBtn.addEventListener('click', () => { filterPanel.classList.toggle('open'); filterBtn.classList.toggle('active'); });
     document.addEventListener('click', (e) => {
       if (!filterBtn.contains(e.target) && !filterPanel.contains(e.target)) { filterPanel.classList.remove('open'); filterBtn.classList.remove('active'); }
     });
+
     filterPanel.querySelectorAll('.filter-option').forEach(option => {
       option.addEventListener('click', () => {
         const tag = option.dataset.tag;
         if (selectedTags.has(tag)) { selectedTags.delete(tag); option.classList.remove('selected'); }
         else { selectedTags.add(tag); option.classList.add('selected'); }
-        renderActiveTags();
+        renderActiveTags(); filterCards();
       });
     });
+
     clearBtn.addEventListener('click', () => {
       selectedTags.clear();
       filterPanel.querySelectorAll('.filter-option').forEach(o => o.classList.remove('selected'));
       filterPanel.classList.remove('open'); filterBtn.classList.remove('active');
-      renderActiveTags();
+      renderActiveTags(); filterCards();
     });
+
     function renderActiveTags() {
       activeTagsBar.innerHTML = '';
       if (selectedTags.size === 0) { activeTagsBar.classList.remove('visible'); return; }
@@ -701,52 +767,16 @@
       selectedTags.forEach(tag => {
         const el = document.createElement('div'); el.className = 'active-tag';
         el.innerHTML = `${tag} <svg viewBox="0 0 12 12" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1L11 11M11 1L1 11"/></svg>`;
-        el.addEventListener('click', () => { selectedTags.delete(tag); filterPanel.querySelector(`.filter-option[data-tag="${tag}"]`)?.classList.remove('selected'); renderActiveTags(); });
+        el.addEventListener('click', () => {
+          selectedTags.delete(tag);
+          filterPanel.querySelector(`.filter-option[data-tag="${tag}"]`)?.classList.remove('selected');
+          renderActiveTags(); filterCards();
+        });
         activeTagsBar.appendChild(el);
       });
     }
-  </script>
 
-  <script>
-    // ── Search ──
-    const searchInput = document.getElementById('podcastSearch');
-    const searchCount = document.getElementById('searchCount');
-    const noResults   = document.getElementById('noResults');
-    const podcastCards = Array.from(document.querySelectorAll('.podcast-card'));
-    const episodeCards = Array.from(document.querySelectorAll('.episodes-card'));
-    const total = podcastCards.length;
-
-    function updateSearch() {
-      const q = searchInput.value.trim().toLowerCase();
-      let visible = 0;
-
-      podcastCards.forEach((card, i) => {
-        const epCard = episodeCards[i];
-
-        // text from the main card
-        const title    = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
-        const subtitle = card.querySelector('.card-subtitle')?.textContent.toLowerCase() || '';
-
-        // text from episode titles and descriptions in the paired episodes card
-        const epText = epCard
-          ? Array.from(epCard.querySelectorAll('.ep-title, .ep-desc'))
-              .map(el => el.textContent.toLowerCase())
-              .join(' ')
-          : '';
-
-        const match = !q || title.includes(q) || subtitle.includes(q) || epText.includes(q);
-
-        card.style.display = match ? '' : 'none';
-        if (epCard) epCard.style.display = match ? '' : 'none';
-        if (match) visible++;
-      });
-
-      searchCount.textContent = `[${visible}/${total}]`;
-      noResults.style.display = visible === 0 ? 'block' : 'none';
-    }
-
-    searchInput.addEventListener('input', updateSearch);
-    updateSearch();
+    filterCards();
   </script>
 
   <script>
